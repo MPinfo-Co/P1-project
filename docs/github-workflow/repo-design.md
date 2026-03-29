@@ -48,19 +48,53 @@ P1-project/
 
 ```
 P1-analysis/
+├── README.md              ← Issue 索引（每次 merge 後手動更新一行）
 ├── issue#4/               ← 必須建立，以 Issue 編號命名
 │   ├── 商業邏輯說明.md     ← Use Case、Use Case Description、流程圖、Class Diagram、ER 示意
-│   └── SD-WBS.md          ← 列出 SD 需完成的工作項目清單
-│                              例：1. 修改 User Schema  2. 新增 Leave Table
-│                                  3. POST /api/leaves  4. GET /api/leaves
-│                                  5. 畫面：請假申請頁
+│   └── SD-WBS.md          ← 列出 SD 需完成的工作項目清單（格式見下方）
 ├── issue#5/
 │   └── ...
 ```
 
+**README.md 格式（Issue 索引）：**
+
+```markdown
+# P1-analysis Issue 索引
+
+| Issue | 功能名稱 | 關鍵字 | Epic | 完成日期 |
+|-------|---------|--------|------|---------|
+| #4 | 請假申請 | 請假、leave、請假申請、leave_balance | P1-project #1 | 2026-03-01 |
+| #5 | 使用者管理 | 用戶、user、帳號、權限 | P1-project #2 | 2026-03-15 |
+```
+
+SA 每次 merge 後手動在 README.md 新增一行。查閱歷史需求時，先搜尋 README.md 找到 Issue 編號，再進入對應資料夾。
+
 **原則：**
 - 每個 Issue 對應一個資料夾，資料夾本身就是這個 Issue 的完整 delta record
-- 資料夾內文件格式不限，以清楚說明商業邏輯為目標
+- 商業邏輯說明.md 格式不限，以清楚說明商業邏輯為目標
+- SD-WBS.md 需符合最低格式要求（見下方）
+
+**SD-WBS.md 最低格式要求：**
+
+每個工作項目需標明類型與說明，類型限定為：`Schema`、`API`、`畫面`、`其他`。
+
+```markdown
+# SD WBS：{功能名稱}
+
+## 工作項目
+| # | 類型 | 說明 |
+|---|------|------|
+| 1 | Schema | 新增 Leave Table |
+| 2 | Schema | 修改 User Table，加入 leave_balance 欄位 |
+| 3 | API | POST /api/leaves（建立請假申請） |
+| 4 | API | GET /api/leaves（查詢請假清單） |
+| 5 | 畫面 | 請假申請頁（含表單驗證） |
+
+## 備註
+<!-- 有無特殊限制、相依關係、需 SD 決策的設計點 -->
+```
+
+SA PR template checklist 中已有「SD WBS 已列出所有下游工作項目」，格式驗證由審查人員在 Code Review 時確認。
 
 **SA Issue body 格式（結構化，供 AI 讀取）：**
 

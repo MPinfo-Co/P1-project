@@ -60,6 +60,17 @@ Merge 後自動觸發：
 
 ## 三、系統設計（SD）
 
+**SD 收到通知後，若發現 SA 文件描述不清楚或有疑問：**
+- SD 直接在 SD Issue 留言，@SA 說明問題點
+- SA 須在 2 個工作天內回覆（補充說明或修正文件）
+- 若問題需修改已 merge 的 SA 文件，SA 開新 Issue 處理，不重開原 Issue
+
+**若 SD 發現需求有根本性問題（非描述不清，而是需求本身有誤）：**
+- SD 在 SD Issue 留言說明問題，加上 `needs-sa-review` 標籤
+- 同時在 Epic Issue 留言通知 PM
+- PM 決定處理方式：由 SA 補開 Issue 修正分析，或 PM 直接調整需求
+- 在問題解決前，SD Issue 加上 `blocked` 標籤，SD 不繼續推進
+
 ```
 1. SD 在 Local Pull D-Branch
 2. SD 修改 Prototype/ 及 Spec/ 下的相關文件

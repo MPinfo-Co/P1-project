@@ -1,0 +1,24 @@
+name: Epic
+description: 建立新的 Epic 功能需求
+title: '[Epic] '
+labels: ['epic']
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: 功能說明
+      description: 這個功能要解決什麼問題？
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: 驗收條件
+      description: 完成的定義是什麼？
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        > **關聯 Issue** 將由系統在套用 `epic` label 後自動填入，無需手動填寫。

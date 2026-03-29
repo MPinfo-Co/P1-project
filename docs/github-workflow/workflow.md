@@ -101,7 +101,7 @@ Merge 後自動觸發：
 8. Merge
 
 Merge 後自動觸發：
-   ├─ 自動比對 diff，將修改項目寫入 TestPlan/issue#{N}.md
+   ├─ 自動比對 diff，產生 TestPlan/issue#{N}_diff.md（修改項目 + 關聯項目）
    ├─ 在 P1-code 建立 C-Branch
    ├─ 在 P1-code 開立 PG Issue（關聯 Epic + SA + SD Issue，附異動 Spec 清單）
    ├─ 在 PG Issue 留言通知 PG：「SD 設計完成，以下文件已異動，請參考」
@@ -202,7 +202,7 @@ AI 接到 PG Issue 後，依下表逐項取得所需資訊：
 2. PG／AI 依上表讀取所有必要資訊
 3. 依據 Spec/Prototype（活文件當前狀態）修改前後端程式碼
 4. 依據 TestPlan 撰寫或修改 pytest 測試程式碼
-   規則：testpy 測試項目數 >= TestPlan 測試案例數
+   規則：pytest 測試項目數 >= TestPlan 測試案例數
          每個 test function 需標注對應的 TestPlan ID
 5. Push C-Branch
    └─ 觸發 CI：GitHub Actions 執行自動化測試（pytest + ESLint + Ruff）
@@ -493,7 +493,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 ## 測試通過確認
 - [ ] CI 自動化測試通過（必填）
 - [ ] 本地 Pytest 通過（人類 PG 填寫；AI PG 無本地環境，此項留空）
-- [ ] testpy 覆蓋所有 TestPlan 測試案例
+- [ ] pytest 覆蓋所有 TestPlan 測試案例
 
 ## 實作說明
 <!-- 1. 有沒有偏離 Spec 的地方？原因是什麼？（主動偏離需說明） -->
@@ -518,7 +518,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 | 整合測試 | 測試 API + DB + Schema 完整流程 | Pytest | git commit 時 + CI |
 | E2E 測試 | 模擬真實使用者從前端到後端的完整操作 | Playwright | MVP 後補充 |
 
-**testpy 撰寫規則：**
+**pytest 撰寫規則：**
 ```python
 # 每個 test function 需標注對應的 TestPlan ID
 def test_create_leave_request(client, db_session, auth_headers):

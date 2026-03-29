@@ -209,7 +209,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 **處理方式：**
 1. 在 PG Issue 留言，描述問題點（附上 TestPlan ID 與具體疑問），@SD
 2. SD 須在 1 個工作天內回覆（補充說明或修正 TestPlan）
-3. 若需修正 TestPlan，SD 直接在 D-Branch（或新 Branch）更新 `TestPlan/issue#{N}.md` 並 merge，不重開 SD Issue
+3. 若需修正 TestPlan，SD 開立新 Branch 更新 `TestPlan/issue#{N}.md` 並 merge，不重開 SD Issue
 4. PG 確認 TestPlan 更新後繼續實作
 
 > 在等待 SD 回覆期間，PG 可先實作確定部分，待 TestPlan 釐清後補齊對應測試。
@@ -253,7 +253,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 
 | 觸發條件 | 動作 |
 |---------|------|
-| D-Branch merge to main | 比對 diff 寫入 TestPlan 修改項目 |
+| D-Branch merge to main | 比對 diff 寫入 TestPlan 修改項目，並產生 `TestPlan/issue#{N}_diff.md` 供 PG 參考 |
 | D-Branch merge to main | 在 P1-code 建立 PG Issue + C-Branch，附異動清單，通知 PG，更新 Epic |
 
 ### C-workflow（P1-code）

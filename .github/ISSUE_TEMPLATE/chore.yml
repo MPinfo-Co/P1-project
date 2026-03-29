@@ -1,0 +1,24 @@
+name: Chore（跨 repo 維護）
+description: 維護性變更，跳過 SA/SD 直接指派 PG 執行
+title: '[Chore] '
+labels: ['chore']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 變更說明
+      description: 要做什麼？為什麼需要這個維護性變更？
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 完成條件
+      description: 怎樣算完成？
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        > 建立後系統會自動在 P1-code 建立 PG Issue 與 C-branch，無需 SA/SD 參與。

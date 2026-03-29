@@ -288,7 +288,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 
 | Workflow | 觸發條件 | 動作 | 難度 | 優先級 |
 |----------|---------|------|------|--------|
-| P-workflow | Epic Issue opened | 在 P1-analysis 建立 SA Issue + A-Branch，自動 assign | 中等（跨 Repo） | P0 關鍵路徑 |
+| P-workflow | Epic Issue 加上 `epic` label | 在 P1-analysis 建立 SA Issue + A-Branch，回填 Epic body，留言通知 | 中等（跨 Repo） | P0 關鍵路徑 |
 | A-workflow | A-Branch PR opened | 在 Epic Issue 留言通知 PM：「SA PR 已開啟，請指派審查人員」 | 中等（跨 Repo） | P2 錦上添花 |
 | A-workflow | A-Branch merge to main | 在 P1-design 建立 SD Issue + D-Branch，通知 SD，更新 Epic | 中等（跨 Repo） | P0 關鍵路徑 |
 | A-workflow | A-Branch merge to main | 解析 SD-WBS.md，將工作項目複製至 SD Issue「設計範圍」欄位 | 複雜（需解析文件內容） | P1 重要 |
@@ -350,9 +350,16 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 
 ### P-workflow（P1-project）
 
+**觸發：** Epic Issue 加上 `epic` label
+**執行：**
+- P1-analysis 建立 SA Issue
+- P1-analysis 建立 A-branch
+- Epic body 更新 SA Issue 編號
+- Epic Issue 留言通知
+
 | 觸發條件 | 動作 | 難度 | 優先級 |
 |---------|------|------|--------|
-| Epic Issue opened | 在 P1-analysis 建立 SA Issue + A-Branch，自動 assign | 中等（跨 Repo，需 PAT/App Token） | P0 |
+| Epic Issue 加上 `epic` label | 在 P1-analysis 建立 SA Issue + A-Branch，回填 Epic body，留言通知 | 中等（跨 Repo，需 PAT/App Token） | P0 |
 
 **應急方案（P-workflow 失敗時）：**
 1. PM 手動至 P1-analysis 依 Epic Issue 內容開立 SA Issue，標題格式：`[{Epic編號}] {功能名稱}`，body 貼上 Epic 連結

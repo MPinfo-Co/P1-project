@@ -18,9 +18,9 @@
 ## PM：今天要開一個新功能
 
 **1. 開立 Epic Issue**
-- 前往 P1-project → Issues → New Issue → 選擇 **Epic Issue 範本**
-- 填寫：功能名稱、背景說明、驗收條件（Given/When/Then 格式）、優先順序、預計完成日期
-- 送出後，系統自動在 P1-analysis 建立 SA Issue 並建立分支
+- 前往 P1-project → Issues → New Issue → 選擇 **Epic** template
+- 填寫必填欄位：功能說明、驗收條件
+- 送出後，`epic` label 自動套用，P-workflow 自動在 P1-analysis 建立 SA Issue 並建立 A-branch，關聯 Issue 區塊由系統自動回填，**不需手動建立 SA Issue**
 
 **2. 指派 SA**
 - 收到 SA PR 開啟通知時，指派審查人員（PM 自己或有經驗的 SA）

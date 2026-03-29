@@ -32,8 +32,8 @@
 ## 四個角色與工作流程
 
 ```
-PM（P1-project）開立 Epic
- └─ 觸發 SA Issue（P1-analysis）
+PM（P1-project）開立 Epic → epic label 觸發 P-workflow
+ └─ P-workflow：建立 SA Issue + A-branch（P1-analysis）
      └─ SA merge ──→ 觸發 SD Issue（P1-design）
          └─ SD merge ──→ 觸發 PG Issue（P1-code）
              └─ PG／AI 實作 ──→ 版本完成

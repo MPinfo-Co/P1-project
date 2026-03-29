@@ -1,0 +1,121 @@
+name: P-workflow
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  create-sa-issue:
+    if: github.event.label.name == 'epic'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Create SA Issue + A-Branch, update Epic
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const epicIssue = context.payload.issue;
+            const epicNumber = epicIssue.number;
+            const epicTitle = epicIssue.title;
+            const org = 'MPinfo-Co';
+            const analysisRepo = 'P1-analysis';
+
+            const slug = epicTitle
+              .toLowerCase()
+              .trim()
+              .replace(/['"]/g, '')
+              .replace(/[^a-z0-9]+/g, '-')
+              .replace(/^-+|-+$/g, '')
+              .slice(0, 50) || 'issue';
+
+            // 1. 在 P1-analysis 建立 SA Issue
+            const saIssue = await github.rest.issues.create({
+              owner: org,
+              repo: analysisRepo,
+              title: epicTitle,
+              body: [
+                '## 功能說明',
+                '<!-- 分析此功能的商業邏輯 -->',
+                '',
+                '## 關聯項目',
+                `- Epic：P1-project #${epicNumber}`,
+                `- SA Issue：P1-analysis #（本 Issue）`,
+                `- SD Issue：P1-design #（merge 後自動填入）`,
+                `- 階段：SA`,
+              ].join('\n'),
+              labels: ['SA'],
+            });
+
+            const saNumber = saIssue.data.number;
+            const branchName = `issue-${saNumber}-${slug}`;
+
+            // 2. 取得 P1-analysis main 的 SHA
+            const mainRef = await github.rest.git.getRef({
+              owner: org,
+              repo: analysisRepo,
+              ref: 'heads/main',
+            });
+
+            // 3. 建立 A-Branch
+            try {
+              await github.rest.git.createRef({
+                owner: org,
+                repo: analysisRepo,
+                ref: `refs/heads/${branchName}`,
+                sha: mainRef.data.object.sha,
+              });
+            } catch (e) {
+              if (e.status !== 422) throw e;
+            }
+
+            // 4. 更新 Epic Issue body
+            const currentBody = epicIssue.body || '';
+            const relationSection = [
+              '',
+              '## 關聯 Issue',
+              '<!-- 由系統自動填入，勿手動編輯 -->',
+              `- SA Issue：P1-analysis #${saNumber}`,
+              `- SD Issue：P1-design #（待建立）`,
+              `- PG Issue：P1-code #（待建立）`,
+            ].join('\n');
+
+            const hasRelation = currentBody.includes('## 關聯 Issue');
+            const newBody = hasRelation
+              ? currentBody.replace(
+                  /## 關聯 Issue[\s\S]*?(?=\n## |\s*$)/,
+                  relationSection.trim()
+                )
+              : currentBody + relationSection;
+
+            await github.rest.issues.update({
+              owner: org,
+              repo: 'P1-project',
+              issue_number: epicNumber,
+              body: newBody,
+            });
+
+            // 5. 在 Epic Issue 留言
+            await github.rest.issues.createComment({
+              owner: org,
+              repo: 'P1-project',
+              issue_number: epicNumber,
+              body: [
+                `✅ **SA Issue 已自動建立**`,
+                `- Issue：[P1-analysis #${saNumber}](https://github.com/${org}/${analysisRepo}/issues/${saNumber})`,
+                `- 分支：\`${branchName}\``,
+                ``,
+                `SA 請至 P1-analysis 開始系統分析。`,
+              ].join('\n'),
+            });

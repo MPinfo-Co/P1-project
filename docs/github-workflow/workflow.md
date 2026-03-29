@@ -255,33 +255,169 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 
 ## 六、GitHub Actions 自動化說明
 
+### Token 權限說明
+
+本流程跨越四個 Repo，大量自動化操作需要存取非當前 Repo 的資源（如在 P1-analysis 的 workflow 建立 P1-design 的 Issue）。以下說明兩種可行方案及其限制：
+
+| 方案 | 說明 | 限制 |
+|------|------|------|
+| **PAT（Personal Access Token）** | 由特定成員產生，授予跨 Repo 的 `repo` 權限，以 GitHub Secret 儲存於各 Repo | 與個人帳號綁定，人員異動時需更換；若帳號被停用 token 立即失效 |
+| **GitHub App Token** | 建立專屬 GitHub App，授予組織層級特定權限，workflow 中用 `actions/create-github-app-token` 取得短效 token | 需要建立與維護 GitHub App；設定較複雜，但權限範圍更精確，適合長期維護 |
+
+**建議：** MVP 階段使用 **PAT**（快速可用）；人員穩定後遷移至 **GitHub App Token**（安全性更高）。無論使用哪種方案，token 均以 **Org-level Secret** 集中管理，各 Repo workflow 直接引用，避免重複設定。
+
+> 跨 Repo 操作（P-workflow、A-workflow、D-workflow 的 Issue/Branch 建立）均屬「中等難度」，需在環境設定 token 後才能運作。CI 測試（C-workflow Push）屬「簡單」，使用預設的 `GITHUB_TOKEN` 即可。
+
+---
+
+### 自動化項目總覽（難度 × 優先級）
+
+| Workflow | 觸發條件 | 動作 | 難度 | 優先級 |
+|----------|---------|------|------|--------|
+| P-workflow | Epic Issue opened | 在 P1-analysis 建立 SA Issue + A-Branch，自動 assign | 中等（跨 Repo） | P0 關鍵路徑 |
+| A-workflow | A-Branch PR opened | 在 Epic Issue 留言通知 PM：「SA PR 已開啟，請指派審查人員」 | 中等（跨 Repo） | P2 錦上添花 |
+| A-workflow | A-Branch merge to main | 在 P1-design 建立 SD Issue + D-Branch，通知 SD，更新 Epic | 中等（跨 Repo） | P0 關鍵路徑 |
+| A-workflow | A-Branch merge to main | 解析 SD-WBS.md，將工作項目複製至 SD Issue「設計範圍」欄位 | 複雜（需解析文件內容） | P1 重要 |
+| D-workflow | D-Branch merge to main | 比對 diff，自動寫入 TestPlan 修改項目，產生 `_diff.md` | 複雜（需解析 diff + 文件內容） | P1 重要 |
+| D-workflow | D-Branch merge to main | 在 P1-code 建立 PG Issue + C-Branch，附異動清單，通知 PG，更新 Epic | 中等（跨 Repo） | P0 關鍵路徑 |
+| D-workflow（SD 拆分時） | SD 手動開立新 SD Issue | 在 Epic Issue 留言通知 PM | 中等（跨 Repo） | P2 錦上添花 |
+| C-workflow | Push to C-Branch | 執行 CI：pytest + ESLint + Ruff | 簡單（單一 Repo） | P0 關鍵路徑 |
+| C-workflow | PR opened | 自動部署測試環境 | 複雜（需部署基礎設施） | P1 重要 |
+| C-workflow | C-Branch merge to main | 自動產生 VersionDiff 文件 | 簡單（單一 Repo） | P1 重要 |
+| C-workflow | C-Branch merge to main | 檢查 Epic 下所有 PG Issue 是否均已 merge，若是則通知 PM | 中等（跨 Repo + 狀態查詢） | P1 重要 |
+
+---
+
+### P0 關鍵路徑說明
+
+以下自動化若未實作，**下游流程將無法啟動，人工替代成本極高**：
+
+1. **P-workflow：Epic → SA Issue + A-Branch 建立**
+   - 若未自動化：PM 需手動到 P1-analysis 建立 Issue 並建立 Branch，流程起點即為手動，容易遺漏且格式不一致。
+   - 應急方案（見下節）。
+
+2. **A-workflow：A-Branch merge → SD Issue + D-Branch 建立**
+   - 若未自動化：SA merge 後無任何通知，SD 不知道何時可以開始，C-Branch 也無從建立。
+   - 應急方案（見下節）。
+
+3. **D-workflow：D-Branch merge → PG Issue + C-Branch 建立**
+   - 若未自動化：SD merge 後 PG 無法取得任何任務，整個開發流程中斷。
+   - 應急方案（見下節）。
+
+4. **C-workflow：Push to C-Branch → CI 執行**
+   - 若未自動化：程式碼品質無法自動驗證，需完全依賴人工 Code Review，合併風險大幅提高。
+   - 應急方案（見下節）。
+
+---
+
+### P2 錦上添花說明
+
+以下自動化若未實作，**流程仍可靠人工完成，但較麻煩**：
+
+1. **A-workflow：PR opened → 通知 PM 指派審查人**
+   - 未自動化時：SA 手動在 PR 留言 @PM，或 PM 設定 GitHub 通知訂閱 P1-analysis Repo 的 PR 事件。
+
+2. **D-workflow（SD 拆分）：新 SD Issue → 通知 PM**
+   - 未自動化時：SD 手動在 Epic Issue 留言通知 PM，成本極低。
+
+---
+
 ### P-workflow（P1-project）
 
-| 觸發條件 | 動作 |
-|---------|------|
-| Epic Issue opened | 在 P1-analysis 建立 SA Issue + A-Branch，自動 assign |
+| 觸發條件 | 動作 | 難度 | 優先級 |
+|---------|------|------|--------|
+| Epic Issue opened | 在 P1-analysis 建立 SA Issue + A-Branch，自動 assign | 中等（跨 Repo，需 PAT/App Token） | P0 |
+
+**應急方案（P-workflow 失敗時）：**
+1. PM 手動至 P1-analysis 依 Epic Issue 內容開立 SA Issue，標題格式：`[{Epic編號}] {功能名稱}`，body 貼上 Epic 連結
+2. PM 手動建立 A-Branch：`issue-{SA#}-{slug}`
+3. PM 手動 assign SA
+4. PM 在 Epic Issue 留言記錄：「自動化失敗，已手動建立 SA Issue #{N}，A-Branch: issue-{N}-{slug}」
+
+---
 
 ### A-workflow（P1-analysis）
 
-| 觸發條件 | 動作 |
-|---------|------|
-| A-Branch PR opened | 在 Epic Issue 留言通知 PM：「SA PR 已開啟，請指派審查人員」 |
-| A-Branch merge to main | 在 P1-design 建立 SD Issue + D-Branch，將 SD-WBS.md 工作項目複製至 SD Issue「設計範圍」，通知 SD，更新 Epic |
+| 觸發條件 | 動作 | 難度 | 優先級 |
+|---------|------|------|--------|
+| A-Branch PR opened | 在 Epic Issue 留言通知 PM：「SA PR 已開啟，請指派審查人員」 | 中等（跨 Repo） | P2 |
+| A-Branch merge to main | 在 P1-design 建立 SD Issue + D-Branch，通知 SD，更新 Epic | 中等（跨 Repo） | P0 |
+| A-Branch merge to main | 解析 SD-WBS.md，將工作項目複製至 SD Issue「設計範圍」欄位 | 複雜（文件解析） | P1 |
+
+**應急方案（A-workflow 失敗時）：**
+
+*PR 通知失敗（P2，影響低）：*
+- SA 手動在 PR 留言 @PM，說明「SA PR 已開啟，請指派審查人員」
+
+*SA merge 後跨 Repo 建立失敗（P0，影響高）：*
+1. SA 手動至 P1-design 開立 SD Issue，標題格式：`[SD] {功能名稱}`，body 填入：
+   ```
+   - 父 Epic：P1-project #{Epic#}
+   - SA Issue：P1-analysis #{SA#}
+   - 設計範圍：（貼上 SD-WBS.md 的工作項目清單）
+   ```
+2. SA 手動建立 D-Branch：`issue-{SD#}-{slug}`
+3. SA 在 SD Issue 留言：「SA 分析完成，請開始系統設計」，@SD
+4. SA 在 Epic Issue 留言更新 SD Issue 編號
+
+*SD-WBS.md 複製失敗（P1，影響中）：*
+- SA 手動開啟已建立的 SD Issue，將 SD-WBS.md 的工作項目清單貼入「設計範圍」欄位
+
+---
 
 ### D-workflow（P1-design）
 
-| 觸發條件 | 動作 |
-|---------|------|
-| D-Branch merge to main | 比對 diff 寫入 TestPlan 修改項目，並產生 `TestPlan/issue#{N}_diff.md` 供 PG 參考 |
-| D-Branch merge to main | 在 P1-code 建立 PG Issue + C-Branch，附異動清單，通知 PG，更新 Epic |
+| 觸發條件 | 動作 | 難度 | 優先級 |
+|---------|------|------|--------|
+| D-Branch merge to main | 比對 diff，自動寫入 TestPlan 修改項目，產生 `TestPlan/issue#{N}_diff.md` | 複雜（diff 解析 + 文件寫入） | P1 |
+| D-Branch merge to main | 在 P1-code 建立 PG Issue + C-Branch，附異動清單，通知 PG，更新 Epic | 中等（跨 Repo） | P0 |
+
+**應急方案（D-workflow 失敗時）：**
+
+*diff 寫入 TestPlan 失敗（P1，影響中）：*
+1. SD 手動執行 `git diff main...{D-Branch}` 取得異動清單
+2. SD 手動在 `TestPlan/issue#{N}.md` 補充修改項目欄位
+3. SD 手動建立 `TestPlan/issue#{N}_diff.md`，貼入異動清單
+
+*跨 Repo 建立 PG Issue + C-Branch 失敗（P0，影響高）：*
+1. SD 手動至 P1-code 開立 PG Issue，標題格式：`[PG] {功能名稱}`，body 填入：
+   ```
+   - 父 Epic：P1-project #{Epic#}
+   - SA Issue：P1-analysis #{SA#}
+   - SD Issue：P1-design #{SD#}
+   - 實作範圍：（貼上異動 Spec 清單，格式見 AI 自主實作資訊讀取指引）
+   ```
+2. SD 手動建立 C-Branch：`issue-{PG#}-{slug}`
+3. SD 在 PG Issue 留言：「SD 設計完成，以下文件已異動，請參考」，@PG，附異動清單
+4. SD 在 Epic Issue 留言更新 PG Issue 編號
+
+---
 
 ### C-workflow（P1-code）
 
-| 觸發條件 | 動作 |
-|---------|------|
-| Push to C-Branch | 執行 CI：pytest + ESLint + Ruff |
-| PR opened | 自動部署測試環境 |
-| C-Branch merge to main | 自動產生 VersionDiff 文件，若 Epic 所有 PG Issue 完成則通知 PM 驗收（Epic 由 PM 手動關閉） |
+| 觸發條件 | 動作 | 難度 | 優先級 |
+|---------|------|------|--------|
+| Push to C-Branch | 執行 CI：pytest + ESLint + Ruff | 簡單（單一 Repo，用預設 GITHUB_TOKEN） | P0 |
+| PR opened | 自動部署測試環境 | 複雜（需部署基礎設施，與雲端環境綁定） | P1 |
+| C-Branch merge to main | 自動產生 VersionDiff 文件 | 簡單（單一 Repo） | P1 |
+| C-Branch merge to main | 檢查 Epic 下所有 PG Issue 均已 merge，通知 PM | 中等（跨 Repo 狀態查詢） | P1 |
+
+**應急方案（C-workflow 失敗時）：**
+
+*CI 失敗（P0，影響高）：*
+- 依 9.3 CI 持續失敗處理規則操作（第 1～2 次自行修正，第 3 次 @SD + @PM）
+- CI 若因 workflow 設定錯誤（非程式碼問題）導致無法執行：人類 PG 需在本地執行 `pytest`、`eslint`、`ruff` 並在 PR 留言附上本地測試結果截圖，PM 授權後可人工確認合規
+
+*測試環境部署失敗（P1，影響中）：*
+- 審查人員在本地啟動測試環境（`docker compose up` 或對應指令），在本地執行功能驗證
+- 審查人員在 PR 留言說明：「自動部署失敗，已於本地環境完成功能驗證」
+
+*VersionDiff 產生失敗（P1，影響中）：*
+- PG 手動建立 `VersionDiff/issue#{PG#}_{作者}_{日期}.md`，依 diff 內容填寫異動摘要
+- PG 在 PG Issue 留言說明已手動產生 VersionDiff
+
+*Epic 完成通知失敗（P1，影響中）：*
+- PG 完成最後一個 PG Issue merge 後，手動至 Epic Issue 留言：「所有 PG Issue 已完成，請 PM 驗收後關閉 Epic」，@PM
 
 ---
 

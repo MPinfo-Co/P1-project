@@ -3,7 +3,7 @@
 ## Repo 總覽
 
 ```
-P1-project    開發以外的專案工作（技術研究、規範文件）
+P1-project    產品管理（Epic、技術研究、規範文件）← PM 大本營
 P1-analysis   需求分析（A-Repo）
 P1-design     系統設計（D-Repo）
 P1-code       系統開發（C-Repo）
@@ -13,17 +13,33 @@ P1-code       系統開發（C-Repo）
 
 ## 各 Repo 目錄結構
 
-### P1-project
+### P1-project（PM 大本營）
 
 ```
 P1-project/
 ├── README.md
-├── issue#1/               ← 選擇性，無固定格式
-│   └── README.md / .doc / .txt
+├── issue#1/               ← Epic Issue，選擇性建立資料夾
+│   └── 背景說明.md
 ├── issue#2/
 │   └── ...
 └── docs/
     └── github-workflow/   ← 本規範文件所在位置
+```
+
+**Epic Issue body 格式：**
+
+```markdown
+## 功能說明
+<!-- 這個功能要解決什麼問題？ -->
+
+## 驗收條件
+<!-- 完成的定義是什麼？ -->
+
+## 關聯 Issue
+<!-- 由系統自動填入，勿手動編輯 -->
+- SA Issue：P1-analysis #
+- SD Issue：P1-design #
+- PG Issue：P1-code #
 ```
 
 ---
@@ -43,8 +59,20 @@ P1-analysis/
 ```
 
 **原則：**
-- 每個 issue 對應一個資料夾，資料夾本身就是這個 issue 的完整 delta record
+- 每個 Issue 對應一個資料夾，資料夾本身就是這個 Issue 的完整 delta record
 - 資料夾內文件格式不限，以清楚說明商業邏輯為目標
+
+**SA Issue body 格式（結構化，供 AI 讀取）：**
+
+```markdown
+## 功能說明
+
+## 關聯項目
+- Epic：P1-project #1
+- SA Issue：P1-analysis #4（本 Issue）
+- SD Issue：P1-design #（merge 後自動填入）
+- 階段：SA
+```
 
 ---
 
@@ -57,7 +85,7 @@ P1-design/
 ├── Schema.md              ← 資料庫 Schema 全覽（User、Company...）
 ├── FunctionList.md        ← 系統功能清單
 │
-├── Prototype/             ← 畫面原型（HTML）
+├── Prototype/             ← 畫面原型（HTML，活文件）
 │   ├── 01A.html           ← 登入畫面
 │   ├── 01B.html           ← 忘記密碼畫面
 │   ├── 02A.html           ← 首頁畫面
@@ -76,13 +104,13 @@ P1-design/
 │   ├── CompanyAPI.md
 │   └── ...
 │
-├── TestPlan/              ← 測試計劃（以 Issue 為單位）
-│   ├── issue#4.md         ← 自動產生「修改項目」+ 人工填寫「測試案例」
+├── TestPlan/              ← 測試計劃（以 Issue 為單位的 delta record）
+│   ├── issue#5.md
 │   ├── issue#6.md
 │   └── ...
 │
 └── SD測試報告/
-    └── issue#4.md
+    └── issue#5.md
 ```
 
 **活文件 vs Delta Record：**
@@ -90,7 +118,25 @@ P1-design/
 | 類型 | 位置 | 說明 |
 |------|------|------|
 | 活文件 | `Spec/`、`Prototype/`、`Schema.md` | 永遠反映最新狀態 |
-| Delta Record | `TestPlan/issue#N.md` | 記錄「這個 issue 改了什麼」+ 測試案例 |
+| Delta Record | `TestPlan/issue#N.md` | 記錄「這個 Issue 改了什麼」+ 測試案例 |
+
+**SD Issue body 格式（結構化，供 AI 讀取）：**
+
+```markdown
+## 設計範圍
+
+## 關聯項目
+- Epic：P1-project #1
+- SA Issue：P1-analysis #4
+- SD Issue：P1-design #5（本 Issue）
+- PG Issue：P1-code #（merge 後自動填入）
+- 階段：SD
+
+## 若為拆分 Issue
+- 父 Epic：P1-project #1
+- 原始 SD Issue：P1-design #5
+- 本拆分標記：[1b]
+```
 
 **TestPlan/issue#N.md 格式：**
 
@@ -110,8 +156,9 @@ P1-design/
 | T2 | 單元 | 無 | calculate_leave_days(2025-01-06, 2025-01-10) | 5 |
 
 ## 關聯項目
-- SA Issue：P1-analysis #N
-- SD Issue：P1-design #N（本 Issue）
+- Epic：P1-project #1
+- SA Issue：P1-analysis #4
+- SD Issue：P1-design #5（本 Issue）
 - 上一個 commit：{前一個 commit hash}
 - 本次 commit：{本次 commit hash}
 ```
@@ -129,11 +176,25 @@ P1-code/
 │   └── integration/       ← 整合測試
 │
 ├── VersionDiff/           ← Merge 時自動產生
-│   ├── issue#4_Rex_20260326.md
+│   ├── issue#7_Rex_20260326.md
 │   └── ...
 │
 └── PG測試報告/
-    └── issue#4.md
+    └── issue#7.md
+```
+
+**PG Issue body 格式（結構化，供 AI 讀取）：**
+
+```markdown
+## 實作範圍
+<!-- 由系統自動填入 SD 異動的 Spec/Prototype 清單 -->
+
+## 關聯項目
+- Epic：P1-project #1
+- SA Issue：P1-analysis #4
+- SD Issue：P1-design #5
+- PG Issue：P1-code #7（本 Issue）
+- 階段：PG
 ```
 
 **VersionDiff/issue#N_作者_日期.md 格式：**
@@ -148,9 +209,10 @@ P1-code/
 - frontend/src/pages/LeavePage.tsx：新增請假申請頁面
 
 ## 關聯項目
-- SA Issue：P1-analysis #N
-- SD Issue：P1-design #N
-- PG Issue：P1-code #N（本 Issue）
+- Epic：P1-project #1
+- SA Issue：P1-analysis #4
+- SD Issue：P1-design #5
+- PG Issue：P1-code #7（本 Issue）
 - 上一個 commit：{前一個 commit hash}
 - 本次 commit：{本次 commit hash}
 ```

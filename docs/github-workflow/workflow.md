@@ -389,7 +389,7 @@ Hotfix 需要跳過 SA/SD 直接修程式碼，不走正常的 Epic 流程。
    ├─ 小幅調整（僅補充說明）：PM 直接在 SA Issue 留言，SA 開新 Issue 補充分析文件
    └─ 大幅變更（需求根本改變）：PM 關閉現有 SD Issue，重走 SA 流程（開新 Epic 或新 SA Issue）
 4. SA 補充/修正文件並 merge 後，PM 移除 Epic Issue 的 `blocked` 標籤
-5. SD 重新評估已做工作，保留可用的部分，繼續設計
+5. PM 移除 Epic Issue 的 `blocked` 標籤後，SD 須在 1 個工作天內回報進度評估，保留可用部分後繼續設計
 ```
 
 > 關鍵原則：SD Issue 的 `blocked` 標籤由 SD 加、由 PM 確認需求穩定後指示 SD 移除。
@@ -429,6 +429,8 @@ Hotfix 需要跳過 SA/SD 直接修程式碼，不走正常的 Epic 流程。
 2. PR 開立者在 PR 留言 @備援審查人，說明原指定審查人不可用
 3. 備援審查人接手審查
 4. 若所有可用人員均無法在 2 個工作天內審查，PM 決定是否暫時標記 PR 為 `on-hold`
+
+> **關於「Self」審查**：主要審查順序中「Self」為最後手段，僅在所有其他審查人均不可用時由 PM 授權使用。
 ```
 
 ---
@@ -476,7 +478,7 @@ SD 在建立 PG Issue 時，若發現兩個 Issue 存在相依關係，需在 Is
 
 後置 Issue（依賴 Issue A）：
 1. 在 PG Issue A 加上 `blocked` 標籤，等待 Issue B merge
-2. Issue B merge 後，PG 移除 Issue A 的 `blocked` 標籤
+2. Issue B merge 後，PG 確認相依已滿足，在 PG Issue A 留言通知 PM，由 PM 確認後移除 `blocked` 標籤
 3. PG 在開始 Issue A 前先 pull 最新 main，確保 C-Branch 包含 Issue B 的變更
 4. 若 C-Branch 建立時間早於 Issue B 的 merge，需先 rebase C-Branch：
    git rebase main

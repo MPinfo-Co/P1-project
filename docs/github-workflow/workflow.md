@@ -96,6 +96,8 @@ Merge 後自動觸發：
 
 **審查優先順序：SA > PM > Self**
 
+> **規模化補充：** 多個 SD Issue 並行時，SA 可預先指定備援 SD 審查人，避免 SA 成為單點瓶頸（與第二節 PM 授權機制相同）。
+
 ---
 
 ### 活文件衝突處理（多個 D-Branch 同時修改同一 Spec/Prototype）

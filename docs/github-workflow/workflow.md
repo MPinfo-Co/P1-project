@@ -220,7 +220,7 @@ AI 接到 PG Issue 後，依下表逐項取得所需資訊：
 10. Merge
 
 Merge 後自動觸發：
-   ├─ 自動產生 VersionDiff/issue-{N}_{作者}_{日期}.md
+   ├─ 自動產生 VersionDiff/issue-{N}_{author}_{date}.md
    └─ 若 Epic 下所有 PG Issue 均已 merge，在 Epic Issue 留言通知 PM：「所有 PG Issue 已完成，請驗收後關閉 Epic」
 
 PM 收到通知後：
@@ -439,7 +439,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 - 審查人員在 PR 留言說明：「自動部署失敗，已於本地環境完成功能驗證」
 
 *VersionDiff 產生失敗（P1，影響中）：*
-- PG 手動建立 `VersionDiff/issue-{PG#}_{作者}_{日期}.md`，依 diff 內容填寫異動摘要
+- PG 手動建立 `VersionDiff/issue-{PG#}_{author}_{date}.md`，依 diff 內容填寫異動摘要
 - PG 在 PG Issue 留言說明已手動產生 VersionDiff
 
 *Epic 完成通知失敗（P1，影響中）：*

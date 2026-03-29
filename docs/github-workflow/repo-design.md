@@ -247,7 +247,7 @@ P1-code/
 - 階段：PG
 ```
 
-**VersionDiff/issue-N_作者_日期.md 格式：**
+**VersionDiff/issue-N_author_date.md 格式：**
 
 ```markdown
 # VersionDiff：Issue #N 標題
@@ -308,4 +308,4 @@ test(leaves): 新增 POST /api/leaves 整合測試
 - Spec 文件：`{畫面編號}{功能名稱}{類型}.md`，例：`03UserAPI.md`、`03UserPage.md`
 - Prototype：`{畫面編號}{子頁面}.html`，例：`03A.html`、`03B.html`
 - TestPlan：`issue-{編號}.md`
-- VersionDiff：`issue-{編號}_{作者}_{日期}.md`
+- VersionDiff：`issue-{N}_{author}_{date}.md`

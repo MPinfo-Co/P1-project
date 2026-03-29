@@ -51,8 +51,8 @@ PM 手動 assign Issue 給 SA
 
 ```
 1. SA 在 Local Pull A-Branch
-2. SA 新增以下文件至 issue#{N}/ 資料夾：
-   ├─ 商業邏輯說明（Use Case、流程圖、Class Diagram、ER 示意）
+2. SA 新增以下文件至 issue-{N}/ 資料夾：
+   ├─ business-logic.md（Use Case、流程圖、Class Diagram、ER 示意）
    └─ SD-WBS.md（列出 SD 需完成的工作項目）
 3. SA Push A-Branch（commitlint 格式驗證）
 4. SA 開 Pull Request
@@ -91,7 +91,7 @@ Merge 後自動觸發：
 ```
 1. SD 在 Local Pull D-Branch
 2. SD 修改 Prototype/ 及 Spec/ 下的相關文件
-3. SD 在 TestPlan/issue#{N}.md 撰寫測試案例
+3. SD 在 TestPlan/issue-{N}.md 撰寫測試案例
    （修改項目由系統自動填入，SD 只需填測試案例）
 4. SD Push D-Branch（commitlint 格式驗證）
 5. SD 開 Pull Request
@@ -101,7 +101,7 @@ Merge 後自動觸發：
 8. Merge
 
 Merge 後自動觸發：
-   ├─ 自動比對 diff，產生 TestPlan/issue#{N}_diff.md（修改項目 + 關聯項目）
+   ├─ 自動比對 diff，產生 TestPlan/issue-{N}-diff.md（修改項目 + 關聯項目）
    ├─ 在 P1-code 建立 C-Branch
    ├─ 在 P1-code 開立 PG Issue（關聯 Epic + SA + SD Issue，附異動 Spec 清單）
    ├─ 在 PG Issue 留言通知 PG：「SD 設計完成，以下文件已異動，請參考」
@@ -187,10 +187,10 @@ AI 接到 PG Issue 後，依下表逐項取得所需資訊：
 | 要做什麼（設計範圍） | PG Issue body「實作範圍」欄位 | 系統自動填入 SD 異動 Spec 清單 |
 | 怎麼做（API 規格） | P1-design Spec/ 活文件（當前最新狀態） | `P1-design/Spec/{異動文件}` |
 | 怎麼做（畫面規格） | P1-design Prototype/ 活文件（當前最新狀態） | `P1-design/Prototype/{異動文件}` |
-| 本次改了什麼（delta） | SD TestPlan diff | `P1-design/TestPlan/issue#{SD#}_diff.md` |
-| 為什麼（商業邏輯背景） | SA 商業邏輯說明文件 | `P1-analysis/issue#{SA#}/商業邏輯說明.md` |
+| 本次改了什麼（delta） | SD TestPlan diff | `P1-design/TestPlan/issue-{SD#}-diff.md` |
+| 為什麼（商業邏輯背景） | SA 商業邏輯說明文件 | `P1-analysis/issue-{SA#}/business-logic.md` |
 | 現有程式碼狀態 | VersionDiff（最近一筆） | `P1-code/VersionDiff/`（依日期取最新）|
-| 測試標準 | SD TestPlan 測試案例 | `P1-design/TestPlan/issue#{SD#}.md` |
+| 測試標準 | SD TestPlan 測試案例 | `P1-design/TestPlan/issue-{SD#}.md` |
 
 > **注意：Spec/ 是活文件，永遠反映最新狀態。** AI 應讀 Spec/ 的完整文件，而非只看 diff，以掌握現有程式碼應對應的完整規格。
 
@@ -220,7 +220,7 @@ AI 接到 PG Issue 後，依下表逐項取得所需資訊：
 10. Merge
 
 Merge 後自動觸發：
-   ├─ 自動產生 VersionDiff/issue#{N}_{作者}_{日期}.md
+   ├─ 自動產生 VersionDiff/issue-{N}_{作者}_{日期}.md
    └─ 若 Epic 下所有 PG Issue 均已 merge，在 Epic Issue 留言通知 PM：「所有 PG Issue 已完成，請驗收後關閉 Epic」
 
 PM 收到通知後：
@@ -242,7 +242,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 **處理方式：**
 1. 在 PG Issue 留言，描述問題點（附上 TestPlan ID 與具體疑問），@SD
 2. SD 須在 1 個工作天內回覆（補充說明或修正 TestPlan）
-3. 若需修正 TestPlan，SD 開立新 Branch 更新 `TestPlan/issue#{N}.md` 並 merge，不重開 SD Issue
+3. 若需修正 TestPlan，SD 開立新 Branch 更新 `TestPlan/issue-{N}.md` 並 merge，不重開 SD Issue
 4. PG 確認 TestPlan 更新後繼續實作
 
 > 在等待 SD 回覆期間，PG 可先實作確定部分，待 TestPlan 釐清後補齊對應測試。
@@ -395,15 +395,15 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 
 | 觸發條件 | 動作 | 難度 | 優先級 |
 |---------|------|------|--------|
-| D-Branch merge to main | 比對 diff，自動寫入 TestPlan 修改項目，產生 `TestPlan/issue#{N}_diff.md` | 複雜（diff 解析 + 文件寫入） | P1 |
+| D-Branch merge to main | 比對 diff，自動寫入 TestPlan 修改項目，產生 `TestPlan/issue-{N}-diff.md` | 複雜（diff 解析 + 文件寫入） | P1 |
 | D-Branch merge to main | 在 P1-code 建立 PG Issue + C-Branch，附異動清單，通知 PG，更新 Epic | 中等（跨 Repo） | P0 |
 
 **應急方案（D-workflow 失敗時）：**
 
 *diff 寫入 TestPlan 失敗（P1，影響中）：*
 1. SD 手動執行 `git diff main...{D-Branch}` 取得異動清單
-2. SD 手動在 `TestPlan/issue#{N}.md` 補充修改項目欄位
-3. SD 手動建立 `TestPlan/issue#{N}_diff.md`，貼入異動清單
+2. SD 手動在 `TestPlan/issue-{N}.md` 補充修改項目欄位
+3. SD 手動建立 `TestPlan/issue-{N}-diff.md`，貼入異動清單
 
 *跨 Repo 建立 PG Issue + C-Branch 失敗（P0，影響高）：*
 1. SD 手動至 P1-code 開立 PG Issue，標題格式：`[PG] {功能名稱}`，body 填入：
@@ -439,7 +439,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 - 審查人員在 PR 留言說明：「自動部署失敗，已於本地環境完成功能驗證」
 
 *VersionDiff 產生失敗（P1，影響中）：*
-- PG 手動建立 `VersionDiff/issue#{PG#}_{作者}_{日期}.md`，依 diff 內容填寫異動摘要
+- PG 手動建立 `VersionDiff/issue-{PG#}_{作者}_{日期}.md`，依 diff 內容填寫異動摘要
 - PG 在 PG Issue 留言說明已手動產生 VersionDiff
 
 *Epic 完成通知失敗（P1，影響中）：*
@@ -453,7 +453,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 
 ```markdown
 ## 分析完整度確認
-- [ ] 商業邏輯說明（Use Case / 流程圖）已完成
+- [ ] business-logic.md（Use Case / 流程圖）已完成
 - [ ] SD WBS 已列出所有下游工作項目
 
 ## 變更原因
@@ -522,7 +522,7 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 ```python
 # 每個 test function 需標注對應的 TestPlan ID
 def test_create_leave_request(client, db_session, auth_headers):
-    """對應 TestPlan issue#5 T1"""
+    """對應 TestPlan issue-5 T1"""
     response = client.post("/api/v1/leaves", json={...}, headers=auth_headers)
     assert response.status_code == 201
     leave = db_session.get(Leave, response.json()["id"])

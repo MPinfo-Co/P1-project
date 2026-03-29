@@ -45,8 +45,8 @@ git fetch origin
 git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 # 若本地已有該分支：git checkout issue-{N}-{slug}
 ```
-- 在 `issue#{N}/` 資料夾建立兩份文件：
-  - `商業邏輯說明.md`（Use Case、流程圖、ER 示意等，格式自由）
+- 在 `issue-{N}/` 資料夾建立兩份文件：
+  - `business-logic.md`（Use Case、流程圖、ER 示意等，格式自由）
   - `SD-WBS.md`（SD 需要做什麼的工作清單，**必須用表格格式 + 類型標記**）
 
 **3. Commit 與 Push**
@@ -95,7 +95,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 - 若有 Schema 異動，修改 `Schema.md`
 
 **4. 撰寫 TestPlan**
-- 建立 `TestPlan/issue#{N}.md`（系統會自動填入修改的檔案清單，你只需填測試案例）
+- 建立 `TestPlan/issue-{N}.md`（系統會自動填入修改的檔案清單，你只需填測試案例）
 - 最低要求：每個 API 至少一個成功案例（2xx）+ 一個失敗案例（4xx/5xx）；每個畫面至少一個主流程案例
 - 測試案例數量不得少於 SD-WBS.md 工作項目數（硬性要求，審查時會驗收）
 
@@ -118,9 +118,9 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 | 要做什麼 | PG Issue body「實作範圍」 |
 | API 規格 | `P1-design/Spec/{異動文件}` |
 | 畫面規格 | `P1-design/Prototype/{異動文件}` |
-| 這次改了什麼（delta） | `P1-design/TestPlan/issue#{SD#}_diff.md` |
-| 商業邏輯背景 | `P1-analysis/issue#{SA#}/商業邏輯說明.md` |
-| 測試標準 | `P1-design/TestPlan/issue#{SD#}.md` |
+| 這次改了什麼（delta） | `P1-design/TestPlan/issue-{SD#}-diff.md` |
+| 商業邏輯背景 | `P1-analysis/issue-{SA#}/business-logic.md` |
+| 測試標準 | `P1-design/TestPlan/issue-{SD#}.md` |
 
 **2. Pull 分支，開始實作**
 ```bash
@@ -134,7 +134,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 - 依 TestPlan 撰寫 pytest 測試，每個 test function 標注對應的 TestPlan ID：
   ```python
   def test_create_leave_request(client, db_session, auth_headers):
-      """對應 TestPlan issue#5 T1"""
+      """對應 TestPlan issue-5 T1"""
       ...
   ```
 - pytest test function 數量 ≥ TestPlan 案例數

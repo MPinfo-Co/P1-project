@@ -57,6 +57,8 @@ Merge 後自動觸發：
 
 **審查優先順序：PM > SA > Self**
 
+> **規模化補充：** 當同時有多個 SA Issue 進行中時，PM 可預先授權指定 SA 成員擔任常設審查人（不需每次通知 PM 指派），以避免 PM 成為審查瓶頸。授權方式：PM 在 P1-project 以 Issue 或 Discussion 記錄授權清單，例如「SA Issue 審查：優先由 SA-A 擔任，PM 退為備援」。
+
 ---
 
 ## 三、系統設計（SD）
@@ -105,6 +107,21 @@ Merge 後自動觸發：
    - 在 merge 前先 rebase（或 merge main），手動解決衝突
    - 解衝突後在 PR 留言說明衝突位置與解決方式，供審查人員確認
 3. **預防原則**：SD 開始設計前，先查看 P1-design 的 open Issues 清單，確認有無其他進行中的 SD Issue 修改相同文件；若有，在各自的 SD Issue 留言協調修改範圍，避免重疊
+
+### Schema.md 衝突處理（特殊規則）
+
+`Schema.md` 是整個系統的資料庫全覽，結構牽一髮動全身，衝突風險高於一般 Spec 文件。
+
+**預防原則（開始設計前）：**
+- SD 開始 Schema 變更前，在自己的 SD Issue 留言標記「Schema.md 異動」，列出預計新增／修改的 Table 名稱
+- 若同期有其他 SD Issue 也標記了 Schema.md 異動，雙方 SD 需先留言協調（確認 Table 範圍不重疊，或約定修改順序）
+- 若異動範圍有重疊（例如兩個 Issue 都要修改 User Table），需在 SD Issue 留言確認最終欄位清單，統一由一方處理
+
+**解衝突規則（Merge 時）：**
+- 後 merge 的 D-Branch 在 PR 留言說明：衝突的 Table 名稱、衝突原因、解決方式（保留哪些欄位、刪除哪些）
+- Schema 衝突解決後，審查人員需確認最終 Schema 與對應 Spec 文件的 API / 畫面描述一致（無孤立欄位、無缺失欄位）
+
+> Schema.md 異動影響範圍廣，建議多個 Epic 同時進行時，由 PM 在 Sprint 規劃階段確認各 Epic 的 Schema 影響範圍，提前識別衝突點。
 
 ---
 

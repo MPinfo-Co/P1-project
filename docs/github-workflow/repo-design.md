@@ -275,6 +275,8 @@ issue-{編號}-{簡短說明}
 
 由 GitHub Actions 自動建立，**不手動建立分支**。
 
+> **跨 Repo 辨識說明：** 四個 Repo 各有獨立的 Issue 編號系統，`issue-4-leave-request` 在 P1-analysis 和 P1-design 可能代表不同的 Issue。分支本身屬於各自的 Repo，不會跨 Repo 混淆；但在跨 Repo 溝通（如 PR 留言、Slack 討論）時，需加上 Repo 前綴明確指定，例如：`A-issue-4`（P1-analysis）、`D-issue-5`（P1-design）、`C-issue-7`（P1-code）。
+
 ### Commit Message 格式
 ```
 {type}({scope}): {說明}

@@ -27,7 +27,9 @@ PM 手動 assign Issue 給 SA
 **Epic Issue 範本欄位：**
 - 功能名稱
 - 背景說明（為什麼需要這個功能）
-- 驗收條件
+- 驗收條件（格式：Given... / When... / Then...，至少一條）
+- 優先順序（P0 緊急 / P1 本 Sprint / P2 下個 Sprint）
+- 預計完成日期
 
 ---
 
@@ -95,7 +97,8 @@ SD 評估後決定拆分：
      - 本拆分標記：[1b]
 
 2. 原始 SD Issue #5 繼續處理較小的部分（如 Schema 變更）
-3. PM assign 新 SD Issue 給對應成員
+3. 系統自動在 Epic Issue 留言通知 PM：「SD 已拆分 Issue，新增 SD Issue #{N}，請確認工時/資源分配」
+4. PM assign 新 SD Issue 給對應成員
 
 拆分後的結構：
    Epic #1
@@ -142,14 +145,36 @@ PG Issue #7 與 #8 可平行開發。
 
 Merge 後自動觸發：
    ├─ 自動產生 VersionDiff/issue#{N}_{作者}_{日期}.md
-   └─ 若 Epic 下所有 PG Issue 均已 merge，更新 Epic 狀態為完成
+   └─ 若 Epic 下所有 PG Issue 均已 merge，在 Epic Issue 留言通知 PM：「所有 PG Issue 已完成，請驗收後關閉 Epic」
+
+PM 收到通知後：
+   ├─ 確認測試環境符合驗收條件（對照 Epic 中的 Given/When/Then）
+   └─ 驗收通過則手動關閉 Epic；若有問題則開立新 Issue 描述缺陷
 ```
 
 **審查優先順序：SD > SA > PM > Self**
 
 ---
 
-## 五、GitHub Actions 自動化說明
+## 五、PM 介入與中斷機制
+
+流程設計為線性推進，但 PM 在任何階段均可介入：
+
+**介入方式：**
+- **退回**：PM 在進行中的 PR 留言要求修改，PR 不得 merge；審查人員重新 assign 給負責人修改後重新開 PR
+- **中斷 Epic**：PM 在 Epic Issue 加上 `blocked` 標籤，並留言說明原因；下游不得繼續推進直到 `blocked` 移除
+- **緊急更正**：若 SA 分析方向有誤，PM 直接在 SA Issue 留言，SA 需回覆確認後重新產出文件
+
+**PM 可見度：**
+- 所有 Epic 及關聯 Issue 在 GitHub Projects 看板可見
+- 系統在以下時機自動通知 PM（Epic Issue 留言）：
+  - SA PR 已開啟，等待 PM 指派審查人
+  - SD 拆分 Issue，需確認工時/資源
+  - 所有 PG Issue 完成，待 PM 驗收
+
+---
+
+## 六、GitHub Actions 自動化說明
 
 ### P-workflow（P1-project）
 
@@ -161,6 +186,7 @@ Merge 後自動觸發：
 
 | 觸發條件 | 動作 |
 |---------|------|
+| A-Branch PR opened | 在 Epic Issue 留言通知 PM：「SA PR 已開啟，請指派審查人員」 |
 | A-Branch merge to main | 在 P1-design 建立 SD Issue + D-Branch，通知 SD，更新 Epic |
 
 ### D-workflow（P1-design）
@@ -176,11 +202,11 @@ Merge 後自動觸發：
 |---------|------|
 | Push to C-Branch | 執行 CI：pytest + ESLint + Ruff |
 | PR opened | 自動部署測試環境 |
-| C-Branch merge to main | 自動產生 VersionDiff 文件，若 Epic 所有 PG Issue 完成則關閉 Epic |
+| C-Branch merge to main | 自動產生 VersionDiff 文件，若 Epic 所有 PG Issue 完成則通知 PM 驗收（Epic 由 PM 手動關閉） |
 
 ---
 
-## 六、PR 規範
+## 七、PR 規範
 
 ### P1-analysis PR template
 
@@ -240,7 +266,7 @@ Merge 後自動觸發：
 
 ---
 
-## 七、測試分層定義
+## 八、測試分層定義
 
 | 類型 | 說明 | 工具 | 執行時機 |
 |------|------|------|---------|

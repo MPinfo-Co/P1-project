@@ -145,33 +145,46 @@ PG Issue #7 與 #8 可平行開發。
 
 ## 四、系統開發（PG／AI）
 
+### AI 自主實作資訊讀取指引
+
+AI 接到 PG Issue 後，依下表逐項取得所需資訊：
+
+| 需求 | 來源 | 路徑 |
+|------|------|------|
+| 要做什麼（設計範圍） | PG Issue body「實作範圍」欄位 | 系統自動填入 SD 異動 Spec 清單 |
+| 怎麼做（API 規格） | P1-design Spec/ 活文件（當前最新狀態） | `P1-design/Spec/{異動文件}` |
+| 怎麼做（畫面規格） | P1-design Prototype/ 活文件（當前最新狀態） | `P1-design/Prototype/{異動文件}` |
+| 本次改了什麼（delta） | SD TestPlan diff | `P1-design/TestPlan/issue#{SD#}_diff.md` |
+| 為什麼（商業邏輯背景） | SA 商業邏輯說明文件 | `P1-analysis/issue#{SA#}/商業邏輯說明.md` |
+| 現有程式碼狀態 | VersionDiff（最近一筆） | `P1-code/VersionDiff/`（依日期取最新）|
+| 測試標準 | SD TestPlan 測試案例 | `P1-design/TestPlan/issue#{SD#}.md` |
+
+> **注意：Spec/ 是活文件，永遠反映最新狀態。** AI 應讀 Spec/ 的完整文件，而非只看 diff，以掌握現有程式碼應對應的完整規格。
+
+> **第一個 Issue 無 VersionDiff 的情況：** 若 `P1-code/VersionDiff/` 尚無任何檔案，代表這是初始實作，AI 應直接依據 Spec/ 全量實作，無需參考歷史 diff。
+
 ```
-1. PG／AI 在 Local Pull C-Branch
+1. PG／AI 取得 C-Branch（AI 透過 GitHub API 讀取；人類 PG 在 Local Pull）
    （PG Issue body 已有 SD 異動 Spec 清單與完整關聯鏈）
-2. PG／AI 沿關聯鏈讀取：
-   ├─ SA 商業邏輯文件（為什麼這樣設計）
-   ├─ SD TestPlan 異動清單（這次改了哪些規格）
-   └─ 最新 VersionDiff（現有程式碼的狀態）
-3. 依據 Spec/Prototype 修改前後端程式碼
+2. PG／AI 依上表讀取所有必要資訊
+3. 依據 Spec/Prototype（活文件當前狀態）修改前後端程式碼
 4. 依據 TestPlan 撰寫或修改 pytest 測試程式碼
    規則：testpy 測試項目數 >= TestPlan 測試案例數
          每個 test function 需標注對應的 TestPlan ID
-5. 確認本地測試通過：
-   ├─ 前端靜態測試：ESLint、Prettier（存檔時自動執行）
-   ├─ 後端靜態測試：Ruff（存檔時自動執行）
-   └─ 後端動態測試：Pytest（git commit 時自動執行）
-6. PG Push C-Branch
-   └─ 觸發 CI：GitHub Actions 執行自動化測試
-7. 若 CI 通過，PG 開 Pull Request
+5. Push C-Branch
+   └─ 觸發 CI：GitHub Actions 執行自動化測試（pytest + ESLint + Ruff）
+   【人類 PG】在 push 前可於本地執行靜態測試（ESLint、Ruff）與動態測試（pytest）
+   【AI PG】無本地執行環境，push 後等待 CI 結果；若 CI 失敗則修正後重新 push
+6. 若 CI 通過，開 Pull Request
    ├─ 填寫 PR template（見 PR 規範）
    └─ 觸發自動部署測試環境
-8. SD 指派審查人員 2 人（一人負責 Code Review，一人負責功能驗證）
-9. 審查人員在測試環境確認：
+7. SD 指派審查人員 2 人（一人負責 Code Review，一人負責功能驗證）
+8. 審查人員在測試環境確認：
    ├─ Code Review
    ├─ 操作功能驗證
    └─ 美術排版及文字確認
-10. 審查人員在 PR 留言記錄測試步驟
-11. Merge
+9. 審查人員在 PR 留言記錄測試步驟
+10. Merge
 
 Merge 後自動觸發：
    ├─ 自動產生 VersionDiff/issue#{N}_{作者}_{日期}.md
@@ -183,6 +196,23 @@ PM 收到通知後：
 ```
 
 **審查優先順序：SD > SA > PM > Self**
+
+---
+
+### PG 發現 TestPlan 問題的處理路徑
+
+PG／AI 在實作過程中若發現 TestPlan 有下列問題：
+- 測試案例描述模糊，無法對應程式行為
+- 缺少關鍵邊界條件（如空值、上限值、權限異常）
+- 測試案例與 Spec 描述矛盾
+
+**處理方式：**
+1. 在 PG Issue 留言，描述問題點（附上 TestPlan ID 與具體疑問），@SD
+2. SD 須在 1 個工作天內回覆（補充說明或修正 TestPlan）
+3. 若需修正 TestPlan，SD 直接在 D-Branch（或新 Branch）更新 `TestPlan/issue#{N}.md` 並 merge，不重開 SD Issue
+4. PG 確認 TestPlan 更新後繼續實作
+
+> 在等待 SD 回覆期間，PG 可先實作確定部分，待 TestPlan 釐清後補齊對應測試。
 
 ---
 
@@ -280,12 +310,13 @@ PM 收到通知後：
 
 ```markdown
 ## 測試通過確認
-- [ ] 本地 Pytest 通過
-- [ ] CI 自動化測試通過
+- [ ] CI 自動化測試通過（必填）
+- [ ] 本地 Pytest 通過（人類 PG 填寫；AI PG 無本地環境，此項留空）
 - [ ] testpy 覆蓋所有 TestPlan 測試案例
 
 ## 實作說明
-<!-- 有沒有偏離 Spec 的地方？原因是什麼？ -->
+<!-- 1. 有沒有偏離 Spec 的地方？原因是什麼？（主動偏離需說明） -->
+<!-- 2. 實作過程中是否發現 Spec 本身有誤或描述不清？若有，請說明發現的問題及本次如何處理，並在 SD Issue 留言通知 SD 修正 Spec -->
 
 ## 關聯項目
 - Epic：P1-project #

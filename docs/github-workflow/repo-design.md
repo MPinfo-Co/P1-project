@@ -160,6 +160,7 @@ P1-design/
 
 ```markdown
 ## 設計範圍
+<!-- 由系統自動從 SA Issue 對應的 SD-WBS.md 複製工作項目清單，勿手動編輯 -->
 
 ## 關聯項目
 - Epic：P1-project #1
@@ -185,6 +186,11 @@ P1-design/
 | T1 | 整合 | 登入 Tenant A | POST /api/leaves | 201，回傳 leave_id |
 | T2 | 單元 | 無 | calculate_leave_days(2025-01-06, 2025-01-10) | 5 |
 ```
+
+**TestPlan 最低要求：**
+- 每個 API 至少需要一個正常案例（預期 2xx）+ 一個錯誤案例（預期 4xx/5xx）
+- 每個畫面至少需要一個主要操作流程的正常案例
+- 測試案例數量不得少於 SD-WBS.md 工作項目數量
 
 **TestPlan/issue#N_diff.md 格式（系統自動產生，勿手動編輯）：**
 

@@ -50,6 +50,7 @@ PM 手動 assign Issue 給 SA
 Merge 後自動觸發：
    ├─ 在 P1-design 建立 D-Branch
    ├─ 在 P1-design 開立 SD Issue（關聯 Epic + SA Issue）
+   ├─ 將 SD-WBS.md 的工作項目清單自動複製至 SD Issue body 的「設計範圍」欄位
    ├─ 在 SD Issue 留言通知 SD：「SA 分析完成，請開始系統設計」
    └─ 更新 Epic Issue：填入 SD Issue 編號
 ```
@@ -95,7 +96,25 @@ Merge 後自動觸發：
 
 ---
 
+### 活文件衝突處理（多個 D-Branch 同時修改同一 Spec/Prototype）
+
+當同一時期有多個 SD Issue 並行，各自的 D-Branch 可能修改相同的活文件（例如 `Spec/03UserAPI.md`）。Merge 時若發生衝突：
+
+1. **先 merge 的 D-Branch 無需處理**（正常 merge）
+2. **後 merge 的 D-Branch 負責解衝突**：
+   - 在 merge 前先 rebase（或 merge main），手動解決衝突
+   - 解衝突後在 PR 留言說明衝突位置與解決方式，供審查人員確認
+3. **預防原則**：SD 開始設計前，先查看 GitHub Projects 有無其他進行中的 SD Issue 修改相同文件；若有，在各自的 SD Issue 留言協調修改範圍，避免重疊
+
+---
+
 ### 系統設計拆分（SD 發現工作量過大）
+
+**拆分判斷原則（符合任一條件即應拆分）：**
+- SD-WBS.md 工作項目超過 **8 項**
+- 工作項目涉及 **3 個以上不同模組**（不同 Spec 文件）
+- 預估設計工時超過 **3 個工作天**
+- 部分工作項目存在相依關係，可分批完成（如先做 Schema，再做 API）
 
 ```
 SD 評估後決定拆分：
@@ -198,7 +217,7 @@ PM 收到通知後：
 | 觸發條件 | 動作 |
 |---------|------|
 | A-Branch PR opened | 在 Epic Issue 留言通知 PM：「SA PR 已開啟，請指派審查人員」 |
-| A-Branch merge to main | 在 P1-design 建立 SD Issue + D-Branch，通知 SD，更新 Epic |
+| A-Branch merge to main | 在 P1-design 建立 SD Issue + D-Branch，將 SD-WBS.md 工作項目複製至 SD Issue「設計範圍」，通知 SD，更新 Epic |
 
 ### D-workflow（P1-design）
 
@@ -243,7 +262,7 @@ PM 收到通知後：
 ## 設計完整度確認
 - [ ] Prototype 已更新
 - [ ] Spec 文件已更新
-- [ ] TestPlan 測試案例已填寫
+- [ ] TestPlan 測試案例已填寫（每個 API 至少正常案例 + 錯誤案例，每個畫面至少一個主流程案例）
 
 ## 設計決策說明
 <!-- 有哪些設計選擇？為什麼這樣決定？ -->

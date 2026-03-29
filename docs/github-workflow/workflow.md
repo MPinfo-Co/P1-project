@@ -347,3 +347,140 @@ def test_create_leave_request(client, db_session, auth_headers):
     leave = db_session.get(Leave, response.json()["id"])
     assert leave is not None
 ```
+
+---
+
+## 九、例外處理
+
+### 9.1 Hotfix（線上緊急 bug）
+
+Hotfix 需要跳過 SA/SD 直接修程式碼，不走正常的 Epic 流程。
+
+**觸發條件：** 線上環境出現影響用戶使用的緊急 bug，無法等待下個 Sprint 修復。
+
+**處理流程：**
+
+```
+1. PM 在 P1-project 開立 Hotfix Issue（標題加上 [HOTFIX] 前綴，優先順序標 P0）
+2. PG 直接從 P1-code main branch 開立 hotfix-{N}-{slug} 分支
+3. PG 修復 bug 並 push，CI 自動執行
+4. CI 通過後開 PR，指定 PM 或 SA 至少 1 人審查（不需 SD 審查）
+5. 審查通過後 merge
+6. Merge 後 24 小時內，PG 需在 Hotfix Issue 留言補充說明：
+   - 根本原因（Root Cause）
+   - 修改了哪些程式碼
+   - 是否需要後續修正 SA/SD 文件（若有，開立對應 Issue 處理）
+```
+
+> Hotfix 是緊急例外，不產生完整的 SA/SD 文件，但事後補充 Root Cause 說明是必要的，以便後續維護。
+
+---
+
+### 9.2 需求變更（SA 已 merge，SD 進行中）
+
+第五節「PM 介入與中斷機制」涵蓋退回與中斷 Epic，但未說明「SA 已 merge 後需求改變」的完整處置。
+
+**處理流程：**
+
+```
+1. PM 在 Epic Issue 加上 `blocked` 標籤，留言說明需求變更的內容與範圍
+2. SD 收到通知後，在進行中的 SD Issue 加上 `blocked` 標籤，暫停設計，不 push 也不開 PR
+3. PM 評估變更範圍：
+   ├─ 小幅調整（僅補充說明）：PM 直接在 SA Issue 留言，SA 開新 Issue 補充分析文件
+   └─ 大幅變更（需求根本改變）：PM 關閉現有 SD Issue，重走 SA 流程（開新 Epic 或新 SA Issue）
+4. SA 補充/修正文件並 merge 後，PM 移除 Epic Issue 的 `blocked` 標籤
+5. SD 重新評估已做工作，保留可用的部分，繼續設計
+```
+
+> 關鍵原則：SD Issue 的 `blocked` 標籤由 SD 加、由 PM 確認需求穩定後指示 SD 移除。
+
+---
+
+### 9.3 CI 持續失敗
+
+第四節提到「若 CI 失敗則修正後重新 push」，但未定義重試上限與升級機制。
+
+**處理規則：**
+
+| 狀態 | 行動 |
+|------|------|
+| CI 失敗第 1～2 次 | PG 自行診斷修正，重新 push |
+| CI 失敗第 3 次 | PG 在 PG Issue 留言說明失敗原因與已嘗試的修正方式，@SD 確認是否 Spec 問題，@PM 告知進度 |
+| CI 失敗超過 3 個工作天仍未解決 | PM 介入，決定是否調整需求、請 SA/SD 協助、或暫時標記 `blocked` |
+
+> CI 失敗的根本原因通常是：測試案例與實作不符（TestPlan 問題）、環境設定問題、或 Spec 描述有誤。第 3 次失敗時應優先確認根本原因而非繼續盲目重試。
+
+---
+
+### 9.4 審查人員不可用
+
+**備案原則：** 任何 PR 指定審查人員後，若 1 個工作天內無回應，按以下優先順序尋找備援：
+
+| 階段 | 主要審查順序 | 備援順序 |
+|------|------------|---------|
+| SA PR | PM > SA > Self | SA 備援 → PM 代審 |
+| SD PR | SA > PM > Self | PM 代審 |
+| PG PR | SD > SA > PM > Self | SA 代審 → PM 代審 |
+
+**操作步驟：**
+
+```
+1. PR 開立後 1 個工作天內無審查回應
+2. PR 開立者在 PR 留言 @備援審查人，說明原指定審查人不可用
+3. 備援審查人接手審查
+4. 若所有可用人員均無法在 2 個工作天內審查，PM 決定是否暫時標記 PR 為 `on-hold`
+```
+
+---
+
+### 9.5 錯誤的 merge（半成品 merge 進 main）
+
+**誰有權限執行回滾：** 只有 PM 可以授權執行回滾操作；PG 執行，SA/SD 確認影響範圍。
+
+**處理流程：**
+
+```
+1. 發現錯誤 merge 後，立即在該 PR 留言標記問題，@PM 說明情況
+2. PM 確認影響範圍（是否已觸發下游自動化、是否影響線上環境）
+3. PM 授權後，PG 執行 Revert：
+   git revert -m 1 <merge-commit-hash>
+   （使用 revert 而非 reset，保留歷史記錄）
+4. PG 將 revert commit push 並開 PR，由 PM 審查後 merge
+5. 若自動化已觸發並建立了下游 Issue/Branch，PM 手動關閉這些 Issue 並刪除對應 Branch
+6. 在原 Issue 留言記錄：發生原因、影響範圍、回滾操作時間
+```
+
+> 禁止使用 `git reset --hard` 直接修改 main 的歷史，必須使用 `git revert` 以保留完整記錄。
+
+---
+
+### 9.6 跨 Issue 相依（PG Issue A 依賴 PG Issue B）
+
+SD 拆分章節說明拆分後「可平行開發」，但未處理有相依關係的情境。
+
+**相依關係的識別與宣告：**
+
+SD 在建立 PG Issue 時，若發現兩個 Issue 存在相依關係，需在 Issue body 明確標註：
+
+```
+## 相依關係
+- 本 Issue 依賴：P1-code #{N}（原因：需要 #{N} 的 Schema 變更先 merge）
+- 預計可開始實作時間：#{N} merge 後
+```
+
+**處理流程：**
+
+```
+前置 Issue（被依賴的 Issue B）：
+1. 正常開發，完成後 merge
+
+後置 Issue（依賴 Issue A）：
+1. 在 PG Issue A 加上 `blocked` 標籤，等待 Issue B merge
+2. Issue B merge 後，PG 移除 Issue A 的 `blocked` 標籤
+3. PG 在開始 Issue A 前先 pull 最新 main，確保 C-Branch 包含 Issue B 的變更
+4. 若 C-Branch 建立時間早於 Issue B 的 merge，需先 rebase C-Branch：
+   git rebase main
+   解決衝突後繼續開發
+```
+
+> 若相依關係在 SD 階段未被識別、到 PG 階段才發現，PG 在 PG Issue 留言說明相依關係，@SD 確認後由 SD 補標相依資訊，流程同上。

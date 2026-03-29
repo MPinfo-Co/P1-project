@@ -41,8 +41,9 @@
 
 **2. Pull 分支，開始撰寫**
 ```bash
-git pull origin issue-{N}-{slug}
-git checkout issue-{N}-{slug}
+git fetch origin
+git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
+# 若本地已有該分支：git checkout issue-{N}-{slug}
 ```
 - 在 `issue#{N}/` 資料夾建立兩份文件：
   - `商業邏輯說明.md`（Use Case、流程圖、ER 示意等，格式自由）
@@ -85,8 +86,9 @@ git push origin issue-{N}-{slug}
 
 **3. Pull 分支，開始設計**
 ```bash
-git pull origin issue-{N}-{slug}
-git checkout issue-{N}-{slug}
+git fetch origin
+git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
+# 若本地已有該分支：git checkout issue-{N}-{slug}
 ```
 - 修改 `Prototype/` 下的 HTML 原型（活文件，直接改最新版）
 - 修改 `Spec/` 下的 API/畫面規格文件（活文件，直接改最新版）
@@ -122,8 +124,9 @@ git checkout issue-{N}-{slug}
 
 **2. Pull 分支，開始實作**
 ```bash
-git pull origin issue-{N}-{slug}
-git checkout issue-{N}-{slug}
+git fetch origin
+git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
+# 若本地已有該分支：git checkout issue-{N}-{slug}
 ```
 
 **3. 撰寫程式碼與測試**
@@ -134,7 +137,7 @@ git checkout issue-{N}-{slug}
       """對應 TestPlan issue#5 T1"""
       ...
   ```
-- testpy 測試案例數 ≥ TestPlan 案例數
+- pytest test function 數量 ≥ TestPlan 案例數
 
 **4. Push，等待 CI**
 ```bash
@@ -150,7 +153,7 @@ git push origin issue-{N}-{slug}
 
 **⚠️ 常見卡關：**
 - CI 失敗最常見原因：測試案例 import 錯誤、環境變數未設定、Spec 描述與實作不符
-- testpy 數量不足：TestPlan 有幾個案例，testpy 就要有至少幾個 test function
+- pytest test function 數量不足：TestPlan 有幾個案例，就要有至少幾個 test function
 
 ---
 

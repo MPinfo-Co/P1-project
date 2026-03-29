@@ -42,6 +42,8 @@ P1-project/
 - PG Issue：P1-code #
 ```
 
+> Issue Template 已設定（`.github/ISSUE_TEMPLATE/epic.md`）。開立 Epic 時選擇 **Epic** template；空白 Issue 已停用。
+
 ---
 
 ### P1-analysis（A-Repo）

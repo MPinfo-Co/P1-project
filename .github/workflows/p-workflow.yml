@@ -61,6 +61,17 @@ jobs:
             const saNumber = saIssue.data.number;
             const branchName = `issue-${saNumber}-${slug}`;
 
+            // 回填 SA Issue body 的真實編號
+            await github.rest.issues.update({
+              owner: org,
+              repo: analysisRepo,
+              issue_number: saNumber,
+              body: saIssue.data.body.replace(
+                'SA Issue：P1-analysis #（本 Issue）',
+                `SA Issue：P1-analysis #${saNumber}`
+              ),
+            });
+
             // 2. 取得 P1-analysis main 的 SHA
             const mainRef = await github.rest.git.getRef({
               owner: org,

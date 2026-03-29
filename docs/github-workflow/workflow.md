@@ -310,6 +310,18 @@ PG／AI 在實作過程中若發現 TestPlan 有下列問題：
 
 ---
 
+### P1 重要項目說明
+
+以下自動化**省時省力，但人工替代成本可接受**。建議在 P0 關鍵路徑完成後實作：
+
+- A-workflow：WBS 複製至 SD Issue body（複雜，文件解析）
+- D-workflow：比對 diff 寫入 TestPlan + 產生 _diff.md（複雜，git diff 解析）
+- D-workflow：附異動 Spec 清單至 PG Issue（中等，跨 Repo）
+- C-workflow：自動產生 VersionDiff 文件（中等，解析 git log）
+- C-workflow：PR opened → 自動部署測試環境（複雜，需雲端整合）
+
+---
+
 ### P2 錦上添花說明
 
 以下自動化若未實作，**流程仍可靠人工完成，但較麻煩**：

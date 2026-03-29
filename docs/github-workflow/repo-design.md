@@ -105,8 +105,10 @@ P1-design/
 │   └── ...
 │
 ├── TestPlan/              ← 測試計劃（以 Issue 為單位的 delta record）
-│   ├── issue#5.md
+│   ├── issue#5.md         ← SD 人工填寫（測試案例）
+│   ├── issue#5_diff.md    ← 系統自動產生（修改項目 + 關聯項目，勿手動編輯）
 │   ├── issue#6.md
+│   ├── issue#6_diff.md
 │   └── ...
 │
 └── SD測試報告/
@@ -138,27 +140,31 @@ P1-design/
 - 本拆分標記：[1b]
 ```
 
-**TestPlan/issue#N.md 格式：**
+**TestPlan/issue#N.md 格式（SD 人工填寫）：**
 
 ```markdown
 # TestPlan：Issue #N 標題
 
-## 修改項目及內容
-<!-- 由 GitHub Actions 自動產生，勿手動編輯 -->
-- 02HomeAPI.md：新增 getHomeInfo() API
-- 03B.html：加入備註欄位，姓名欄位由 3 碼改為 8 碼
-
 ## 測試案例
-<!-- 由 SD 人工填寫 -->
 | ID | 類型 | 前置條件 | 操作 | 預期結果 |
 |----|------|---------|------|---------|
 | T1 | 整合 | 登入 Tenant A | POST /api/leaves | 201，回傳 leave_id |
 | T2 | 單元 | 無 | calculate_leave_days(2025-01-06, 2025-01-10) | 5 |
+```
+
+**TestPlan/issue#N_diff.md 格式（系統自動產生，勿手動編輯）：**
+
+```markdown
+# TestPlan Diff：Issue #N 標題
+
+## 修改項目及內容
+- 02HomeAPI.md：新增 getHomeInfo() API
+- 03B.html：加入備註欄位，姓名欄位由 3 碼改為 8 碼
 
 ## 關聯項目
 - Epic：P1-project #1
 - SA Issue：P1-analysis #4
-- SD Issue：P1-design #5（本 Issue）
+- SD Issue：P1-design #5
 - 上一個 commit：{前一個 commit hash}
 - 本次 commit：{本次 commit hash}
 ```

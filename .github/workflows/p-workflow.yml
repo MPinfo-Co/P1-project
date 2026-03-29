@@ -28,7 +28,7 @@ jobs:
           script: |
             const epicIssue = context.payload.issue;
             const epicNumber = epicIssue.number;
-            const epicTitle = epicIssue.title;
+            const epicTitle = epicIssue.title.replace(/^\[PM\]\s*/i, '');
             const org = 'MPinfo-Co';
             const analysisRepo = 'P1-analysis';
 

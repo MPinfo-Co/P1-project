@@ -79,7 +79,7 @@ PM 在 P1-project 開立 Epic 後，系統自動在下游 Repo 建立對應 Issu
 ```
 Epic：P1-project #1
 上游 Issue：P1-analysis #4（或 P1-design #5）
-下游 Issue：P1-design #5（或 P1-code #7）
+下游 Issue：P1-design #5（或 P1-code #7）  ← PG Issue 為最末端，此欄位留空
 階段：SA / SD / PG
 ```
 

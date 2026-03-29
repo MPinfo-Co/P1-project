@@ -135,7 +135,7 @@ PG Issue #7 與 #8 可平行開發。
 7. 若 CI 通過，PG 開 Pull Request
    ├─ 填寫 PR template（見 PR 規範）
    └─ 觸發自動部署測試環境
-8. SD 指派審查人員 2 人
+8. SD 指派審查人員 2 人（一人負責 Code Review，一人負責功能驗證）
 9. 審查人員在測試環境確認：
    ├─ Code Review
    ├─ 操作功能驗證

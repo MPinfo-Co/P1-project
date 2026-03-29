@@ -44,7 +44,7 @@ jobs:
             const saIssue = await github.rest.issues.create({
               owner: org,
               repo: analysisRepo,
-              title: epicTitle,
+              title: `[SA] ${epicTitle}`,
               body: [
                 '## 功能說明',
                 '<!-- 分析此功能的商業邏輯 -->',

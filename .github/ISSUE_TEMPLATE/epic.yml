@@ -1,6 +1,6 @@
 name: Epic
 description: 建立新的 Epic 功能需求
-title: '[Epic] '
+title: '[PM] '
 labels: ['epic']
 body:
   - type: textarea

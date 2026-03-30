@@ -56,6 +56,7 @@ jobs:
                 `- SD Issue：P1-design #（merge 後自動填入）`,
                 `- 階段：SA`,
                 `- 分支：（待填入）`,
+                `- Draft PR：（待建立）`,
               ].join('\n'),
               labels: ['SA'],
             });
@@ -63,15 +64,7 @@ jobs:
             const saNumber = saIssue.data.number;
             const branchName = `issue-${saNumber}-${slug}`;
 
-            // 回填 SA Issue body 的真實編號與分支
-            await github.rest.issues.update({
-              owner: org,
-              repo: analysisRepo,
-              issue_number: saNumber,
-              body: saIssue.data.body
-                .replace('SA Issue：#（本 Issue）', `SA Issue：P1-analysis #${saNumber}`)
-                .replace('分支：（待填入）', `分支：\`${branchName}\``),
-            });
+            // ← backfill 移到 Draft PR 建立後，見下方
 
             // 2. 將 SA Issue 掛為 Epic 的 sub-issue
             try {
@@ -166,8 +159,10 @@ jobs:
             });
 
             // 建立 SA Draft PR
+            let saPrNumber = null;
+            let saPrUrl = null;
             try {
-              await github.rest.pulls.create({
+              const saPr = await github.rest.pulls.create({
                 owner: org,
                 repo: analysisRepo,
                 head: branchName,
@@ -182,9 +177,22 @@ jobs:
                   `Closes #${saNumber}`,
                 ].join('\n'),
               });
+              saPrNumber = saPr.data.number;
+              saPrUrl = saPr.data.html_url;
             } catch (e) {
               console.log(`SA Draft PR 建立失敗（非阻斷性）：${e.message}`);
             }
+
+            // 回填 SA Issue body：編號 + 分支連結 + Draft PR 連結
+            await github.rest.issues.update({
+              owner: org,
+              repo: analysisRepo,
+              issue_number: saNumber,
+              body: saIssue.data.body
+                .replace('SA Issue：#（本 Issue）', `SA Issue：P1-analysis #${saNumber}`)
+                .replace('分支：（待填入）', `分支：[${branchName}](https://github.com/${org}/${analysisRepo}/tree/${branchName})`)
+                .replace('Draft PR：（待建立）', saPrUrl ? `Draft PR：[#${saPrNumber}](${saPrUrl})` : 'Draft PR：（未建立）'),
+            });
 
             // 5. 更新 Epic Issue body
             const currentBody = epicIssue.body || '';

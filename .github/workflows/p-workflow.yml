@@ -7,6 +7,7 @@ on:
 permissions:
   issues: write
   contents: read
+  pull-requests: write
 
 jobs:
   create-sa-issue:
@@ -54,6 +55,7 @@ jobs:
                 `- SA Issue：#（本 Issue）`,
                 `- SD Issue：P1-design #（merge 後自動填入）`,
                 `- 階段：SA`,
+                `- 分支：（待填入）`,
               ].join('\n'),
               labels: ['SA'],
             });
@@ -61,15 +63,14 @@ jobs:
             const saNumber = saIssue.data.number;
             const branchName = `issue-${saNumber}-${slug}`;
 
-            // 回填 SA Issue body 的真實編號
+            // 回填 SA Issue body 的真實編號與分支
             await github.rest.issues.update({
               owner: org,
               repo: analysisRepo,
               issue_number: saNumber,
-              body: saIssue.data.body.replace(
-                'SA Issue：#（本 Issue）',
-                `SA Issue：P1-analysis #${saNumber}`
-              ),
+              body: saIssue.data.body
+                .replace('SA Issue：#（本 Issue）', `SA Issue：P1-analysis #${saNumber}`)
+                .replace('分支：（待填入）', `分支：\`${branchName}\``),
             });
 
             // 2. 將 SA Issue 掛為 Epic 的 sub-issue
@@ -163,6 +164,27 @@ jobs:
               ref: `heads/${branchName}`,
               sha: scaffoldCommit.data.sha,
             });
+
+            // 建立 SA Draft PR
+            try {
+              await github.rest.pulls.create({
+                owner: org,
+                repo: analysisRepo,
+                head: branchName,
+                base: 'main',
+                draft: true,
+                title: `[SA] ${epicTitle}`,
+                body: [
+                  '## 關聯項目',
+                  `- Epic：MPinfo-Co/P1-project#${epicNumber}`,
+                  `- SA Issue：MPinfo-Co/P1-analysis#${saNumber}`,
+                  '',
+                  `Closes #${saNumber}`,
+                ].join('\n'),
+              });
+            } catch (e) {
+              console.log(`SA Draft PR 建立失敗（非阻斷性）：${e.message}`);
+            }
 
             // 5. 更新 Epic Issue body
             const currentBody = epicIssue.body || '';

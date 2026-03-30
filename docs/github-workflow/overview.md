@@ -37,6 +37,9 @@ PM（P1-project）開立 Epic → epic label 觸發 P-workflow
      └─ SA merge ──→ 觸發 SD Issue（P1-design）
          └─ SD merge ──→ 觸發 PG Issue（P1-code）
              └─ PG／AI 實作 ──→ 版本完成
+
+PM（P1-project）開立 Chore Issue（學習／文件／環境維護／其他）
+ └─ 純手動追蹤，不觸發任何自動化流程
 ```
 
 每個階段：

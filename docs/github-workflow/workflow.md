@@ -674,3 +674,30 @@ SD 在建立 PG Issue 時，若發現兩個 Issue 存在相依關係，需在 Is
 ```
 
 > 若相依關係在 SD 階段未被識別、到 PG 階段才發現，PG 在 PG Issue 留言說明相依關係，@SD 確認後由 SD 補標相依資訊，流程同上。
+
+---
+
+## 十、Chore 流程
+
+### 10.1 P1-project Chore（PM 行政事務）
+
+用於追蹤與功能開發無關的 PM 日常事務。**不觸發任何自動化流程。**
+
+**適用情境：**
+- 學習：新技術研究、工具評估、學習筆記
+- 文件：規範更新、流程改善、README 整理
+- 環境維護：開發環境設定、CI/CD 調整、工具升級
+- 其他：不屬於以上分類的 PM 雜項事務
+
+**操作方式：**
+1. 前往 P1-project → Issues → New Issue → 選擇 **Chore（PM 行政事務）** template
+2. 選擇類型，填寫說明與完成條件
+3. 完成後手動關閉 Issue
+
+### 10.2 其他 Repo 的 Chore（內部維護）
+
+P1-analysis / P1-design / P1-code 各自的 Chore Issue 用於追蹤 repo 內部維護工作。
+
+**觸發自動化：** 加上 `chore` label 後，自動建立 `chore-{N}-{slug}` 分支（不使用 `issue-` 前綴，避免誤觸 a/d/c-workflow）。
+
+**操作方式：** 各 repo 開立 Chore Issue → 加 `chore` label → 系統自動建立分支 → 完成後開 PR merge → 關閉 Issue。

@@ -1,13 +1,24 @@
-name: Chore（跨 repo 維護）
-description: 維護性變更，跳過 SA/SD 直接指派 PG 執行
+name: Chore（PM 行政事務）
+description: 學習、文件、環境維護等非功能開發事務
 title: '[Chore] '
 labels: ['chore']
 body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: 類型
+      options:
+        - 學習
+        - 文件
+        - 環境維護
+        - 其他
+    validations:
+      required: true
   - type: textarea
     id: description
     attributes:
-      label: 變更說明
-      description: 要做什麼？為什麼需要這個維護性變更？
+      label: 說明
+      description: 要做什麼？為什麼需要？
     validations:
       required: true
   - type: textarea
@@ -21,4 +32,4 @@ body:
     attributes:
       value: |
         ---
-        > 建立後系統會自動在 P1-code 建立 PG Issue 與 C-branch，無需 SA/SD 參與。
+        > 此 Issue 僅用於追蹤 PM 行政事務，不會觸發任何自動化流程。

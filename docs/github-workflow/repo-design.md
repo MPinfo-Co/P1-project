@@ -52,6 +52,12 @@ P1-project/
 3. 回填 Epic body 的關聯 Issue 區塊（SA Issue 編號）
 4. 在 Epic Issue 留言通知
 
+**Chore Issue（PM 行政事務）：**
+
+P1-project 的 Chore Issue 用於追蹤與功能開發無關的 PM 日常事務，包含學習筆記、文件整理、環境維護等。選擇類型：學習 / 文件 / 環境維護 / 其他。
+
+> 不觸發任何自動化流程，純手動追蹤。其他三個 Repo（P1-analysis / P1-design / P1-code）的 Chore Issue 會自動建立 `chore-{N}-{slug}` 分支，用於 repo 內部維護。
+
 ---
 
 ### P1-analysis（A-Repo）

@@ -31,6 +31,16 @@
 
 **⚠️ 常見卡關：** Epic 開立後若 15 分鐘內未在 P1-analysis 看到 SA Issue，代表 P-workflow 失敗。參考 workflow.md 第六節「P-workflow 應急方案」手動建立。
 
+## PM：今天有行政事務要記錄
+
+**1. 開立 Chore Issue**
+- 前往 P1-project → Issues → New Issue → 選擇 **Chore（PM 行政事務）** template
+- 選擇類型（學習 / 文件 / 環境維護 / 其他），填寫說明與完成條件
+- 送出後手動追蹤，**不會觸發任何自動化流程**
+
+**2. 完成後**
+- 手動關閉 Issue
+
 ---
 
 ## SA：今天收到一個 SA Issue

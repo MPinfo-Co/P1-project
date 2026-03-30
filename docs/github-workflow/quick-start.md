@@ -67,16 +67,16 @@ git commit -m "docs(issue-{N}): 完成請假申請 SA 分析"
 git push origin issue-{N}-{slug}
 ```
 
-**4. 開 Pull Request**
-- 選擇 P1-analysis PR template，填寫所有欄位（必填）
-- 在 PR 留言 @PM，請求指派審查人員
+**4. 確認 Draft PR（系統自動開立）**
+- 系統在 A-Branch 建立後自動開立 Draft PR，PR body 已預填 Epic 編號、SA Issue 編號與 `Closes #N`
+- SA 只需 push commits；完成後把 Draft 轉成 **Ready for Review**，在 PR 留言 @PM 請求審查
 
 **5. Merge 後**
 - 手動在 P1-analysis 的 `README.md` 新增一行 Issue 索引
   ```markdown
   | #4 | 請假申請 | 請假、leave | P1-project #1 | 2026-03-01 |
   ```
-- 系統自動通知 SD，SA 工作完成
+- SA Issue 自動關閉；系統自動在 P1-design 建立 SD Issue + D-Branch，SA 工作完成
 
 **⚠️ 常見卡關：**
 - commitlint 格式錯誤：最常見的是忘記小括號 scope，或說明用中文但格式符號不對。正確格式：`feat(leaves): 說明`
@@ -109,7 +109,9 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 - 最低要求：每個 API 至少一個成功案例（2xx）+ 一個失敗案例（4xx/5xx）；每個畫面至少一個主流程案例
 - 測試案例數量不得少於 SD-WBS.md 工作項目數（硬性要求，審查時會驗收）
 
-**5. Commit、Push、開 PR**（同 SA 流程，使用 P1-design PR template）
+**5. 確認 Draft PR（系統自動開立）**
+- D-Branch 建立時系統自動開立 Draft PR，body 已預填 Epic、SA Issue、SD Issue 編號與 `Closes #N`
+- SD 只需 push commits；完成後把 Draft 轉成 **Ready for Review**（同 SA 流程）
 
 **⚠️ 常見卡關：**
 - TestPlan 忘記填：這是審查必查項目，PR checklist 上有，別跳過
@@ -132,14 +134,17 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 | 商業邏輯背景 | `P1-analysis/issue-{SA#}/business-logic.md` |
 | 測試標準 | `P1-design/TestPlan/issue-{SD#}.md` |
 
-**2. Pull 分支，開始實作**
+**2. 確認 Draft PR（系統自動開立）**
+- C-Branch 建立時系統自動開立 Draft PR，body 已預填完整關聯鏈（Epic→SA→SD→PG）與 `Closes #N`
+
+**3. Pull 分支，開始實作**
 ```bash
 git fetch origin
 git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 # 若本地已有該分支：git checkout issue-{N}-{slug}
 ```
 
-**3. 撰寫程式碼與測試**
+**4. 撰寫程式碼與測試**
 - 依 Spec 實作（前端 React/TypeScript，後端 Python/FastAPI）
 - 依 TestPlan 撰寫 pytest 測試，每個 test function 標注對應的 TestPlan ID：
   ```python
@@ -149,21 +154,21 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
   ```
 - pytest test function 數量 ≥ TestPlan 案例數
 
-**4. Push，等待 CI**
+**5. Push，等待 CI**
 ```bash
 git push origin issue-{N}-{slug}
 # CI 自動執行 pytest + ESLint + Ruff
 ```
-- CI 通過後才開 PR（PR checklist 有確認項目）
+- CI 通過後把 Draft PR 轉成 **Ready for Review**，指派 2 位審查人
 - CI 失敗：修正後重新 push；第 3 次仍失敗則在 Issue 留言 @SD @PM
 
-**5. PR 審查與 Merge**
-- 指派 2 位審查人（一人 Code Review，一人功能驗證）
-- Merge 後系統自動產生 VersionDiff 文件
+**6. PR 審查與 Merge**
+- Merge 後系統自動產生 VersionDiff 文件，PG Issue 自動關閉
 
 **⚠️ 常見卡關：**
 - CI 失敗最常見原因：測試案例 import 錯誤、環境變數未設定、Spec 描述與實作不符
 - pytest test function 數量不足：TestPlan 有幾個案例，就要有至少幾個 test function
+- Draft PR 未轉 Ready：CI 通過後記得把 Draft 狀態改成 Ready for Review，否則無法 merge
 
 ---
 

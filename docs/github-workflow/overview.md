@@ -37,10 +37,10 @@ PM（P1-project）開立 Epic → epic label 觸發 p-workflow
              └─ Code merge ──→ 版本完成
 
 每個階段：
-1. 由上游 merge 後自動建立分支與 Issue
-2. 在自己的 Repo 完成工作
-3. 開 PR 經審查後 merge
-4. Merge 後自動通知下游
+1. 由上游 merge 後自動建立分支、Issue 與 Draft PR（含預填關聯項目）
+2. 在自己的 Repo 完成工作，push commits
+3. 把 Draft PR 轉成 Ready for Review，經審查後 merge
+4. Merge 後自動關閉 Issue，並通知下游
 
 ---
 

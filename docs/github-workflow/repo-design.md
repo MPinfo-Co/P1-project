@@ -47,10 +47,11 @@ P1-project/
 **P-workflow 自動化（Epic 開立觸發）：**
 
 當 Epic Issue 被加上 `epic` label 時自動執行：
-1. 在 P1-analysis 建立 SA Issue（含 Epic 編號）
-2. 建立 A-branch：`issue-{saNum}-{epicTitle-slug}`
-3. 回填 Epic body 的關聯 Issue 區塊（SA Issue 編號）
-4. 在 Epic Issue 留言通知
+1. 在 P1-analysis 建立 SA Issue（含 Epic 編號、分支名稱）
+2. 建立 A-branch：`issue-{saNum}-{epicTitle-slug}`，並 scaffold `business-logic.md` + `SD-WBS.md`
+3. 在 P1-analysis 開立 SA Draft PR（body 預填關聯項目 + `Closes #N`）
+4. 回填 Epic body 的關聯 Issue 區塊（SA Issue 編號）
+5. 在 Epic Issue 留言通知
 
 **Chore Issue（PM 行政事務）：**
 

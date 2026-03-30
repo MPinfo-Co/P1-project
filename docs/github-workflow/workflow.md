@@ -55,15 +55,16 @@ PM 手動 assign Issue 給 SA
    ├─ business-logic.md（Use Case、流程圖、Class Diagram、ER 示意）
    └─ SD-WBS.md（列出 SD 需完成的工作項目）
 3. SA Push A-Branch（commitlint 格式驗證）
-4. SA 開 Pull Request
-   └─ 填寫 PR template（見 PR 規範）
+4. SA 把 Draft PR 轉成 Ready for Review（Draft PR 由系統在 A-Branch 建立時自動開立）
 5. PM 指派審查人員 1 人
 6. 審查人員審查文件
 7. Merge
 
 Merge 後自動觸發：
+   ├─ 關閉 SA Issue
    ├─ 在 P1-design 建立 D-Branch
-   ├─ 在 P1-design 開立 SD Issue（關聯 Epic + SA Issue）
+   ├─ 在 P1-design 開立 SD Issue（關聯 Epic + SA Issue，含分支名稱）
+   ├─ 在 P1-design 自動開立 SD Draft PR（body 預填關聯項目 + Closes #N）
    ├─ 將 SD-WBS.md 的工作項目清單自動複製至 SD Issue body 的「設計範圍」欄位
    ├─ 在 SD Issue 留言通知 SD：「SA 分析完成，請開始系統設計」
    └─ 更新 Epic Issue：填入 SD Issue 編號
@@ -94,16 +95,18 @@ Merge 後自動觸發：
 3. SD 在 TestPlan/issue-{N}.md 撰寫測試案例
    （修改項目由系統自動填入，SD 只需填測試案例）
 4. SD Push D-Branch（commitlint 格式驗證）
-5. SD 開 Pull Request
-   └─ 填寫 PR template（見 PR 規範）
+5. SD 把 Draft PR 轉成 Ready for Review（Draft PR 由系統在 D-Branch 建立時自動開立）
 6. SD 指派審查人員 1 人
 7. 審查人員審查文件
 8. Merge
 
 Merge 後自動觸發：
+   ├─ 關閉 SD Issue
    ├─ 自動比對 diff，產生 TestPlan/issue-{N}-diff.md（修改項目 + 關聯項目）
    ├─ 在 P1-code 建立 C-Branch
-   ├─ 在 P1-code 開立 PG Issue（關聯 Epic + SA + SD Issue，附異動 Spec 清單）
+   ├─ 在 P1-code scaffold PG測試報告/issue-{N}.md（測試報告範本）
+   ├─ 在 P1-code 開立 PG Issue（關聯 Epic + SA + SD Issue，附異動 Spec 清單，含分支名稱）
+   ├─ 在 P1-code 自動開立 PG Draft PR（body 預填完整關聯鏈 + Closes #N）
    ├─ 在 PG Issue 留言通知 PG：「SD 設計完成，以下文件已異動，請參考」
    └─ 更新 Epic Issue：填入 PG Issue 編號
 ```
@@ -198,7 +201,7 @@ AI 接到 PG Issue 後，依下表逐項取得所需資訊：
 
 ```
 1. PG／AI 取得 C-Branch（AI 透過 GitHub API 讀取；人類 PG 在 Local Pull）
-   （PG Issue body 已有 SD 異動 Spec 清單與完整關聯鏈）
+   （PG Issue body 已有 SD 異動 Spec 清單、完整關聯鏈與分支名稱）
 2. PG／AI 依上表讀取所有必要資訊
 3. 依據 Spec/Prototype（活文件當前狀態）修改前後端程式碼
 4. 依據 TestPlan 撰寫或修改 pytest 測試程式碼
@@ -208,9 +211,7 @@ AI 接到 PG Issue 後，依下表逐項取得所需資訊：
    └─ 觸發 CI：GitHub Actions 執行自動化測試（pytest + ESLint + Ruff）
    【人類 PG】在 push 前可於本地執行靜態測試（ESLint、Ruff）與動態測試（pytest）
    【AI PG】無本地執行環境，push 後等待 CI 結果；若 CI 失敗則修正後重新 push
-6. 若 CI 通過，開 Pull Request
-   ├─ 填寫 PR template（見 PR 規範）
-   └─ 觸發自動部署測試環境
+6. CI 通過後，把 Draft PR 轉成 Ready for Review（Draft PR 由系統在 C-Branch 建立時自動開立）
 7. SD 指派審查人員 2 人（一人負責 Code Review，一人負責功能驗證）
 8. 審查人員在測試環境確認：
    ├─ Code Review
@@ -220,6 +221,7 @@ AI 接到 PG Issue 後，依下表逐項取得所需資訊：
 10. Merge
 
 Merge 後自動觸發：
+   ├─ 關閉 PG Issue
    ├─ 自動產生 VersionDiff/issue-{N}_{author}_{date}.md
    └─ 若 Epic 下所有 PG Issue 均已 merge，在 Epic Issue 留言通知 PM：「所有 PG Issue 已完成，請驗收後關閉 Epic」
 

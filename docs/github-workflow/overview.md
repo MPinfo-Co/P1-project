@@ -2,8 +2,6 @@
 
 ## 為什麼這樣設計
 
-傳統開發流程中，需求分析、系統設計、程式開發三個階段往往各自為政，文件散落、追蹤困難、下游不清楚上游改了什麼。
-
 本規範有兩個核心目標：
 
 **人類協作層面：**
@@ -32,11 +30,11 @@
 ## 四個角色與工作流程
 
 ```
-PM（P1-project）開立 Epic → epic label 觸發 P-workflow
+PM（P1-project）開立 Epic → epic label 觸發 p-workflow
  └─ P-workflow：建立 SA Issue + A-branch（P1-analysis）
-     └─ SA merge ──→ 觸發 SD Issue（P1-design）
-         └─ SD merge ──→ 觸發 PG Issue（P1-code）
-             └─ PG／AI 實作 ──→ 版本完成
+     └─ SA merge ──→ 觸發 a-workflow 建立 D Issue + D-branch（（P1-design）
+         └─ SD merge ──→ 觸發 d-workflow 建立 C Issue + C-branch（P1-code）
+             └─ Code merge ──→ 觸發 c-workflow ──→ 版本完成
 
 PM（P1-project）開立 Chore Issue（學習／文件／環境維護／其他）
  └─ 純手動追蹤，不觸發任何自動化流程

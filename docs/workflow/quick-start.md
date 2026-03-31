@@ -1,5 +1,7 @@
 # P1 開發流程快速上手
 
+> [← 回到總導覽](../../README.md)
+
 > 本文件是新成員的「第一天操作指南」。完整規範請閱讀 [guide.md](guide.md)；Repo 結構與格式規範請閱讀 [repo-design.md](../repo-design.md)。
 
 ---

@@ -1,5 +1,7 @@
 # a-workflow
 
+> [← 回到總導覽](../../../README.md)
+
 ## 用途
 P1-analysis 的 `issue-*` branch PR merge 到 main 時，自動在 P1-design 建立 SD Issue、D-Branch 與 Draft PR。
 

@@ -36,8 +36,6 @@ PM（P1-project）開立 Epic
 
 | 文件 | 用途 |
 |------|------|
-| [PRD.md](PRD.md) | 產品需求文件，功能範圍與優先順序 |
-| [AI-CONTEXT.md](AI-CONTEXT.md) | AI 協作背景說明，AI 開發前必讀 |
 | [docs/workflow/guide.md](docs/workflow/guide.md) | 設計理念、整體流程、關鍵機制 |
 | [docs/workflow/quick-start.md](docs/workflow/quick-start.md) | 各角色第一天操作指南 |
 | [docs/repo-design.md](docs/repo-design.md) | Repo 結構、Issue 格式、命名規範 |

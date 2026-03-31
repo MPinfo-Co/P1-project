@@ -58,7 +58,7 @@ P1-code/
 │   │   ├── models/               # SQLAlchemy Models
 │   │   └── schemas/              # Pydantic Schemas
 │   └── alembic/                  # Migration
-├── frontend-mui/src/             # 前端主目錄（採用 MUI，frontend/ 為舊版已棄用）
+├── frontend/src/             # 前端主目錄
 │   ├── components/               # 共用元件
 │   └── pages/                    # 頁面（依功能分資料夾）
 ├── tests/                        # 測試報告

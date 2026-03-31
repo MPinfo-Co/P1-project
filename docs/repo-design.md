@@ -238,16 +238,13 @@ P1-design/
 
 ```
 P1-code/
-├── frontend/              ← React + TypeScript
+├── frontend/              ← React + TypeScript（JavaScript，計劃遷移至 TypeScript）
 ├── backend/               ← Python + FastAPI
-├── tests/
-│   ├── unit/              ← 單元測試
-│   └── integration/       ← 整合測試
-│
+│   └── tests/             ← pytest 測試
+│       └── ...
 ├── VersionDiff/           ← Merge 時自動產生
 │   ├── issue-7_Rex_20260326.md
 │   └── ...
-│
 └── PG測試報告/
     └── issue-7.md
 ```
@@ -275,7 +272,7 @@ P1-code/
 <!-- 由 GitHub Actions 自動產生 -->
 - backend/routers/leaves.py：新增 POST /api/leaves endpoint
 - backend/models/leave.py：新增 Leave model
-- frontend/src/pages/LeavePage.tsx：新增請假申請頁面
+- frontend/src/pages/LeavePage.jsx：新增請假申請頁面
 
 ## 關聯項目
 - Epic：P1-project #1

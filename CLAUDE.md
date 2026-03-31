@@ -24,7 +24,12 @@ P1 由四個 Repo 組成，對應四個開發階段：
 P1-project/
 ├── PRD.md                        # 產品需求文件
 ├── AI-CONTEXT.md                 # AI 背景資訊
-└── docs/github-workflow/         # GitHub 工作流程文件
+└── docs/
+    ├── repo-design.md            # Repo 結構與格式規範
+    └── workflow/
+        ├── guide.md              # 設計理念與整體流程
+        ├── quick-start.md        # 各角色操作指南
+        └── spec/                 # 各 workflow 技術規格
 ```
 
 ### P1-analysis（需求分析）
@@ -58,10 +63,10 @@ P1-code/
 │   │   ├── models/               # SQLAlchemy Models
 │   │   └── schemas/              # Pydantic Schemas
 │   └── alembic/                  # Migration
-├── frontend/src/             # 前端主目錄
+├── frontend/src/                 # 前端主目錄（JavaScript，計劃遷移 TypeScript）
 │   ├── components/               # 共用元件
 │   └── pages/                    # 頁面（依功能分資料夾）
-├── tests/                        # 測試報告
+├── backend/tests/                # pytest 測試
 └── VersionDiff/                  # 版本異動紀錄
 ```
 
@@ -97,7 +102,7 @@ Epic（P1-project）→ SA Issue（P1-analysis）→ SD Issue（P1-design）→ 
 
 | 層級 | 選型 |
 |------|------|
-| **前端** | React 18 + Vite + React Router v6 |
+| **前端** | React 19 + Vite + React Router v7（JavaScript，計劃遷移 TypeScript）|
 | **樣式** | Tailwind CSS v3 + MUI |
 | **State** | Zustand（Client）+ TanStack Query（Server）|
 | **HTTP** | Axios |

@@ -1,5 +1,7 @@
 # P1 開發指南
 
+> [← 回到總導覽](../../README.md)
+
 > 本文件說明 P1 的設計理念與整體流程。
 > 第一天操作請看 [quick-start.md](quick-start.md)。
 > Repo 結構與格式規範請看 [repo-design.md](../repo-design.md)。

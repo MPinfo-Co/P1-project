@@ -1,5 +1,7 @@
 # chore-workflow（a- / d- / c-）
 
+> [← 回到總導覽](../../../README.md)
+
 ## 用途
 Issue 加上 `chore` label 時，自動建立對應的 chore branch，讓 PG 可直接 checkout 開始作業。
 

@@ -30,6 +30,15 @@ PM（P1-project）開立 Epic
 
 ---
 
+## PM 工作起點
+
+1. Issues → New Issue → 選 **Epic** template，填寫功能說明與驗收條件
+2. 送出後系統自動在 P1-analysis 建立 SA Issue、A-Branch 與 Draft PR
+3. 在 Epic Issue 追蹤各階段進度（系統自動回填 SA / SD / PG Issue 連結）
+4. 所有 PG Issue merge 後，PM 驗收並手動關閉 Epic
+
+---
+
 ## 重要文件索引
 
 ### P1-project（本 Repo）
@@ -53,11 +62,3 @@ PM（P1-project）開立 Epic
 |------|------|
 | [SETUP.md](https://github.com/MPinfo-Co/P1-code/blob/main/SETUP.md) | 開發環境準備，clone 後第一步 |
 
----
-
-## PM 工作起點
-
-1. Issues → New Issue → 選 **Epic** template，填寫功能說明與驗收條件
-2. 送出後系統自動在 P1-analysis 建立 SA Issue、A-Branch 與 Draft PR
-3. 在 Epic Issue 追蹤各階段進度（系統自動回填 SA / SD / PG Issue 連結）
-4. 所有 PG Issue merge 後，PM 驗收並手動關閉 Epic

@@ -1,6 +1,6 @@
 # P1 開發流程快速上手
 
-> 本文件是新成員的「第一天操作指南」。完整規範請閱讀 overview.md → repo-design.md → workflow.md（對應章節）。
+> 本文件是新成員的「第一天操作指南」。完整規範請閱讀 [guide.md](guide.md)；Repo 結構與格式規範請閱讀 [repo-design.md](../repo-design.md)。
 
 ---
 
@@ -137,14 +137,23 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 **2. 確認 Draft PR（系統自動開立）**
 - C-Branch 建立時系統自動開立 Draft PR，body 已預填完整關聯鏈（Epic→SA→SD→PG）與 `Closes #N`
 
-**3. Pull 分支，開始實作**
+**3. 環境準備（首次，僅需執行一次）**
+
+詳見 [P1-code/SETUP.md](https://github.com/MPinfo-Co/P1-code/blob/main/SETUP.md)，摘要：
+```bash
+pip install -r backend/requirements.txt
+pip install pre-commit
+cd frontend && npm install   # 自動啟用 husky git hooks
+```
+
+**4. Pull 分支，開始實作**
 ```bash
 git fetch origin
 git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 # 若本地已有該分支：git checkout issue-{N}-{slug}
 ```
 
-**4. 撰寫程式碼與測試**
+**5. 撰寫程式碼與測試**
 - 依 Spec 實作（前端 React/TypeScript，後端 Python/FastAPI）
 - 依 TestPlan 撰寫 pytest 測試，每個 test function 標注對應的 TestPlan ID：
   ```python
@@ -153,14 +162,6 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
       ...
   ```
 - pytest test function 數量 ≥ TestPlan 案例數
-
-**5. 環境準備（首次，僅需執行一次）**
-
-參考 `P1-code/docs/onboarding/environment-setup.md`：
-- Python hook：`pip install pre-commit && pre-commit install`
-- 前端 hook：`cd frontend && npm install`（husky 自動啟用）
-
-設定後，每次 commit 時本地會自動檢查格式與 lint。
 
 **6. Push，等待 CI**
 ```bash

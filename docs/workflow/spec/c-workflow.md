@@ -7,8 +7,9 @@ P1-code 的 CI 流程：push 時執行靜態檢查與測試；PR 開啟時通知
 | 事件 | 觸發 Job |
 |------|---------|
 | push 到 `issue-*` branch | backend-ci、frontend-ci |
-| PR opened to main（issue-* branch） | notify-test-env |
-| PR merged to main（issue-* branch） | generate-version-diff |
+| PR opened to main | backend-ci、frontend-ci、notify-test-env |
+| PR synchronize（新 push 到 PR branch） | backend-ci、frontend-ci |
+| PR merged to main | generate-version-diff |
 
 ## Jobs
 

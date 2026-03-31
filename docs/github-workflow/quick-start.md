@@ -63,7 +63,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 ```bash
 git add .
 git commit -m "docs(issue-{N}): 完成請假申請 SA 分析"
-# ↑ 格式必須是 type(scope): 說明，否則 commitlint 會擋下
+# ↑ 格式必須是 type(scope): 說明（P1-code 有 commitlint 自動強制，其他 Repo 靠自覺）
 git push origin issue-{N}-{slug}
 ```
 
@@ -154,15 +154,25 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
   ```
 - pytest test function 數量 ≥ TestPlan 案例數
 
-**5. Push，等待 CI**
+**5. 環境準備（首次，僅需執行一次）**
+
+參考 `P1-code/docs/onboarding/environment-setup.md`：
+- Python hook：`pip install pre-commit && pre-commit install`
+- 前端 hook：`cd frontend && npm install`（husky 自動啟用）
+
+設定後，每次 commit 時本地會自動檢查格式與 lint。
+
+**6. Push，等待 CI**
 ```bash
 git push origin issue-{N}-{slug}
-# CI 自動執行 pytest + ESLint + Ruff
+# CI 自動執行：
+# - Python：ruff lint + ruff format check + pytest（含 coverage）
+# - 前端：ESLint + Prettier check
 ```
 - CI 通過後把 Draft PR 轉成 **Ready for Review**，指派 2 位審查人
 - CI 失敗：修正後重新 push；第 3 次仍失敗則在 Issue 留言 @SD @PM
 
-**6. PR 審查與 Merge**
+**7. PR 審查與 Merge**
 - Merge 後系統自動產生 VersionDiff 文件，PG Issue 自動關閉
 
 **⚠️ 常見卡關：**
@@ -194,7 +204,7 @@ docs(issue-4): 完成 SA 分析文件
 test(leaves): 新增 POST /api/leaves 整合測試
 ```
 
-> commitlint 在每次 commit 時自動驗證格式，不符合的 commit 會被擋下。若擋下，修改 message 後重新 commit 即可（不需強制 push）。
+> commitlint 在 P1-code 的每次 commit 時自動驗證格式（其他 Repo 靠自覺遵守）。不符合的 commit 會被擋下，修改 message 後重新 commit 即可（不需強制 push）。
 
 ---
 

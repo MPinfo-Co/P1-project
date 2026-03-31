@@ -14,10 +14,12 @@ P1-code 的 CI 流程：push 時執行靜態檢查與測試；PR 開啟時通知
 
 ### backend-ci
 - `ruff check .`（Lint）
-- `pytest tests/ -v`
+- `ruff format --check .`（格式化檢查）
+- `pytest tests/ -v`（含 coverage report）
 
 ### frontend-ci
 - `npm run lint`（ESLint）
+- `npx prettier --check src/`（格式化檢查）
 
 ### notify-test-env
 PR 開啟時，在 PR 留言測試環境 checklist：

@@ -1,28 +1,61 @@
-# P1-project — 產品管理（PM）
+# P1 專案總導覽
 
-P1 產品的 Epic 管理中心與開發規範文件庫。
+> 本文件是 P1 專案的總入口，所有文件的起點從這裡開始。
 
-## 在四 Repo 流程中的角色
+MP-BOX 是一套面向企業用戶的 AI 應用平台，協助企業解決資安日誌解讀、專家知識管理、ERP 操作自動化、企業營運解讀等作業難題。
+
+---
+
+## 新成員從這裡開始
+
+**[docs/workflow/quick-start.md](docs/workflow/quick-start.md)** — 第一天操作指南，按角色分類的完整步驟
+
+---
+
+## 四個 Repo
+
+| Repo | 層級 | 負責角色 | 連結 |
+|------|------|---------|------|
+| **P1-project** | 產品管理（Epic、規範文件） | PM | 你在這裡 |
+| **P1-analysis** | 需求分析（業務邏輯、Use Case、SD-WBS） | SA | [MPinfo-Co/P1-analysis](https://github.com/MPinfo-Co/P1-analysis) |
+| **P1-design** | 系統設計（Prototype、API Spec、Schema、TestPlan） | SD | [MPinfo-Co/P1-design](https://github.com/MPinfo-Co/P1-design) |
+| **P1-code** | 系統開發（React/TypeScript + Python/FastAPI） | PG／AI | [MPinfo-Co/P1-code](https://github.com/MPinfo-Co/P1-code) |
 
 ```
-P1-project（PM）  ← 你在這裡
-    └─ epic label 觸發 P-workflow
-        └─ P1-analysis（SA）→ P1-design（SD）→ P1-code（PG／AI）
+PM（P1-project）開立 Epic
+ └─ p-workflow 自動建立 SA Issue + Branch（P1-analysis）
+     └─ SA merge → a-workflow 自動建立 SD Issue + Branch（P1-design）
+         └─ SD merge → d-workflow 自動建立 PG Issue + Branch（P1-code）
 ```
 
-## 目錄結構
+---
 
-```
-P1-project/
-├── PRD.md                        # 產品需求文件
-├── AI-CONTEXT.md                 # AI 協作背景說明
-└── docs/
-    └── github-workflow/
-        ├── overview.md           # 四 Repo 架構與設計理念
-        ├── workflow.md           # 完整工作流程（各角色詳細步驟）
-        ├── repo-design.md        # 各 Repo 結構與 Issue 欄位規範
-        └── quick-start.md       # 新成員第一天操作指南
-```
+## 文件索引
+
+### P1-project（本 Repo）
+
+| 文件 | 用途 |
+|------|------|
+| [PRD.md](PRD.md) | 產品需求文件，功能範圍與優先順序 |
+| [AI-CONTEXT.md](AI-CONTEXT.md) | AI 協作背景說明，AI 開發前必讀 |
+| [docs/workflow/guide.md](docs/workflow/guide.md) | 設計理念、整體流程、關鍵機制 |
+| [docs/workflow/quick-start.md](docs/workflow/quick-start.md) | 各角色第一天操作指南 |
+| [docs/repo-design.md](docs/repo-design.md) | Repo 結構、Issue 格式、命名規範 |
+
+### P1-design
+
+| 文件 | 用途 |
+|------|------|
+| [TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md) | 技術選型與各層選擇原因 |
+| [FunctionList.md](https://github.com/MPinfo-Co/P1-design/blob/main/FunctionList.md) | 系統功能清單與完成狀態 |
+
+### P1-code
+
+| 文件 | 用途 |
+|------|------|
+| [SETUP.md](https://github.com/MPinfo-Co/P1-code/blob/main/SETUP.md) | 開發環境準備，clone 後第一步 |
+
+---
 
 ## PM 工作起點
 
@@ -30,12 +63,3 @@ P1-project/
 2. 送出後系統自動在 P1-analysis 建立 SA Issue、A-Branch 與 Draft PR
 3. 在 Epic Issue 追蹤各階段進度（系統自動回填 SA / SD / PG Issue 連結）
 4. 所有 PG Issue merge 後，PM 驗收並手動關閉 Epic
-
-## 開發規範文件
-
-| 文件 | 適合誰看 |
-|------|---------|
-| [quick-start.md](docs/github-workflow/quick-start.md) | 新成員，第一天操作指南 |
-| [overview.md](docs/github-workflow/overview.md) | 所有人，整體設計理念 |
-| [workflow.md](docs/github-workflow/workflow.md) | 各角色詳細步驟與例外處理 |
-| [repo-design.md](docs/github-workflow/repo-design.md) | Repo 結構、Issue 欄位、Branch 規範 |

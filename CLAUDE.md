@@ -78,6 +78,7 @@ Epic（P1-project）→ SA Issue（P1-analysis）→ SD Issue（P1-design）→ 
 ## AI 實作指引（PG 階段）
 
 收到 PG Issue 後，沿關聯鏈讀取：
+0. 先讀 `P1-project/README.md`，掌握全局文件結構再沿關聯鏈往下讀
 1. PG Issue body「實作範圍」（系統自動填入 SD 異動的 Spec 清單）
 2. `P1-design/Spec/` — API 與畫面規格
 3. `P1-design/TestPlan/issue-{SD#}-diff.md` — 本次 delta

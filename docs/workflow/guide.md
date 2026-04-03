@@ -119,4 +119,5 @@ SD 在 PR 留言說明影響範圍，PM 決定：繼續（SD 在現有 PR 更新
 第 3 次仍失敗：在 Issue 留言 @SD @PM，說明錯誤訊息與已嘗試的方向，等待指示。
 
 ### workflow 自動化失敗（分支未自動建立）
-各 workflow 有應急方案，15 分鐘內未看到下游 Issue，參考 [quick-start.md](quick-start.md) 的「常見卡關」說明手動處理。
+15 分鐘內未看到下游 Issue，查閱對應 workflow 的規格文件，依其「應急方案」手動處理：
+[p-workflow.md](spec/p-workflow.md)、[a-workflow.md](spec/a-workflow.md)、[d-workflow.md](spec/d-workflow.md)、[c-workflow.md](spec/c-workflow.md)

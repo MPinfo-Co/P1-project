@@ -31,7 +31,7 @@
 - 開啟 GitHub Projects 看板 → **Epic 全覽** view，確認各 Epic 狀態
 - 有 `blocked` 標籤的 Issue 需優先處理
 
-**⚠️ 常見卡關：** Epic 開立後若 15 分鐘內未在 P1-analysis 看到 SA Issue，代表 P-workflow 失敗。參考 workflow.md 第六節「P-workflow 應急方案」手動建立。
+**⚠️ 常見卡關：** Epic 開立後若 15 分鐘內未在 P1-analysis 看到 SA Issue，代表 P-workflow 失敗。參考 [guide.md 的「例外處理」章節](guide.md#例外處理)手動處理。
 
 ## PM：今天有行政事務要記錄
 
@@ -104,7 +104,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 ```
 - 修改 `Prototype/` 下的 HTML 原型（活文件，直接改最新版）
 - 修改 `Spec/` 下的 API/畫面規格文件（活文件，直接改最新版）
-- 若有 Schema 異動，修改 `Schema.md`
+- 若有 Schema 異動，修改 `schema/schema.md`
 
 **4. 撰寫 TestPlan**
 - 建立 `TestPlan/issue-{N}.md`（系統會自動填入修改的檔案清單，你只需填測試案例）
@@ -156,7 +156,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 ```
 
 **5. 撰寫程式碼與測試**
-- 依 Spec 實作（前端 React/TypeScript，後端 Python/FastAPI）
+- 依 Spec 實作（前端 React/TypeScript `.tsx`，後端 Python/FastAPI）
 - 依 TestPlan 撰寫 pytest 測試，每個 test function 標注對應的 TestPlan ID：
   ```python
   def test_create_leave_request(client, db_session, auth_headers):

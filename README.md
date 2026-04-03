@@ -40,6 +40,7 @@ PM（P1-project）開立 Epic
 | P1-project | [docs/workflow/guide.md](docs/workflow/guide.md) | 設計理念、整體流程、關鍵機制 |
 | P1-project | [docs/workflow/quick-start.md](docs/workflow/quick-start.md) | 各角色第一天操作指南 |
 | P1-project | [docs/repo-design.md](docs/repo-design.md) | Repo 結構、Issue 格式、命名規範 |
+| P1-project | [docs/directory-structure.md](docs/directory-structure.md) | 各 Repo 目錄結構速查，含每個檔案職責說明 |
 | P1-project | [p-workflow.md](docs/workflow/spec/p-workflow.md) | P-workflow 技術規格 |
 | P1-project | [a-workflow.md](docs/workflow/spec/a-workflow.md) | A-workflow 技術規格 |
 | P1-project | [d-workflow.md](docs/workflow/spec/d-workflow.md) | D-workflow 技術規格 |

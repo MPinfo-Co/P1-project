@@ -30,6 +30,20 @@ PM（P1-project）開立 Epic
 
 ---
 
+## AI 文件審查
+
+定期執行可確保四個 Repo 的文件與實際狀態一致。
+
+**前置條件**：在 P1 根目錄（四個 Repo 的上層目錄）執行。
+
+```bash
+claude "$(cat P1-project/docs/AI-review-prompt.md)"
+```
+
+Claude 會依照 [docs/AI-review-prompt.md](docs/AI-review-prompt.md) 的指示，自動 git pull、逐文件分析，並輸出建議修改清單。
+
+---
+
 ## 重要文件索引（AI 文件審查範圍）
 
 | Repo | 文件 | 用途 |

@@ -61,4 +61,6 @@ PM（P1-project）開立 Epic
 
 定期執行可確保四個 Repo 的文件與實際狀態一致。
 
-對 Claude 說：「請執行 [P1-project/docs/AI-review-prompt.md](docs/AI-review-prompt.md)」
+**方法一**：對 Claude 說：「請執行 [P1-project/docs/AI-review-prompt.md](docs/AI-review-prompt.md)」
+
+**方法二**：將 [docs/AI-review-prompt.md](docs/AI-review-prompt.md) 的內文複製後貼入 Claude Code

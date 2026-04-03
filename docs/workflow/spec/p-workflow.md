@@ -12,7 +12,7 @@ Epic Issue 加上 `epic` label 時，自動在 P1-analysis 建立 SA Issue、A-B
 
 ## 執行步驟
 1. 在 P1-analysis 建立 SA Issue（標題加 `[SA]` 前綴）
-2. 將 SA Issue 掛為 Epic 的 sub-issue
+2. 將 SA Issue 掛為 Epic 的 sub-issue（GitHub Issues 的父子關聯，讓 Epic 頁面可直接追蹤 SA 進度）
 3. 取得 P1-analysis main SHA，建立 A-Branch（`issue-{N}-{slug}`）
 4. Scaffold `issue-{N}/business-logic.md` 與 `issue-{N}/SD-WBS.md`
 5. 建立 SA Draft PR

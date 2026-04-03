@@ -15,7 +15,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 | **P1-project** | 產品管理（Epic、規範文件） | PM |
 | **P1-analysis** | 需求分析（業務邏輯、Use Case、SD-WBS） | SA |
 | **P1-design** | 系統設計（Prototype、API Spec、Schema、TestPlan） | SD |
-| **P1-code** | 系統開發（React/TypeScript + Python/FastAPI） | PG／AI |
+| **P1-code** | 系統開發（React/JavaScript + Python/FastAPI） | PG／AI |
 
 ## 目錄結構
 
@@ -63,16 +63,15 @@ P1-code/
 │   │   ├── core/                 # 設定、依賴、安全
 │   │   ├── db/                   # DB Session
 │   │   ├── models/               # SQLAlchemy Models
-│   │   └── schemas/              # Pydantic Schemas
+│   │   ├── schemas/              # Pydantic Schemas
+│   │   ├── services/             # 業務邏輯層
+│   │   └── tasks/                # 背景任務
+│   ├── tests/                    # 後端單元測試（CI 執行範圍）
 │   └── alembic/                  # Migration
-├── frontend/src/                 # 前端主目錄（TypeScript）
+├── frontend/src/                 # 前端主目錄（JavaScript）
 │   ├── components/               # 共用元件
 │   └── pages/                    # 頁面（依功能分資料夾）
-│   └── app/
-│       ├── services/             # 業務邏輯層
-│       └── tasks/                # 背景任務
-├── backend/tests/                # 後端單元測試
-├── tests/                        # 根目錄整合測試
+├── tests/                        # 根目錄整合測試（CI 不執行）
 └── VersionDiff/                  # 版本異動紀錄
 ```
 
@@ -101,7 +100,7 @@ Epic（P1-project）→ SA Issue（P1-analysis）→ SD Issue（P1-design）→ 
 
 | 層 | 選型 |
 |----|------|
-| **前端** | TypeScript + React 19 + React Router v7 + Vite |
+| **前端** | JavaScript + React 19 + React Router v7 + Vite |
 | **後端** | Python 3.12 + FastAPI |
 
 完整技術棧（UI 元件、State、ORM、部署等）見 [P1-design/TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md)。

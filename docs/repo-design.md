@@ -25,7 +25,8 @@ P1-project/
 ├── issue-2/
 │   └── ...
 └── docs/
-    └── workflow/          ← 本規範文件所在位置
+    ├── repo-design.md     ← Repo 結構與格式規範（本文件）
+    └── workflow/          ← 工作流程文件
 ```
 
 **Epic Issue body 格式：**
@@ -299,9 +300,7 @@ issue-{編號}-{簡短說明}
 
 ### Commit Message 格式
 
-格式與 Type 說明見 [quick-start.md — Commit Message 格式速查](workflow/quick-start.md#commit-message-格式速查)。
-
-格式由 `commitlint + husky` 強制執行，不符合格式的 commit 會被擋下。
+格式由 `commitlint + husky` 強制執行，不符合格式的 commit 會被擋下。Type 說明見 [quick-start.md — Commit Message 格式速查](workflow/quick-start.md#commit-message-格式速查)。
 
 ### 檔案命名
 - Spec 文件：`{畫面編號}{功能名稱}{類型}.md`，例：`03UserAPI.md`、`03UserPage.md`

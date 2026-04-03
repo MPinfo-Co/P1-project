@@ -40,11 +40,11 @@ PM（P1-project）開立 Epic
 | P1-project | [docs/workflow/guide.md](docs/workflow/guide.md) | 設計理念、整體流程、關鍵機制 |
 | P1-project | [docs/workflow/quick-start.md](docs/workflow/quick-start.md) | 各角色第一天操作指南 |
 | P1-project | [docs/repo-design.md](docs/repo-design.md) | Repo 結構、Issue 格式、命名規範 |
-| P1-project | [spec/p-workflow.md](docs/workflow/spec/p-workflow.md) | P-workflow 技術規格 |
-| P1-project | [spec/a-workflow.md](docs/workflow/spec/a-workflow.md) | A-workflow 技術規格 |
-| P1-project | [spec/d-workflow.md](docs/workflow/spec/d-workflow.md) | D-workflow 技術規格 |
-| P1-project | [spec/c-workflow.md](docs/workflow/spec/c-workflow.md) | C-workflow 技術規格 |
-| P1-project | [spec/chore-workflow.md](docs/workflow/spec/chore-workflow.md) | Chore-workflow 技術規格 |
+| P1-project | [p-workflow.md](docs/workflow/spec/p-workflow.md) | P-workflow 技術規格 |
+| P1-project | [a-workflow.md](docs/workflow/spec/a-workflow.md) | A-workflow 技術規格 |
+| P1-project | [d-workflow.md](docs/workflow/spec/d-workflow.md) | D-workflow 技術規格 |
+| P1-project | [c-workflow.md](docs/workflow/spec/c-workflow.md) | C-workflow 技術規格 |
+| P1-project | [chore-workflow.md](docs/workflow/spec/chore-workflow.md) | Chore-workflow 技術規格 |
 | P1-analysis | [README.md](https://github.com/MPinfo-Co/P1-analysis/blob/main/README.md) | SA 工作起點指南 |
 | P1-analysis | [CLAUDE.md](https://github.com/MPinfo-Co/P1-analysis/blob/main/CLAUDE.md) | AI agent 工作指引（SA 階段）|
 | P1-design | [README.md](https://github.com/MPinfo-Co/P1-design/blob/main/README.md) | SD 工作起點指南 |

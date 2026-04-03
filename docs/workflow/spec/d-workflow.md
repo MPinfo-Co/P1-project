@@ -14,7 +14,7 @@ P1-design 的 `issue-*` branch PR merge 到 main 時，自動在 P1-code 建立 
 1. 從 branch 名稱取出 SD Issue 編號
 2. 讀取 SD Issue body，取得 Epic + SA 編號
 3. 從 Epic Issue 取乾淨標題（去除 `[PM]` 前綴）
-4. 列出 PR 異動的 `schema/`、`Prototype/`、`Spec/` 檔案
+4. 列出 PR 異動的 `schema/`、`Prototype/`、`Spec/` 檔案（順序：schema → Prototype → Spec）
 5. 在 P1-code 建立 PG Issue（含異動檔案清單）
 6. 將 PG Issue 掛為 Epic 的 sub-issue
 7. 取得 P1-code main SHA，建立 C-Branch（`issue-{N}-{slug}`）
@@ -27,7 +27,7 @@ P1-design 的 `issue-*` branch PR merge 到 main 時，自動在 P1-code 建立 
 14. 關閉 SD Issue
 
 ## Step 2：Generate TestPlan diff
-1. 列出 PR 異動的 `schema/`、`Prototype/`、`Spec/` 檔案（順序：schema → Prototype → Spec）
+1. 使用 Step 1 第 4 步已取得的異動檔案清單（順序：schema → Prototype → Spec）
 2. 寫入 `TestPlan/issue-{N}-diff.md`
 
 ## 輸入

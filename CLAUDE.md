@@ -22,6 +22,8 @@ P1 由四個 Repo 組成，對應四個開發階段：
 ### P1-project（產品管理）
 ```
 P1-project/
+├── README.md                     # 專案總導覽與文件索引
+├── CLAUDE.md                     # AI agent 工作指引（本文件）
 ├── PRD.md                        # 產品需求文件
 ├── AI-CONTEXT.md                 # AI 背景資訊
 └── docs/
@@ -63,10 +65,14 @@ P1-code/
 │   │   ├── models/               # SQLAlchemy Models
 │   │   └── schemas/              # Pydantic Schemas
 │   └── alembic/                  # Migration
-├── frontend/src/                 # 前端主目錄（JavaScript，計劃遷移 TypeScript）
+├── frontend/src/                 # 前端主目錄（TypeScript）
 │   ├── components/               # 共用元件
 │   └── pages/                    # 頁面（依功能分資料夾）
-├── backend/tests/                # pytest 測試
+│   └── app/
+│       ├── services/             # 業務邏輯層
+│       └── tasks/                # 背景任務
+├── backend/tests/                # 後端單元測試
+├── tests/                        # 根目錄整合測試
 └── VersionDiff/                  # 版本異動紀錄
 ```
 
@@ -91,30 +97,21 @@ Epic（P1-project）→ SA Issue（P1-analysis）→ SD Issue（P1-design）→ 
 - Commit：`{type}({scope}): 說明`，由 commitlint 強制執行
   - 常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
 
+## 技術棧
+
+| 層 | 選型 |
+|----|------|
+| **前端** | TypeScript + React 19 + React Router v7 + Vite |
+| **後端** | Python 3.12 + FastAPI |
+
+完整技術棧（UI 元件、State、ORM、部署等）見 [P1-design/TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md)。
+
 ## 任務規模判斷
 
 任務涉及以下情況時，主動建議使用 Subagent 平行處理：
 - 需要跨多個 Repo 操作
 - 有多個可獨立進行的步驟（無相依關係）
 - 預計需要 5 個以上工具呼叫
-
-## 技術棧（MVP 階段）
-
-| 層級 | 選型 |
-|------|------|
-| **前端** | React 19 + Vite + React Router v7（JavaScript，計劃遷移 TypeScript）|
-| **樣式** | Tailwind CSS v3 + MUI |
-| **State** | Zustand（Client）+ TanStack Query（Server）|
-| **HTTP** | Axios |
-| **後端** | Python 3.12 + FastAPI + Pydantic |
-| **ORM** | SQLAlchemy + Alembic（Migration）|
-| **資料庫** | PostgreSQL |
-| **認證** | 自建 JWT（bcrypt 密碼 hash）|
-| **檔案儲存** | Cloudflare R2（S3 相容 API）|
-| **Email** | Resend |
-| **測試** | pytest |
-| **Linter** | Ruff（Python）/ ESLint + Prettier（前端）|
-| **部署** | Docker + Railway（後端）+ Vercel（前端）|
 
 ## 語言
 

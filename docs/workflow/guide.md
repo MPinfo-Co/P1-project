@@ -110,7 +110,7 @@ Token 以 Org-level Secret 集中管理，各 Repo workflow 直接引用。
 ## 例外處理
 
 ### Hotfix（線上緊急 bug）
-不走正常 Epic 流程。直接在 P1-code 開 Chore Issue，手動建立 `chore-{N}-hotfix` 分支，修完 PR merge，事後補 VersionDiff。
+不走正常 Epic 流程。直接在 P1-code 開 Chore Issue，手動建立 `chore-{N}-hotfix` 分支，修完 PR merge。VersionDiff 由 c-workflow 在 merge 時自動產生；事後需手動補 Epic 關聯記錄（在對應 Epic Issue 留言說明 hotfix 範圍）。
 
 ### 需求變更（SA 已 merge，SD 進行中）
 SD 在 PR 留言說明影響範圍，PM 決定：繼續（SD 在現有 PR 更新）或開新 Epic。

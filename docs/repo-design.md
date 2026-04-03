@@ -169,7 +169,7 @@ P1-design/
 
 | 類型 | 位置 | 說明 |
 |------|------|------|
-| 活文件 | `Spec/`、`Prototype/`、`Schema.md` | 永遠反映最新狀態 |
+| 活文件 | `Spec/`、`Prototype/`、`schema/schema.md` | 永遠反映最新狀態 |
 | Delta Record | `TestPlan/issue-N.md` | 記錄「這個 Issue 改了什麼」+ 測試案例 |
 
 **SD Issue body 格式（結構化，供 AI 讀取）：**
@@ -272,7 +272,7 @@ P1-code/
 <!-- 由 GitHub Actions 自動產生 -->
 - backend/routers/leaves.py：新增 POST /api/leaves endpoint
 - backend/models/leave.py：新增 Leave model
-- frontend/src/pages/LeavePage.jsx：新增請假申請頁面
+- frontend/src/pages/LeavePage.tsx：新增請假申請頁面
 
 ## 關聯項目
 - Epic：P1-project #1

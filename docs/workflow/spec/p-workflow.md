@@ -23,7 +23,7 @@ Epic Issue 加上 `epic` label 時，自動在 P1-analysis 建立 SA Issue、A-B
 ## 輸入
 | 來源 | 欄位 |
 |------|------|
-| Epic Issue | `title`（去除 `[PM]` 前綴後用作 slug） |
+| Epic Issue | `title`（若有 `[PM]` 前綴則去除，再用作 slug；前綴非必填） |
 | Epic Issue | `number`（用作關聯項目） |
 
 ## 輸出

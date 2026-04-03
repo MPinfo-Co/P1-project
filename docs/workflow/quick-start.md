@@ -63,7 +63,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 
 **3. Commit 與 Push**
 ```bash
-git add .
+git add issue-{N}/
 git commit -m "docs(issue-{N}): 完成請假申請 SA 分析"
 # ↑ 格式必須是 type(scope): 說明（P1-code 有 commitlint 自動強制，其他 Repo 靠自覺）
 git push origin issue-{N}-{slug}
@@ -93,7 +93,7 @@ git push origin issue-{N}-{slug}
 - 如有疑問，直接在 SD Issue 留言 @SA
 
 **2. 確認有無衝突**
-- 查看 P1-design 的 open Issues，確認有無其他 SD Issue 在修改相同的 Spec 文件或 Schema.md
+- 查看 P1-design 的 open Issues，確認有無其他 SD Issue 在修改相同的 Spec 文件或 `schema/schema.md`
 - 若有，先在雙方 Issue 留言協調修改範圍
 
 **3. Pull 分支，開始設計**
@@ -117,7 +117,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 
 **⚠️ 常見卡關：**
 - TestPlan 忘記填：這是審查必查項目，PR checklist 上有，別跳過
-- Schema.md 衝突：修改 Schema 前先在 Issue 留言標記「Schema.md 異動：預計異動的 Table」
+- `schema/schema.md` 衝突：修改 Schema 前先在 Issue 留言標記「`schema/schema.md` 異動：預計異動的 Table」
 
 ---
 

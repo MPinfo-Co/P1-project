@@ -30,7 +30,6 @@ PM（P1-project）開立 Epic
 
 ---
 
-
 ## 重要文件索引
 
 ### P1-project（本 Repo）
@@ -40,6 +39,7 @@ PM（P1-project）開立 Epic
 | [docs/workflow/quick-start.md](docs/workflow/quick-start.md) | 各角色第一天操作指南 |
 | [docs/repo-design.md](docs/repo-design.md) | Repo 結構、Issue 格式、命名規範 |
 | [docs/workflow/guide.md](docs/workflow/guide.md) | 設計理念、整體流程、關鍵機制 |
+| [CLAUDE.md](CLAUDE.md) | AI agent 工作指引（讀取 PG Issue 的上下文入口） |
 
 ### P1-analysis
 

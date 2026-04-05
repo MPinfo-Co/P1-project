@@ -15,7 +15,7 @@
 - P1-code
 
 ## Phase 2 — 文件探索
-讀取 `P1-project/README.md` 中「重要文件索引（AI 文件審查範圍）」表格，
+讀取 `P1-project/docs/AI-review-doclist.md` 的文件清單，
 取得本次審查的目標文件清單。依表格順序逐一審查，不追蹤額外連結。
 外部 Repo 文件依本機相對路徑讀取，忽略表格中的 GitHub URL。
 

@@ -4,10 +4,14 @@
 
 ### 建議修改清單
 
-（本次無新增建議修改）
+| # | 來源 | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
+|---|------|---------|------|---------|------|------------|
+| 1 | v2 | 事實差異 | 低 | P1-project/README.md | 四個 Repo 表格 P1-code 列 | `React/TypeScript` 改為 `React/JavaScript` |
+| 2 | v2 | 事實差異 | 低 | P1-project/docs/workflow/quick-start.md | PG 第 5 步「撰寫程式碼與測試」 | `React/TypeScript .tsx` 改為 `React/JavaScript .jsx` |
+| 3 | v2 | 事實差異 | 低 | P1-project/docs/repo-design.md | P1-code 目錄結構 | `React + TypeScript` 改為 `React + JavaScript` |
 
 ### 摘要
-> 本次審查 2 份文件（跳過 20 份未變動），發現 0 份有問題，共 0 項建議修改。
+> 本次審查 2 份文件（跳過 20 份未變動），發現 0 份有問題，共 0 項新增建議修改。累積未解決 3 項（皆為 TypeScript 相關，暫緩中）。
 
 ### 未發現問題的文件
 > AI-review-prompt.md、AI-review-doclist.md
@@ -23,11 +27,11 @@
 
 ### 建議修改清單
 
-| # | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
-|---|---------|------|---------|------|------------|
-| 1 | 事實差異 | 低 | P1-project/README.md | 四個 Repo 表格 P1-code 列 | `React/TypeScript` 改為 `React/JavaScript` |
-| 2 | 事實差異 | 低 | P1-project/docs/workflow/quick-start.md | PG 第 5 步「撰寫程式碼與測試」 | `React/TypeScript .tsx` 改為 `React/JavaScript .jsx` |
-| 3 | 事實差異 | 低 | P1-project/docs/repo-design.md | P1-code 目錄結構 | `React + TypeScript` 改為 `React + JavaScript` |
+| # | 來源 | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
+|---|------|---------|------|---------|------|------------|
+| 1 | v2 | 事實差異 | 低 | P1-project/README.md | 四個 Repo 表格 P1-code 列 | `React/TypeScript` 改為 `React/JavaScript` |
+| 2 | v2 | 事實差異 | 低 | P1-project/docs/workflow/quick-start.md | PG 第 5 步「撰寫程式碼與測試」 | `React/TypeScript .tsx` 改為 `React/JavaScript .jsx` |
+| 3 | v2 | 事實差異 | 低 | P1-project/docs/repo-design.md | P1-code 目錄結構 | `React + TypeScript` 改為 `React + JavaScript` |
 
 > #3-#8 原清單中的 #3（目錄補齊）、#5（API/ 描述）已完成，#6、#7、#8 因 directory-structure.md 移除而解決。剩餘 3 項為 TypeScript 相關，暫緩中。
 

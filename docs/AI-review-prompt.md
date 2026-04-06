@@ -65,5 +65,5 @@
 
 ---
 
-## 下一步
+## 下一步(詢問人類成員是否要接續執行)
 完成後可接續執行 [AI-review-gap-prompt.md](AI-review-gap-prompt.md)，掃描缺口與孤立文件。

@@ -14,7 +14,6 @@
 | P1-project | [docs/workflow/guide.md](workflow/guide.md) | 設計理念、整體流程、關鍵機制 | 2026-04-06 | 否 |
 | P1-project | [docs/workflow/quick-start.md](workflow/quick-start.md) | 各角色第一天操作指南 | 2026-04-06 | 否 |
 | P1-project | [docs/repo-design.md](repo-design.md) | Repo 結構、Issue 格式、命名規範 | 2026-04-06 | 否 |
-| P1-project | [docs/directory-structure.md](directory-structure.md) | 各 Repo 目錄結構速查，含每個檔案職責說明 | 2026-04-06 | 否 |
 | P1-project | [docs/workflow/spec/p-workflow.md](workflow/spec/p-workflow.md) | P-workflow 技術規格 | 2026-04-06 | 否 |
 | P1-project | [docs/workflow/spec/a-workflow.md](workflow/spec/a-workflow.md) | A-workflow 技術規格 | 2026-04-06 | 否 |
 | P1-project | [docs/workflow/spec/d-workflow.md](workflow/spec/d-workflow.md) | D-workflow 技術規格 | 2026-04-06 | 否 |

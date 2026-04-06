@@ -35,7 +35,6 @@ PM（P1-project）開立 Epic
 | Repo | 路徑/文件 | 用途 |
 |------|----------|------|
 | P1-project | [docs/repo-design.md](docs/repo-design.md) | Repo 結構、Issue 格式、命名規範 |
-| P1-project | [docs/directory-structure.md](docs/directory-structure.md) | 各 Repo 目錄結構速查，含每個檔案職責說明 |
 | P1-design | [TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md) | 技術選型與各層選擇原因 |
 | P1-design | [FunctionList.md](https://github.com/MPinfo-Co/P1-design/blob/main/FunctionList.md) | 系統功能清單與完成狀態 |
 | P1-project | [docs/workflow/quick-start.md](docs/workflow/quick-start.md) | 各角色第一天操作指南 |

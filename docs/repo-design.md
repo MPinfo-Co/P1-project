@@ -26,6 +26,9 @@ P1-project/
 │   └── ...
 └── docs/
     ├── repo-design.md     ← Repo 結構與格式規範（本文件）
+    ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
+    ├── AI-review-gap-prompt.md ← AI 缺口與孤立文件掃描 Prompt
+    ├── AI-review-doclist.md ← AI 文件審查範圍清單
     └── workflow/          ← 工作流程文件
 ```
 
@@ -239,7 +242,7 @@ P1-code/
 ├── backend/               ← Python + FastAPI
 │   └── tests/             ← pytest 測試
 ├── tests/                 ← 根目錄整合測試
-├── API/                   ← API 測試腳本
+├── API/                   ← 外部 API 參考文件（PDF，唯讀）
 ├── docs/                  ← 額外技術文件
 ├── SYSTEM.md              ← 系統架構與資料流說明
 ├── docker-compose.yml     ← 本地開發環境

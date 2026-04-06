@@ -1,49 +1,24 @@
 # AI 文件審查報告
 
-## 2026-04-06（v5）
+## 2026-04-06（v2）
+
+### 建議修改清單
+
+| # | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
+|---|---------|------|---------|------|------------|
+| 1 | 事實差異 | 低 | P1-project/README.md | 四個 Repo 表格 P1-code 列 | `React/TypeScript` 改為 `React/JavaScript` |
+| 2 | 事實差異 | 低 | P1-project/docs/workflow/quick-start.md | PG 第 5 步「撰寫程式碼與測試」 | `React/TypeScript .tsx` 改為 `React/JavaScript .jsx` |
+| 3 | 事實差異 | 低 | P1-project/docs/repo-design.md | P1-code 目錄結構 | `React + TypeScript` 改為 `React + JavaScript` |
+
+> #3-#8 原清單中的 #3（目錄補齊）、#5（API/ 描述）已完成，#6、#7、#8 因 directory-structure.md 移除而解決。剩餘 3 項為 TypeScript 相關，暫緩中。
 
 ### 摘要
-> 本次審查 0 份文件（跳過 22 份未變動），發現 0 份有問題，共 0 項建議修改。
+> 本次審查 23 份文件（跳過 0 份未變動），發現 5 份有問題，共 8 項建議修改。已完成 5 項，暫緩 3 項。
 
-### 沿用上次結論
-所有 22 份文件自上次審查（2026-04-06）以來無 commit 變動且 ≤ 3 天，全部沿用。
-
-v2 報告的 8 項建議修改中，#3、#5 已完成，#6、#7、#8 因 directory-structure.md 移除而解決，剩餘 #1、#2、#4（TypeScript 相關）暫緩中。
+### 未發現問題的文件
+> 以下 18 份文件未發現問題：AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md、CLAUDE.md（project）、guide.md、p-workflow.md、a-workflow.md、d-workflow.md、c-workflow.md、chore-workflow.md、P1-analysis/README.md、P1-analysis/CLAUDE.md、P1-design/README.md、P1-design/CLAUDE.md、TechStack.md、FunctionList.md、P1-code/CLAUDE.md、SETUP.md
 
 ### Doclist 完整性提醒
 以下文件存在於 P1-project 但未列入審查清單，建議評估是否納入：
-- `AI-CONTEXT.md` — AI 背景資訊
-- `PRD.md` — 產品需求文件
-
----
-
-## 2026-04-06（v4）
-
-### 摘要
-> 本次審查 3 份文件（跳過 20 份未變動），發現 0 份有問題，共 0 項建議修改。
-
-### 沿用上次結論
-20 份文件自上次審查（2026-04-06）以來無 commit 變動且 ≤ 3 天，沿用上次結論。
-3 份有變動的文件（AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md）重新審查後未發現問題。
-
-上次報告（v2）發現 5 份文件共 8 項建議修改，尚未執行。
-
-### Doclist 完整性提醒
-以下文件存在於 P1-project 但未列入審查清單，建議評估是否納入：
-- `AI-CONTEXT.md` — AI 背景資訊
-- `PRD.md` — 產品需求文件
-
----
-
-## 2026-04-06（v3）
-
-### 摘要
-> 本次審查 0 份文件（跳過 23 份未變動），發現 0 份有問題，共 0 項建議修改。
-
-### 沿用上次結論
-所有 23 份文件自上次審查（2026-04-06）以來無 commit 變動，全部沿用上次結論。上次報告（v2）發現 5 份文件共 8 項建議修改，尚未執行。
-
-### Doclist 完整性提醒
-以下文件存在於 P1-project 但未列入審查清單（`AI-review-doclist.md`），建議評估是否納入：
 - `AI-CONTEXT.md` — AI 背景資訊
 - `PRD.md` — 產品需求文件

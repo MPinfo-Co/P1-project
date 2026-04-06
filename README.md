@@ -41,6 +41,7 @@ PM（P1-project）開立 Epic
 | P1-project | [docs/workflow/quick-start.md](docs/workflow/quick-start.md) | 各角色第一天操作指南 |
 | P1-project | [docs/workflow/guide.md](docs/workflow/guide.md) | 設計理念、整體流程、關鍵機制 |
 | P1-project | [docs/AI-review-prompt.md](docs/AI-review-prompt.md) | AI 文件審查任務 Prompt |
+| P1-project | [docs/AI-review-gap-prompt.md](docs/AI-review-gap-prompt.md) | AI 缺口與孤立文件掃描 Prompt |
 | P1-project | [docs/AI-review-doclist.md](docs/AI-review-doclist.md) | AI 文件審查範圍清單 |
 | P1-code | [SETUP.md](https://github.com/MPinfo-Co/P1-code/blob/main/SETUP.md) | 開發環境準備，clone 後第一步 |
 
@@ -50,6 +51,10 @@ PM（P1-project）開立 Epic
 
 定期執行可確保四個 Repo 的文件與實際狀態一致。
 
-**方法一**：對 Claude 說：「請執行 [P1-project/docs/AI-review-prompt.md](docs/AI-review-prompt.md)」
+### Step 1 — 文件審查
+對 Claude 說：「請執行 [docs/AI-review-prompt.md](docs/AI-review-prompt.md)」
+→ 產出 `docs/AI-review-report.md`
 
-**方法二**：將 [docs/AI-review-prompt.md](docs/AI-review-prompt.md) 的內文複製後貼入 Claude Code
+### Step 2 — 缺口與孤立文件掃描
+接續說：「請執行 [docs/AI-review-gap-prompt.md](docs/AI-review-gap-prompt.md)」
+→ 產出 `docs/AI-review-gap-report.md`

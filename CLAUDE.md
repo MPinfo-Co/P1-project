@@ -30,6 +30,7 @@ P1-project/
     ├── repo-design.md            # Repo 結構與格式規範
     ├── directory-structure.md    # 各 Repo 目錄結構速查
     ├── AI-review-prompt.md       # AI 文件審查任務 Prompt
+    ├── AI-review-gap-prompt.md   # AI 缺口與孤立文件掃描 Prompt
     ├── AI-review-doclist.md      # AI 文件審查範圍清單
     └── workflow/
         ├── guide.md              # 設計理念與整體流程

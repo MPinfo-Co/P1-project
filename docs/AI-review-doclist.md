@@ -2,7 +2,7 @@
 
 > [← 回到總導覽](../README.md)
 
-> 本清單列出 AI 文件審查需檢查的所有文件，搭配 [AI-review-prompt.md](AI-review-prompt.md) 使用。
+> 本清單列出 AI 文件審查需檢查的所有文件，搭配 [AI-review-prompt.md](AI-review-prompt.md) 與 [AI-review-gap-prompt.md](AI-review-gap-prompt.md) 使用。
 
 | Repo | 路徑/文件 | 用途 |
 |------|----------|------|

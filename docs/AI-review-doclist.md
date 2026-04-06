@@ -7,9 +7,9 @@
 | Repo | 路徑/文件 | 用途 | 上次審查 commit | 本次變動 |
 |------|----------|------|----------------|---------|
 | P1-project | [README.md](../README.md) | 專案總入口 | cb21bde | 否 |
-| P1-project | [docs/AI-review-prompt.md](AI-review-prompt.md) | AI 文件審查任務 Prompt | 8d47aa5 | 是 |
+| P1-project | [docs/AI-review-prompt.md](AI-review-prompt.md) | AI 文件審查任務 Prompt | 0532956 | 是 |
 | P1-project | [docs/AI-review-gap-prompt.md](AI-review-gap-prompt.md) | AI 缺口與孤立文件掃描 Prompt | cb21bde | 否 |
-| P1-project | [docs/AI-review-doclist.md](AI-review-doclist.md) | AI 文件審查範圍清單（本文件） | 8d47aa5 | 是 |
+| P1-project | [docs/AI-review-doclist.md](AI-review-doclist.md) | AI 文件審查範圍清單（本文件） | 0532956 | 是 |
 | P1-project | [CLAUDE.md](../CLAUDE.md) | AI agent 工作指引 | cb21bde | 否 |
 | P1-project | [docs/workflow/guide.md](workflow/guide.md) | 設計理念、整體流程、關鍵機制 | cb21bde | 否 |
 | P1-project | [docs/workflow/quick-start.md](workflow/quick-start.md) | 各角色第一天操作指南 | cb21bde | 否 |

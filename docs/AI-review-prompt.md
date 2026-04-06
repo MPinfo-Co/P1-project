@@ -56,6 +56,7 @@
 1. 更新 `docs/AI-review-doclist.md` 的「上次審查」與「本次變動」欄位
 2. 將報告寫入 `docs/AI-review-report.md`（prepend，保留歷史）
 3. Commit & Push P1-project
+4. 輸出報告連結：`https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md`
 
 ---
 

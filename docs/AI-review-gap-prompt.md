@@ -50,3 +50,10 @@
 |---|------|---------|------------|
 
 > 風險等級：`低`（單點修改）/`中`（影響多處）/`高`（牽動跨文件結構）
+
+---
+
+## 收尾
+
+1. Commit & Push P1-project
+2. 輸出報告連結：`https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-gap-report.md`

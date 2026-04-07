@@ -46,6 +46,8 @@
 ---
 
 ## SA：今天收到一個 SA Issue
+> 看板操作詳見 [project-board-guide.md](project-board-guide.md)
+
 
 **1. 確認任務**
 - 開啟收到的 SA Issue，閱讀「功能說明」與「關聯 Epic」

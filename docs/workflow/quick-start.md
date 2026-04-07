@@ -90,6 +90,8 @@ git push origin issue-{N}-{slug}
 
 ## SD：今天收到一個 SD Issue
 
+> 看板操作詳見 [project-board-guide.md](project-board-guide.md)
+
 **1. 確認任務**
 - 開啟收到的 SD Issue，查看「設計範圍」（自動從 SD-WBS.md 複製過來的工作項目）
 - 如有疑問，直接在 SD Issue 留言 @SA
@@ -124,6 +126,8 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 ---
 
 ## PG：今天收到一個 PG Issue
+
+> 看板操作詳見 [project-board-guide.md](project-board-guide.md)
 
 **1. 確認任務**
 - 開啟 PG Issue，查看「實作範圍」（系統自動填入 SD 異動的 Spec 清單）

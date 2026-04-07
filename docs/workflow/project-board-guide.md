@@ -91,6 +91,7 @@ Epic（P1-project）加上 epic label
 
 ## Chore 工作
 
+在**各角色對應的 Repo** 建立 Issue（每個 Repo 各有獨立的 chore-workflow）。
 Issue 加上 `chore` label → 自動建立分支（`chore-{N}-{slug}`）
 完成後開 PR 填入 `Closes #N`。
 

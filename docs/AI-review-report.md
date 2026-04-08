@@ -1,5 +1,28 @@
 # AI 文件審查報告
 
+## 2026-04-08（v6）
+
+### 建議修改清單
+
+| # | 來源 | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
+|---|------|---------|------|---------|------|------------|
+| 1 | v2 | 事實差異 | 低 | P1-project/README.md | 四個 Repo 表格 P1-code 列 | `React/TypeScript` 改為 `React/JavaScript` |
+| 2 | v2 | 事實差異 | 低 | P1-project/docs/workflow/quick-start.md | PG 第 5 步「撰寫程式碼與測試」 | `React/TypeScript .tsx` 改為 `React/JavaScript .jsx` |
+| 3 | v2 | 事實差異 | 低 | P1-project/docs/repo-design.md | P1-code 目錄結構 | `React + TypeScript` 改為 `React + JavaScript` |
+| 4 | v6 | 優化 | 低 | P1-project/docs/workflow/project-board-guide.md | Chore 工作第 1 步 | `github workflow會，自動建立分支` 改為 `github workflow 會自動建立分支` |
+
+### 摘要
+> 本次審查 5 份文件（跳過 18 份未變動），發現 1 份有新問題，新增 1 項建議修改。解決 2 項（v5 #4 #5）。累積未解決 4 項。
+
+### 未發現問題的文件
+> AI-review-doclist.md
+
+### Doclist 完整性提醒
+- `P1-analysis/references/ai-response-scope.md` 存在但未列入審查清單，建議評估是否納入
+- `AI-CONTEXT.md`、`PRD.md` 延續上次提醒，尚未納入
+
+---
+
 ## 2026-04-07（v5）
 
 ### 建議修改清單
@@ -40,31 +63,6 @@
 
 ### 未發現問題的文件
 > AI-review-prompt.md、AI-review-doclist.md
-
-### Doclist 完整性提醒
-以下文件存在於 P1-project 但未列入審查清單，建議評估是否納入：
-- `AI-CONTEXT.md` — AI 背景資訊
-- `PRD.md` — 產品需求文件
-
----
-
-## 2026-04-06（v2）
-
-### 建議修改清單
-
-| # | 來源 | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
-|---|------|---------|------|---------|------|------------|
-| 1 | v2 | 事實差異 | 低 | P1-project/README.md | 四個 Repo 表格 P1-code 列 | `React/TypeScript` 改為 `React/JavaScript` |
-| 2 | v2 | 事實差異 | 低 | P1-project/docs/workflow/quick-start.md | PG 第 5 步「撰寫程式碼與測試」 | `React/TypeScript .tsx` 改為 `React/JavaScript .jsx` |
-| 3 | v2 | 事實差異 | 低 | P1-project/docs/repo-design.md | P1-code 目錄結構 | `React + TypeScript` 改為 `React + JavaScript` |
-
-> #3-#8 原清單中的 #3（目錄補齊）、#5（API/ 描述）已完成，#6、#7、#8 因 directory-structure.md 移除而解決。剩餘 3 項為 TypeScript 相關，暫緩中。
-
-### 摘要
-> 本次審查 23 份文件（跳過 0 份未變動），發現 5 份有問題，共 8 項建議修改。已完成 5 項，暫緩 3 項。
-
-### 未發現問題的文件
-> 以下 18 份文件未發現問題：AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md、CLAUDE.md（project）、guide.md、p-workflow.md、a-workflow.md、d-workflow.md、c-workflow.md、chore-workflow.md、P1-analysis/README.md、P1-analysis/CLAUDE.md、P1-design/README.md、P1-design/CLAUDE.md、TechStack.md、FunctionList.md、P1-code/CLAUDE.md、SETUP.md
 
 ### Doclist 完整性提醒
 以下文件存在於 P1-project 但未列入審查清單，建議評估是否納入：

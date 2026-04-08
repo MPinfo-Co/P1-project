@@ -25,8 +25,7 @@
 2. **讀取既有報告**：讀取 `docs/AI-review-report.md`（若存在），後續 prepend 新報告時保留歷史
 3. **掃描實際目錄結構**：對四個 Repo 掃描 `.md` 檔案清單，作為 Phase 3 事實比對基準
 4. **依 Repo 分組平行讀取文件**：將審查清單依 Repo 分為四組，平行讀取各組文件內容
-5. **取得各 Repo HEAD**：取得四個 Repo 當前 HEAD 的短 hash（7 碼），供 Phase 4 更新 doclist 使用
-6. **doclist 完整性檢查**：比對掃描結果與 doclist，若有新增但未列入的重要文件，在報告中主動提醒
+5. **doclist 完整性檢查**：比對掃描結果與 doclist，若有新增但未列入的重要文件，在報告中主動提醒
 
 外部 Repo 文件依本機相對路徑讀取，忽略表格中的 GitHub URL。
 
@@ -51,10 +50,9 @@
 
 ## Phase 4 — 收尾
 
-1. 更新 `docs/AI-review-doclist.md` 的「上次審查 commit」欄位（各 Repo 當前 HEAD）
-2. 將報告寫入 `docs/AI-review-report.md`（prepend，保留歷史）
-3. Commit & Push P1-project
-4. 輸出報告連結：`https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md`
+1. 將報告寫入 `docs/AI-review-report.md`（prepend，保留歷史）
+2. Commit & Push P1-project
+3. 輸出報告連結：`https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md`
 
 ---
 

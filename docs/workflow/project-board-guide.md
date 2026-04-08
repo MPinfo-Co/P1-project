@@ -91,7 +91,7 @@ Epic（P1-project）加上 epic label
 
 ## Chore 工作
 
-1. 在**對應的 Repo** 建立 Issue，github workflow會，自動建立分支（`chore-{N}-{slug}`）。
+1. 在**對應的 Repo** 建立 Issue，github workflow 會自動建立分支（`chore-{N}-{slug}`）。
 2. 改 Status 為 **In progress**，Pull 對應的分支到Local，開始作業
 3. 工作完成後，等待Approve及Merge。
 

@@ -51,7 +51,7 @@
 
 ## Phase 4 — 收尾
 
-1. 更新 `docs/AI-review-doclist.md` 的「上次審查 commit」（各 Repo 當前 HEAD）與「本次變動」欄位（本次全部填「是」）
+1. 更新 `docs/AI-review-doclist.md` 的「上次審查 commit」欄位（各 Repo 當前 HEAD）
 2. 將報告寫入 `docs/AI-review-report.md`（prepend，保留歷史）
 3. Commit & Push P1-project
 4. 輸出報告連結：`https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md`
@@ -77,7 +77,7 @@
 |---|------|---------|------|---------|------|------------|
 
 ### 摘要
-> 本次審查 {N} 份文件（跳過 {M} 份未變動），發現 {X} 份有問題，共 {Y} 項建議修改。
+> 本次審查 {N} 份文件，發現 {X} 份有問題，共 {Y} 項建議修改。
 
 ### 未發現問題的文件
 > 以下 {N} 份文件未發現問題：file1.md、file2.md、...

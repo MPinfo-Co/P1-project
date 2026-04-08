@@ -76,7 +76,7 @@
 
 1. 將報告寫入 `docs/AI-review-report.md`（prepend，保留歷史）
 2. Commit & Push P1-project
-3. 輸出報告連結：`https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md`
+3. 輸出報告連結：[AI-review-report.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md)
 
 ---
 

@@ -17,24 +17,22 @@
 - P1-design
 - P1-code
 
-## Phase 2 — 文件探索與增量判斷
+## Phase 2 — 文件探索
 
 同時完成以下工作（盡量平行）：
 
-1. **讀取審查清單**：讀取 `P1-project/docs/AI-review-doclist.md`，取得目標文件與每份文件的「上次審查 commit」
+1. **讀取審查清單**：讀取 `P1-project/docs/AI-review-doclist.md`，取得目標文件清單
 2. **讀取既有報告**：讀取 `docs/AI-review-report.md`（若存在），後續 prepend 新報告時保留歷史
 3. **掃描實際目錄結構**：對四個 Repo 掃描 `.md` 檔案清單，作為 Phase 3 事實比對基準
 4. **依 Repo 分組平行讀取文件**：將審查清單依 Repo 分為四組，平行讀取各組文件內容
-5. **增量判斷**：對每份文件比對「上次審查 commit」與該 Repo 目前的 HEAD commit，填入「本次變動」欄位（是/否）：
-   - **上次審查 commit ＝ 該 Repo HEAD 且 該文件無 diff** → 沿用上次結論，不重新審查
-   - **其餘情況** → 重新審查，「上次審查 commit」更新為該 Repo 當前 HEAD 的短 hash（7 碼）
+5. **取得各 Repo HEAD**：取得四個 Repo 當前 HEAD 的短 hash（7 碼），供 Phase 4 更新 doclist 使用
 6. **doclist 完整性檢查**：比對掃描結果與 doclist，若有新增但未列入的重要文件，在報告中主動提醒
 
 外部 Repo 文件依本機相對路徑讀取，忽略表格中的 GitHub URL。
 
 ## Phase 3 — 逐文件分析
 
-僅對 Phase 2 標記為「需重新審查」的文件進行分析。
+對審查清單中的所有文件進行分析。
 
 對每份文件依三個維度記錄：
 1. **事實差異**（比對 Phase 2 掃描的實際 repo 狀態）：描述與實際不符之處，含索引指向不存在的文件
@@ -53,7 +51,7 @@
 
 ## Phase 4 — 收尾
 
-1. 更新 `docs/AI-review-doclist.md` 的「上次審查 commit」與「本次變動」欄位
+1. 更新 `docs/AI-review-doclist.md` 的「上次審查 commit」（各 Repo 當前 HEAD）與「本次變動」欄位（本次全部填「是」）
 2. 將報告寫入 `docs/AI-review-report.md`（prepend，保留歷史）
 3. Commit & Push P1-project
 4. 輸出報告連結：`https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md`

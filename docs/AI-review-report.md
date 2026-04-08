@@ -9,7 +9,6 @@
 | 1 | v2 | 事實差異 | 低 | P1-project/README.md | 四個 Repo 表格 P1-code 列 | `React/TypeScript` 改為 `React/JavaScript` |
 | 2 | v2 | 事實差異 | 低 | P1-project/docs/workflow/quick-start.md | PG 第 5 步「撰寫程式碼與測試」 | `React/TypeScript .tsx` 改為 `React/JavaScript .jsx` |
 | 3 | v2 | 事實差異 | 低 | P1-project/docs/repo-design.md | P1-code 目錄結構 | `React + TypeScript` 改為 `React + JavaScript` |
-| 4 | v6 | 優化 | 低 | P1-project/docs/workflow/project-board-guide.md | Chore 工作第 1 步 | `github workflow會，自動建立分支` 改為 `github workflow 會自動建立分支` |
 
 ### 摘要
 > 本次審查 5 份文件（跳過 18 份未變動），發現 1 份有新問題，新增 1 項建議修改。解決 2 項（v5 #4 #5）。累積未解決 4 項。

@@ -20,7 +20,7 @@
 - `P1-analysis/issue-{N}/`（SA Delta Record，以 Issue 為單位產生）
 - `P1-design/TestPlan/`（SD Delta Record，以 Issue 為單位產生）
 - `P1-code/VersionDiff/`（自動產生的版本異動紀錄）
-- `P1-code/PG測試報告/`（PG 手動提交的測試報告）
+
 
 ### Step 2 — 比對索引
 將掃描結果與各文件中的目錄結構描述、索引表格、連結進行比對，識別：

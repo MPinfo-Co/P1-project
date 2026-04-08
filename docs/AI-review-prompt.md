@@ -7,7 +7,7 @@
 
 ## 限制
 - 不修改受審文件的內容
-- 僅更新報告檔（`docs/AI-review-report.md`）與審查清單的狀態欄位（`docs/AI-review-doclist.md`）
+- 僅更新報告檔（`docs/AI-review-report.md`）
 - 建議修改清單僅供參考，實際修改需另行確認後執行
 
 ## Phase 1 — 環境準備

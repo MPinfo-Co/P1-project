@@ -225,8 +225,7 @@ P1-design/
 
 ```
 P1-code/
-├── frontend/              ← React + TypeScript
-├── frontend-mui/          ← MUI 樣式實驗目錄
+├── frontend/              ← React + JavaScript
 ├── backend/               ← Python + FastAPI
 │   └── tests/             ← pytest 測試
 ├── API/                   ← 外部 API 參考文件（PDF，唯讀）

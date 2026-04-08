@@ -20,6 +20,7 @@ P1-code       系統開發（C-Repo）
 ```
 P1-project/
 ├── README.md
+├── CLAUDE.md              ← AI agent 工作指引
 ├── issue-1/               ← Epic Issue，選擇性建立資料夾
 │   └── 背景說明.md
 ├── issue-2/

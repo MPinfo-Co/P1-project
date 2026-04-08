@@ -18,7 +18,7 @@ P1-code 的 CI 流程：push 時執行靜態檢查與測試；PR 開啟時通知
 ### backend-ci
 - `ruff check .`（Lint）
 - `ruff format --check .`（格式化檢查）
-- `pytest tests/ -v`（含 coverage report；CI yaml 設定 `working-directory: backend`，故 `tests/` 指向 `backend/tests/`；根目錄 `tests/` 整合測試**不在** CI 執行範圍）
+- `pytest tests/ -v`（含 coverage report；CI yaml 設定 `working-directory: backend`，故 `tests/` 指向 `backend/tests/`）
 
 ### frontend-ci
 - `npm run lint`（ESLint）

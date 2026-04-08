@@ -227,9 +227,7 @@ P1-code/
 ├── frontend-mui/          ← MUI 樣式實驗目錄
 ├── backend/               ← Python + FastAPI
 │   └── tests/             ← pytest 測試
-├── tests/                 ← 根目錄整合測試
 ├── API/                   ← 外部 API 參考文件（PDF，唯讀）
-├── docs/                  ← 額外技術文件
 ├── SYSTEM.md              ← 系統架構與資料流說明
 ├── docker-compose.yml     ← 本地開發環境
 ├── VersionDiff/           ← Merge 時自動產生
@@ -262,7 +260,7 @@ P1-code/
 <!-- 由 GitHub Actions 自動產生 -->
 - backend/routers/leaves.py：新增 POST /api/leaves endpoint
 - backend/models/leave.py：新增 Leave model
-- frontend/src/pages/LeavePage.tsx：新增請假申請頁面
+- frontend/src/pages/LeavePage.jsx：新增請假申請頁面
 
 ## 關聯項目
 - Epic：P1-project #1

@@ -25,7 +25,6 @@ P1-project/
 ├── README.md                     # 專案總導覽與文件索引
 ├── CLAUDE.md                     # AI agent 工作指引（本文件）
 ├── PRD.md                        # 產品需求文件
-├── AI-CONTEXT.md                 # AI 背景資訊
 └── docs/
     ├── repo-design.md            # Repo 結構與格式規範
     ├── AI-review-prompt.md       # AI 文件審查任務 Prompt
@@ -74,7 +73,6 @@ P1-code/
 ├── frontend/src/                 # 前端主目錄（JavaScript）
 │   ├── components/               # 共用元件
 │   └── pages/                    # 頁面（依功能分資料夾）
-├── tests/                        # 根目錄整合測試（CI 不執行）
 └── VersionDiff/                  # 版本異動紀錄
 ```
 

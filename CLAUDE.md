@@ -24,7 +24,6 @@ P1 由四個 Repo 組成，對應四個開發階段：
 P1-project/
 ├── README.md                     # 專案總導覽與文件索引
 ├── CLAUDE.md                     # AI agent 工作指引（本文件）
-├── PRD.md                        # 產品需求文件
 └── docs/
     ├── repo-design.md            # Repo 結構與格式規範
     ├── AI-review-prompt.md       # AI 文件審查任務 Prompt

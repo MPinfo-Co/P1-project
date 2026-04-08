@@ -79,21 +79,21 @@ Epic（P1-project）加上 epic label
 | **主要產出** | business-logic.md、SD-WBS.md | TestPlan、API Spec、Prototype | 程式碼 + pytest |
 | **觸發下游** | Merge → 建 SD Issue | Merge → 建 PG Issue | Merge → 關閉 Epic |
 
-**通用步驟：**
-1. **工作管理(Member)** 確認 Todo 項目，Issue 留言內有分支與 Draft PR 連結
-2. 改 Status 為 **In progress**，Checkout 分支開始作業
-3. 完成後將 Draft PR 改為 **Ready for review** → Merge
-4. **工作規劃(Member)** 填入實際 Start / Target date
+**通用工作步驟：**
+1. 在**工作管理(Member)** 頁籤中，確認 Todo 項目之工作細節，例如：Issue 留言內有分支與 Draft PR 連結
+2. 改 Status 為 **In progress**，Pull 對應的分支到Local，開始作業
+3. 完成工作後將 Draft PR 改為 **Ready for review** → 等待Approve及Merge
+4. 在**工作規劃(Member)** 填入(或點擊) Start / Target date
 
-> WIP 上限：**同時 In progress 不超過 2 個**。
+> WIP 原則：**同時 In progress 不超過 2 個**。
 
 ---
 
 ## Chore 工作
 
-在**各角色對應的 Repo** 建立 Issue（每個 Repo 各有獨立的 chore-workflow）。
-Issue 加上 `chore` label → 自動建立分支（`chore-{N}-{slug}`）
-完成後開 PR 填入 `Closes #N`。
+1. 在**對應的 Repo** 建立 Issue，github workflow會，自動建立分支（`chore-{N}-{slug}`）。
+2. 改 Status 為 **In progress**，Pull 對應的分支到Local，開始作業
+3. 工作完成後，等待Approve及Merge。
 
 ---
 

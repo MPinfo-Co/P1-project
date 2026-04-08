@@ -77,6 +77,7 @@ P1-analysis/
 │   └── SD-WBS.md          ← 列出 SD 需完成的工作項目清單（格式見下方）
 ├── issue-5/
 │   └── ...
+└── references/            ← 全域參考文件（架構圖、命名規則、API Schema 等）
 ```
 
 

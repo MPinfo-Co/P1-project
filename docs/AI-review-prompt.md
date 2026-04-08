@@ -13,8 +13,9 @@
 ---
 
 ## Phase 1 — 環境準備
-四個 Repo **平行**執行 git pull（四個 Repo 為同層目錄）：
-- P1-project / P1-analysis / P1-design / P1-code
+1. 四個 Repo **平行**執行 git pull（四個 Repo 為同層目錄）：
+   - P1-project / P1-analysis / P1-design / P1-code
+2. 執行 `date '+%Y-%m-%d %H:%M'` 取得執行時間，供報告 header 使用
 
 ---
 
@@ -81,7 +82,7 @@
 ---
 
 ## 報告格式
-> - 每次執行為獨立區塊，以 `## YYYY-MM-DD` 標題分隔
+> - 每次執行為獨立區塊，以 `## YYYY-MM-DD HH:MM (vN)` 標題分隔；版本號從既有報告末尾版本 +1 推算
 > - 最新一次插入檔案最上方（既有內容往下推）
 > - 僅保留最近 3 次，超過的區塊刪除（完整歷史由 git 追溯）
 

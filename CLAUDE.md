@@ -93,7 +93,7 @@ Epic（P1-project）→ SA Issue（P1-analysis）→ SD Issue（P1-design）→ 
 
 - Branch：`issue-{N}-{slug}`，由 GitHub Actions 自動建立，**不手動建立**
 - 跨 Repo 溝通加前綴：`A-issue-N`（analysis）、`D-issue-N`（design）、`C-issue-N`（code）
-- Commit：`{type}({scope}): 說明`，由 commitlint 強制執行
+- Commit：`{type}: 工作說明`，由 commitlint 強制執行
   - 常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
 
 ## 技術棧

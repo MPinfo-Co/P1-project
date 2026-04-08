@@ -66,8 +66,8 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 **3. Commit 與 Push**
 ```bash
 git add issue-{N}/
-git commit -m "docs(issue-{N}): 完成請假申請 SA 分析"
-# ↑ 格式必須是 type(scope): 說明（P1-code 有 commitlint 自動強制，其他 Repo 靠自覺）
+git commit -m "docs: 完成請假申請 SA 分析"
+# ↑ 格式必須是 type: 工作說明（P1-code 有 commitlint 自動強制，其他 Repo 靠自覺）
 git push origin issue-{N}-{slug}
 ```
 
@@ -194,7 +194,7 @@ git push origin issue-{N}-{slug}
 ## Commit Message 格式速查
 
 ```
-{type}({scope}): {說明}
+{type}: 工作說明
 ```
 
 | Type | 什麼時候用 |
@@ -208,9 +208,9 @@ git push origin issue-{N}-{slug}
 
 **範例：**
 ```
-feat(leaves): 新增請假申請 API
-docs(issue-4): 完成 SA 分析文件
-test(leaves): 新增 POST /api/leaves 整合測試
+feat: 新增請假申請 API
+docs: 完成 SA 分析文件
+test: 新增 POST /api/leaves 整合測試
 ```
 
 > commitlint 在 P1-code 的每次 commit 時自動驗證格式（其他 Repo 靠自覺遵守）。不符合的 commit 會被擋下，修改 message 後重新 commit 即可（不需強制 push）。

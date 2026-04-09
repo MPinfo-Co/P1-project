@@ -3,7 +3,7 @@
 > [← 回到總導覽](../../../README.md)
 
 ## 用途
-Issue 加上 `chore` label 時，自動建立對應的 chore branch，讓 PG 可直接 checkout 開始作業。
+Issue 加上 `chore` label 時，自動建立對應的 chore branch，讓對應角色（SA／SD／PG）可直接 checkout 開始作業。
 
 ## 觸發條件
 - Repo：P1-analysis（a-chore-workflow.yml）、P1-design（d-chore-workflow.yml）、P1-code（c-chore-workflow.yml）

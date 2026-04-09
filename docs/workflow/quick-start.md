@@ -83,7 +83,7 @@ git push origin issue-{N}-{slug}
 - SA Issue 自動關閉；系統自動在 P1-design 建立 SD Issue + D-Branch，SA 工作完成
 
 **⚠️ 常見卡關：**
-- commitlint 格式錯誤：最常見的是忘記小括號 scope，或說明用中文但格式符號不對。正確格式：`feat(leaves): 說明`
+- commitlint 格式錯誤：最常見是 `type:` 後缺少空格，或 type 不在允許清單。正確格式：`feat: 說明`
 - SD-WBS.md 格式不合：確保有 `| # | 類型 | 說明 |` 表頭，類型限定 `Schema`、`API`、`畫面`、`其他`
 
 ---
@@ -162,7 +162,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 ```
 
 **5. 撰寫程式碼與測試**
-- 依 Spec 實作（前端 React/TypeScript `.tsx`，後端 Python/FastAPI）
+- 依 Spec 實作（前端 React/JavaScript `.jsx`，後端 Python/FastAPI）
 - 依 TestPlan 撰寫 pytest 測試，每個 test function 標注對應的 TestPlan ID：
   ```python
   def test_create_leave_request(client, db_session, auth_headers):

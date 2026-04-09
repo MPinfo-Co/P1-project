@@ -127,7 +127,7 @@ def test_create_user(client, db_session):
 
 | 層級 | 選型 |
 |------|------|
-| **前端** | React 19 + Vite + React Router v7（JavaScript）|
+| **前端** | React 19 + Vite + React Router v7（TypeScript，舊 .jsx 漸進遷移）|
 | **樣式** | Tailwind CSS v3 + MUI |
 | **State** | Zustand（Client）+ TanStack Query（Server）|
 | **HTTP** | Axios |

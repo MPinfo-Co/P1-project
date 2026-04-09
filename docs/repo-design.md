@@ -231,11 +231,9 @@ P1-code/
 ├── API/                   ← 外部 API 參考文件（PDF，唯讀）
 ├── SYSTEM.md              ← 系統架構與資料流說明
 ├── docker-compose.yml     ← 本地開發環境
-├── VersionDiff/           ← Merge 時自動產生
-│   ├── issue-7_Rex_20260326.md
-│   └── ...
-└── PG測試報告/
-    └── issue-7.md
+└── VersionDiff/           ← Merge 時自動產生
+    ├── issue-7_Rex_20260326.md
+    └── ...
 ```
 
 **PG Issue body 格式（結構化，供 AI 讀取）：**

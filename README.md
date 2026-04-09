@@ -19,7 +19,7 @@ MP-BOX 是一套面向企業用戶的 AI 應用平台，協助企業解決資安
 | **P1-project**  | 產品管理（Epic、規範文件）                          | PM    | 你在這裡                                                              |
 | **P1-analysis** | 需求分析（業務邏輯、Use Case、SD-WBS）               | SA    | [MPinfo-Co/P1-analysis](https://github.com/MPinfo-Co/P1-analysis) |
 | **P1-design**   | 系統設計（Prototype、API Spec、Schema、TestPlan） | SD    | [MPinfo-Co/P1-design](https://github.com/MPinfo-Co/P1-design)     |
-| **P1-code**     | 系統開發（React/JavaScript + Python/FastAPI）  | PG／AI | [MPinfo-Co/P1-code](https://github.com/MPinfo-Co/P1-code)         |
+| **P1-code**     | 系統開發（React/TypeScript + Python/FastAPI）  | PG／AI | [MPinfo-Co/P1-code](https://github.com/MPinfo-Co/P1-code)         |
 
 ```
 PM（P1-project）開立 Epic

@@ -1,7 +1,9 @@
 # CLAUDE.md
 
-> 本文件是四個 Repo 共用的 AI 工作指引，統一維護於 P1-project。
-> 其他 Repo（P1-analysis、P1-design、P1-code）不再各自維護 CLAUDE.md。
+> **維護說明：** 本文件的正式來源是 `MPinfo-Co/P1-project` 根目錄的 `CLAUDE.md`。
+> 各開發者應將此內容複製到自己的 Claude Code 工作目錄（即 P1 專案的本機根目錄）。
+> **任何內容有更動，請同步更新 P1-project 與本機兩處。**
+> P1-analysis、P1-design、P1-code 不再各自維護 CLAUDE.md。
 
 ## 專案簡介
 

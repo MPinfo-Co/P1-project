@@ -162,7 +162,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 ```
 
 **5. 撰寫程式碼與測試**
-- 依 Spec 實作（前端 React/JavaScript `.jsx`，後端 Python/FastAPI）
+- 依 Spec 實作（前端 React/TypeScript `.tsx`，後端 Python/FastAPI）
 - 依 TestPlan 撰寫 pytest 測試，每個 test function 標注對應的 TestPlan ID：
   ```python
   def test_create_leave_request(client, db_session, auth_headers):

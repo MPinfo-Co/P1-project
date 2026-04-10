@@ -19,7 +19,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 | **P1-project** | Epic、規範文件 | PM |
 | **P1-analysis** | 商業邏輯分析、SD-WBS | SA |
 | **P1-design** | Prototype、API Spec、Schema、TestPlan | SD |
-| **P1-code** | React/JavaScript + Python/FastAPI 實作 | PG／AI |
+| **P1-code** | React/TypeScript + Python/FastAPI 實作 | PG／AI |
 
 開發流程：Epic → SA Issue → SD Issue → PG Issue
 每個階段由上游 merge 後 GitHub Actions 自動建立下游 Issue 與 Branch。

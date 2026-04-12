@@ -18,7 +18,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 |------|------|------|
 | **P1-project** | Epic、規範文件 | PM |
 | **P1-analysis** | 商業邏輯分析、SD-WBS | SA |
-| **P1-design** | Prototype、API Spec、Schema、TestPlan | SD |
+| **P1-design** | Prototype、API Spec、Schema、TDD | SD |
 | **P1-code** | React/TypeScript + Python/FastAPI 實作 | PG／AI |
 
 開發流程：Epic → SA Issue → SD Issue → PG Issue
@@ -64,22 +64,24 @@ P1 由四個 Repo 組成，對應四個開發階段：
 
 ## SD 指引
 
+> **TDD（Technical Design Document）**：SD 階段產出的技術設計文件，包含測試案例定義，作為 PG 實作依據。
+
 ### 關聯檔案語義
 
 | 檔案 | 說明 |
 |------|------|
 | `business-logic.md` | SA 完成的商業邏輯。Issue body「功能說明」已內嵌完整內容，不需另外開啟 |
 | `SD-WBS.md` | 本次設計範圍清單。Issue body「設計範圍」已內嵌，對照執行 |
-| `TestPlan/issue-{N}.md` | 測試案例定義（SD 填寫）。merge 後由系統派生為 P1-code 的 TestReport |
+| `TDD/issue-{N}.md` | 測試案例定義（SD 填寫）。merge 後由系統派生為 P1-code 的 TestReport |
 
 ### 產出標準
 
-依「設計範圍」完成：`Prototype/`、`Spec/`、`schema/`（如有異動）、`TestPlan/issue-{N}.md`
+依「設計範圍」完成：`Prototype/`、`Spec/`、`schema/`（如有異動）、`TDD/issue-{N}.md`
 
 **活文件原則：** `Spec/`、`Prototype/`、`schema/` 永遠反映最新狀態，直接修改，不保留舊版。
-`TestPlan/issue-{N}.md` 是 delta record，以 Issue 為單位保存。
+`TDD/issue-{N}.md` 是 delta record，以 Issue 為單位保存。
 
-**TestPlan 最低要求：**
+**TDD 最低要求：**
 - 每個 API：至少 1 個成功案例（2xx）+ 1 個失敗案例（4xx/5xx）
 - 每個畫面：至少 1 個主要操作流程的正常案例
 - 測試案例總數 ≥ SD-WBS.md 工作項目數
@@ -94,17 +96,17 @@ P1 由四個 Repo 組成，對應四個開發階段：
 |------|------|
 | `business-logic.md` | 商業邏輯背景，了解功能目的 |
 | `SpecDiff` | 本次 SD PR 異動的 Spec/Prototype/Schema diff，確認本次實作範圍 |
-| `TestPlan` | 測試標準，pytest 數量須 ≥ 案例數 |
-| `TestReport` | 填寫「結果」「備註」兩欄，對應 TestPlan 案例 ID |
+| `TDD` | 測試標準，pytest 數量須 ≥ 案例數 |
+| `TestReport` | 填寫「結果」「備註」兩欄，對應 TDD 案例 ID |
 
 ### 產出標準
 
-- pytest 數量 ≥ TestPlan 案例數
-- 每個 test function 標注對應 TestPlan ID：
+- pytest 數量 ≥ TDD 案例數
+- 每個 test function 標注對應 TDD ID：
 
 ```python
 def test_create_user(client, db_session):
-    """對應 TestPlan T1"""
+    """對應 TDD T1"""
 ```
 
 - 前端新檔案一律使用 `.tsx`（舊 `.jsx` 漸進式遷移，不強制）

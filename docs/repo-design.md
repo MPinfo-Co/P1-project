@@ -148,7 +148,7 @@ P1-design/
 │   ├── CompanyAPI.md
 │   └── ...
 │
-├── TestPlan/              ← 測試計劃（以 Issue 為單位的 delta record）
+├── TDD/                   ← 技術設計文件（以 Issue 為單位的 delta record）
 │   ├── issue-5.md         ← SD 人工填寫（測試案例）
 │   ├── issue-5-diff.md    ← 系統自動產生（修改項目 + 關聯項目，勿手動編輯）
 │   ├── issue-6.md
@@ -162,7 +162,7 @@ P1-design/
 | 類型 | 位置 | 說明 |
 |------|------|------|
 | 活文件 | `Spec/`、`Prototype/`、`schema/schema.md` | 永遠反映最新狀態 |
-| Delta Record | `TestPlan/issue-N.md` | 記錄「這個 Issue 改了什麼」+ 測試案例 |
+| Delta Record | `TDD/issue-N.md` | 記錄「這個 Issue 改了什麼」+ 測試案例 |
 
 **SD Issue body 格式（結構化，供 AI 讀取）：**
 
@@ -183,10 +183,10 @@ P1-design/
 - 本拆分標記：[1b]
 ```
 
-**TestPlan/issue-N.md 格式（SD 人工填寫）：**
+**TDD/issue-N.md 格式（SD 人工填寫）：**
 
 ```markdown
-# TestPlan：Issue #N 標題
+# TDD：Issue #N 標題
 
 ## 測試案例
 | ID | 類型 | 前置條件 | 操作 | 預期結果 |
@@ -195,17 +195,17 @@ P1-design/
 | T2 | 單元 | 無 | calculate_leave_days(2025-01-06, 2025-01-10) | 5 |
 ```
 
-**TestPlan 最低要求：**
+**TDD 最低要求：**
 - 每個 API 至少需要一個正常案例（預期 2xx）+ 一個錯誤案例（預期 4xx/5xx）
 - 每個畫面至少需要一個主要操作流程的正常案例
 - 測試案例數量不得少於 SD-WBS.md 工作項目數量
 
 > 說明：「案例數 ≥ 工作項目數」是最低安全線，確保每個 WBS 項目都有對應的測試。若遵循「每個 API 正常 + 錯誤各一個案例」規則，案例數通常會自然超過 WBS 項目數，不需刻意湊數。
 
-**TestPlan/issue-N-diff.md 格式（系統自動產生，勿手動編輯）：**
+**TDD/issue-N-diff.md 格式（系統自動產生，勿手動編輯）：**
 
 ```markdown
-# TestPlan Diff：Issue #N 標題
+# TDD Diff：Issue #N 標題
 
 ## 修改項目及內容
 - 02HomeAPI.md：新增 getHomeInfo() API
@@ -292,5 +292,5 @@ issue-{編號}-{簡短說明}
 - Spec 文件：`{畫面編號}{功能名稱}{類型}.md`，例：`03UserAPI.md`、`03UserPage.md`
   > 舊版 Spec 文件（無數字前綴，如 `UserAPI.md`）為歷史遺留，新建文件需使用數字前綴格式。
 - Prototype：`{畫面編號}{子頁面}.html`，例：`03A.html`、`03B.html`
-- TestPlan：`issue-{編號}.md`
+- TDD：`issue-{編號}.md`
 - VersionDiff：`issue-{N}_{author}_{date}.md`

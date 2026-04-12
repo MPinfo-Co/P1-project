@@ -3,7 +3,7 @@
 > [← 回到總導覽](../../../README.md)
 
 ## 用途
-P1-design 的 `issue-*` branch PR merge 到 main 時，自動在 P1-code 建立 PG Issue、C-Branch 與 Draft PR，並產生 TestPlan diff 檔案。
+P1-design 的 `issue-*` branch PR merge 到 main 時，自動在 P1-code 建立 PG Issue、C-Branch 與 Draft PR，並產生 TDD diff 檔案。
 
 ## 觸發條件
 - Repo：P1-design

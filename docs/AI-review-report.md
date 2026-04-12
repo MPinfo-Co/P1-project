@@ -24,7 +24,6 @@
 ### Doclist 完整性提醒
 - **本輪最重要**：`AI-review-doclist.md` L24、L26、L30 列出的三份子 Repo CLAUDE.md 已不存在（詳見 #5，應優先處理）
 - `P1-code/SYSTEM.md` — 存在且為系統架構權威文件，建議納入審查清單（延續 v7-v12 提醒）
-- `P1-code/frontend-mui/` — 今日掃描發現此目錄存在但未見於任何文件說明，建議確認是否需補充文件或納入 doclist
 
 ---
 

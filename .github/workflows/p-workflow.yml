@@ -63,7 +63,6 @@ jobs:
                 '',
                 '### 關聯檔案',
                 `- business-logic.md：（待填入）`,
-                `- SD-WBS.md：（待填入）`,
               ].join('\n'),
               labels: ['SA'],
             });
@@ -124,18 +123,6 @@ jobs:
               '',
             ].join('\n');
 
-            const sdWbsContent = [
-              `# SD WBS：${epicTitle}`,
-              '',
-              '## 工作項目',
-              '| # | 類型 | 說明 |',
-              '|---|------|------|',
-              '',
-              '## 備註',
-              '<!-- 有無特殊限制、相依關係、需 SD 決策的設計點 -->',
-              '',
-            ].join('\n');
-
             const scaffoldTree = await github.rest.git.createTree({
               owner: org,
               repo: analysisRepo,
@@ -146,12 +133,6 @@ jobs:
                   mode: '100644',
                   type: 'blob',
                   content: businessLogicContent,
-                },
-                {
-                  path: `issue-${saNumber}/SD-WBS.md`,
-                  mode: '100644',
-                  type: 'blob',
-                  content: sdWbsContent,
                 },
               ],
             });
@@ -199,8 +180,7 @@ jobs:
                 .replace('SA Issue：#（本 Issue）', `SA Issue：P1-analysis #${saNumber}`)
                 .replace('分支：（待填入）', `分支：[${branchName}](https://github.com/${org}/${analysisRepo}/tree/${branchName})`)
                 .replace('Draft PR：（待建立）', saPrUrl ? `Draft PR：[#${saPrNumber}](${saPrUrl})` : 'Draft PR：（未建立）')
-                .replace('business-logic.md：（待填入）', `business-logic.md：[issue-${saNumber}/business-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/issue-${saNumber}/business-logic.md)`)
-                .replace('SD-WBS.md：（待填入）', `SD-WBS.md：[issue-${saNumber}/SD-WBS.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/issue-${saNumber}/SD-WBS.md)`),
+                .replace('business-logic.md：（待填入）', `business-logic.md：[issue-${saNumber}/business-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/issue-${saNumber}/business-logic.md)`),
             });
 
             // 5. 更新 Epic Issue body

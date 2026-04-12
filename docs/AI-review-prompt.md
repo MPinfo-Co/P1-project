@@ -92,9 +92,13 @@
 
 ## Phase 4 — 收尾
 
-1. 將報告寫入 `docs/AI-review-report.md`（prepend，保留歷史）
-2. Commit & Push P1-project
-3. 輸出報告連結：[AI-review-report.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md)
+（各 Repo 分析內容已在 Phase 3 逐步寫入，Phase 4 只補寫以下 section）
+
+1. **補寫「建議修改清單」**：依報告格式，將本次所有發現的建議修改項目以累積制方式寫入
+2. **補寫「摘要」**：填入「本次審查 N 份文件，發現 X 份有問題，共 Y 項建議修改」
+3. **補寫「未發現問題的文件」**清單
+4. Commit & Push P1-project（直接 push main）
+5. 輸出報告連結：[AI-review-report.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md)
 
 ---
 

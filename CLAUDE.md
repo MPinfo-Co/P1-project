@@ -13,7 +13,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 | **P1-project** | Epic、規範文件 | PM |
 | **P1-analysis** | 商業邏輯分析、SD-WBS | SA |
 | **P1-design** | Prototype、API Spec、Schema、TDD | SD |
-| **P1-code** | React/TypeScript + Python/FastAPI 實作 | PG／AI |
+| **P1-code** | React/TypeScript + Python/FastAPI 實作 | PG     |
 
 ---
 

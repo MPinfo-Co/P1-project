@@ -38,7 +38,7 @@ PM（P1-project）開立 Epic
 |------|--------|------|------|
 | 工作分派 | PM | P1-project | SA Issue + A-Branch |
 | 系統分析 | SA | P1-analysis | business-logic.md、SD-WBS.md |
-| 系統設計 | SD | P1-design | Spec、Prototype、TestPlan |
+| 系統設計 | SD | P1-design | Spec、Prototype、TDD |
 | 系統開發 | PG／AI | P1-code | 程式碼、測試、VersionDiff |
 
 **關鍵原則：下游分支在上游 merge 後才建立，確保 PG 永遠依據最新規格開發。**
@@ -67,7 +67,7 @@ SD 若發現工作量太大，可拆分為多個 SD Issue 平行開發；所有 
 | 階段 | Delta 位置 | 說明 |
 |------|-----------|------|
 | SA | `P1-analysis/issue-{N}/` | 資料夾本身就是 delta |
-| SD | `P1-design/TestPlan/issue-{N}-diff.md` | 系統自動產生 |
+| SD | `P1-design/TDD/issue-{N}-diff.md` | 系統自動產生 |
 | PG | `P1-code/VersionDiff/issue-{N}.md` | merge 時自動產生 |
 
 ### 3. Issue Body 結構化（AI 可讀）

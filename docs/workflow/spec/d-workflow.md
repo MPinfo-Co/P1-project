@@ -26,9 +26,9 @@ P1-design 的 `issue-*` branch PR merge 到 main 時，自動在 P1-code 建立 
 13. 在 SD Issue 與 Epic Issue 留言通知
 14. 關閉 SD Issue
 
-## Step 2：Generate TestPlan diff
+## Step 2：Generate TDD diff
 1. 使用 Step 1 第 4 步已取得的異動檔案清單（順序：schema → Prototype → Spec）
-2. 寫入 `TestPlan/issue-{N}-diff.md`
+2. 寫入 `TDD/issue-{N}-diff.md`
 
 ## 輸入
 | 來源 | 欄位 |
@@ -45,4 +45,4 @@ P1-design 的 `issue-*` branch PR merge 到 main 時，自動在 P1-code 建立 
 | C-Branch | P1-code（`issue-{N}-{slug}`） |
 | `PG測試報告/issue-{N}.md` | P1-code C-Branch |
 | PG Draft PR | P1-code |
-| `TestPlan/issue-{N}-diff.md` | P1-design main |
+| `TDD/issue-{N}-diff.md` | P1-design main |

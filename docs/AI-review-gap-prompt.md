@@ -27,7 +27,7 @@
 平行掃描四個 Repo，排除以下目錄：
 - `node_modules/`、`.git/`、`__pycache__/`、`.pytest_cache/` 等非專案目錄
 - `P1-analysis/issue-{N}/`（SA Delta Record，以 Issue 為單位產生）
-- `P1-design/TestPlan/`（SD Delta Record，以 Issue 為單位產生）
+- `P1-design/TDD/`（SD Delta Record，以 Issue 為單位產生）
 - `P1-code/VersionDiff/`（自動產生的版本異動紀錄）
 
 ### Step 2 — 識別孤立文件

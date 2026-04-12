@@ -29,7 +29,7 @@ PR 開啟時，在 PR 留言測試環境 checklist：
 - 啟動後端（uvicorn）
 - 啟動前端（npm run dev）
 - 確認資料庫連線
-- 依 TestPlan 執行測試，填寫測試報告
+- 依 TDD 執行測試，填寫測試報告
 
 ### generate-version-diff
 PR merge 後：

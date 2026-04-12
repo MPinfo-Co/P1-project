@@ -8,12 +8,12 @@
 
 P1 由四個 Repo 組成，對應四個開發階段：
 
-| Repo | 職責 | 角色 |
-|------|------|------|
-| **P1-project** | Epic、規範文件 | PM |
-| **P1-analysis** | 商業邏輯分析、SD-WBS | SA |
-| **P1-design** | Prototype、API Spec、Schema、TDD | SD |
-| **P1-code** | React/TypeScript + Python/FastAPI 實作 | PG     |
+| Repo            | 職責                                   | 角色 | Merge 方式               |
+| --------------- | ------------------------------------ | ---- | ----------------------- |
+| **P1-project**  | Epic、規範文件                            | PM   | 直接 push to main         |
+| **P1-analysis** | 商業邏輯分析、SD-WBS                        | SA   | 直接 merge（無需 PR）         |
+| **P1-design**   | Prototype、API Spec、Schema、TDD        | SD   | PR + SA/PM Review       |
+| **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG   | PR + SA/PM Review       |
 
 ---
 
@@ -23,7 +23,8 @@ P1 由四個 Repo 組成，對應四個開發階段：
 涉及 SA / SD / PG issue 的任務，開始實作前：
 
 1. 先讀取對應的 issue body，需要的資訊及相關連結都在 body 之中，請以其中的資訊為主，不要發散，遇到問題詢問人類成員
-2. 各階段請依照下列的工作流程進行工作
+2. 從 issue body 的「分支」欄位取得 branch 名稱，切換到該 branch 並執行 `git pull`（P1-project 例外，PM 可直接在 main 上操作）
+3. 各階段請依照下列的工作流程進行工作
 
 **SA 階段**
 1. 讀取上層 Epic Issue body 中的需求描述（由 PM 填寫）

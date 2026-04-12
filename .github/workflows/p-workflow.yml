@@ -109,16 +109,18 @@ jobs:
             const businessLogicContent = [
               `# 業務邏輯分析：${epicTitle}`,
               '',
-              '## 功能/問題描述（from Epic）',
+              '## 背景與目的',
               epicBody,
               '',
-              '## Use Case',
+              '## 需求說明',
               '',
-              '## 流程圖',
+              '## 商業邏輯（選填）',
               '',
-              '## Class Diagram',
+              '## 資料模型示意（選填）',
               '',
-              '## ER 示意',
+              '## SD 注意事項（選填）',
+              '',
+              '## 畫面示意（選填）',
               '',
             ].join('\n');
 

@@ -60,7 +60,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 # 若本地已有該分支：git checkout issue-{N}-{slug}
 ```
 - 在 `issue-{N}/` 資料夾建立兩份文件：
-  - `business-logic.md`（Use Case、流程圖、ER 示意等，格式自由）
+  - `business-logic.md`（背景與目的、需求說明為必填，其餘選填）
   - `SD-WBS.md`（SD 需要做什麼的工作清單，**必須用表格格式 + 類型標記**）
 
 **3. Commit 與 Push**

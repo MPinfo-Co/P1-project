@@ -47,7 +47,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 
 ### 產出標準
 
-**business-logic.md** 需涵蓋：Use Case、流程圖、Class Diagram、ER 示意
+**business-logic.md** 背景與目的、需求說明、商業邏輯、資料模型示意、SD 注意事項、畫面示意
 
 **SD-WBS.md** 格式要求：
 

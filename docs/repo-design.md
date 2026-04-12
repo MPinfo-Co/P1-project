@@ -80,7 +80,7 @@ P1-analysis/
 
 **原則：**
 - 每個 Issue 對應一個資料夾，資料夾本身就是這個 Issue 的完整 delta record
-- business-logic.md 格式不限，以清楚說明商業邏輯為目標
+- business-logic.md（背景與目的、需求說明為必填，其餘選填）
 - SD-WBS.md 需符合最低格式要求（見下方）
 
 **SD-WBS.md 最低格式要求：**

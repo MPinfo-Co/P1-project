@@ -21,18 +21,20 @@
 
 ## Phase 2 — 建立 Ground Truth
 
-盡量平行完成以下工作：
+依序執行以下步驟（步驟 1–4 可平行，步驟 5 在步驟 1 完成後執行，步驟 6 在步驟 5 完成後執行）：
 
 1. **讀取審查清單**：讀取 `AI-review-doclist.md`，取得目標文件清單
 2. **讀取既有報告**：讀取 `docs/AI-review-report.md`（若存在），後續 prepend 新報告時保留歷史
-3. **掃描完整目錄樹**：對四個 Repo 執行 `find`（排除 `.git/`、`node_modules/`、`__pycache__/`），取得所有目錄與檔案清單，作為 Phase 3 事實核對的基準
+3. **取得執行時間**：執行 `date '+%Y-%m-%d %H:%M'`，供報告 header 使用
 4. **讀取關鍵設定檔**：讀取以下檔案，確立技術棧的實際狀態：
    - `P1-code/frontend/package.json`（前端語言與框架）
    - `P1-code/backend/requirements.txt`（後端依賴）
-5. **依 Repo 分組平行讀取受審文件**：將審查清單分為四組，平行讀取各組文件內容
-6. **doclist 完整性檢查**：比對掃描結果與 doclist，若有未列入的重要文件，在報告中提醒
-
-外部 Repo 文件依本機相對路徑讀取，忽略表格中的 GitHub URL。
+5. **路徑存在確認**：對 doclist 中的每個本機路徑（非 GitHub URL），逐一執行：
+   ```bash
+   test -f <path> && echo "OK: <path>" || echo "MISSING: <path>"
+   ```
+   將所有 MISSING 路徑記錄為「doclist 完整性缺口」，寫入報告。
+6. **平行讀取受審文件**：在主 session 內直接平行 Read 所有步驟 5 確認存在的文件（不啟動 sub-agent）。外部 Repo 文件依本機相對路徑讀取，忽略表格中的 GitHub URL。
 
 ---
 

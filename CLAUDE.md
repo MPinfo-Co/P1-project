@@ -4,12 +4,6 @@
 > 各開發者將此內容複製到本機 P1 工作目錄。內容有更動時，兩處同步更新。
 > P1-analysis、P1-design、P1-code 不再各自維護 CLAUDE.md。
 
-## 專案簡介
-
-MP-BOX 是一套面向企業用戶的 AI 應用平台，協助企業解決各類作業難題。
-核心功能包含：資安日誌解讀與風險處置、專家知識管理、企業技能管理（如 ERP 操作自動化）、
-以及企業營運狀況解讀（財務、營運、工作執行）。
-
 ## 專案架構
 
 P1 由四個 Repo 組成，對應四個開發階段：
@@ -21,29 +15,34 @@ P1 由四個 Repo 組成，對應四個開發階段：
 | **P1-design** | Prototype、API Spec、Schema、TDD | SD |
 | **P1-code** | React/TypeScript + Python/FastAPI 實作 | PG／AI |
 
-開發流程：Epic → SA Issue → SD Issue → PG Issue
-每個階段由上游 merge 後 GitHub Actions 自動建立下游 Issue 與 Branch。
-
 ---
 
 ## 起手式
 
-任何涉及 SA / SD / PG issue 的任務，開始實作前：
+當人類成員說「我們來處理 PG Issue #99」這類的指示時，
+涉及 SA / SD / PG issue 的任務，開始實作前：
 
-1. 呼叫 `get_issue` 取得該 issue 的完整 body
-2. 找到 `### 關聯檔案`，逐一讀取每個連結文件
-3. 如需更多背景，從 `### 關聯 Issue` 取得上游編號，重複步驟 1–2
+1. 先讀取對應的 issue body，需要的資訊及相關連結都在 body 之中，請以其中的資訊為主，不要發散，遇到問題詢問人類成員
+2. 各階段請依照下列的工作流程進行工作
+
+**SA 階段**
+1. 讀取上層 Epic Issue body 中的需求描述（由 PM 填寫）
+2. 撰寫 `business-logic.md` + `SD-WBS.md` 供 SD 參照
+
+**SD 階段**
+1. 讀取 `business-logic.md` — 商業邏輯背景（由 SA 填寫）
+2. 讀取 `SD-WBS.md` — SD 工作範圍（由 SA 填寫）
+3. 撰寫 `TDD/issue-{N}.md` — 填寫技術設計說明與測試案例供 PG 參照
+
+**PG 階段**
+1. 讀取 `business-logic.md` — 商業邏輯背景（由 SA 填寫）
+2. 讀取 `SpecDiff/issue-{N}.md` — SD 活文件差異（由 workflow 及 AI 撰寫）
+3. 讀取 `TDD/issue-{N}.md` — 技術設計說明與測試標準（由 SD 填寫）
+4. 撰寫 code + `TestReport/issue-{N}.md` — 填寫測試結果與備註
 
 ---
 
 ## SA 指引
-
-### 關聯檔案語義
-
-| 檔案 | 說明 |
-|------|------|
-| `business-logic.md` | 商業邏輯分析文件。第一個 section 已由系統從 Epic 複製問題描述，在此基礎上填寫 |
-| `SD-WBS.md` | SD 工作清單，決定下游設計範圍 |
 
 ### 產出標準
 
@@ -64,15 +63,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 
 ## SD 指引
 
-> **TDD（Technical Design Document）**：SD 階段產出的技術設計文件，包含測試案例定義，作為 PG 實作依據。
-
-### 關聯檔案語義
-
-| 檔案 | 說明 |
-|------|------|
-| `business-logic.md` | SA 完成的商業邏輯。Issue body「功能說明」已內嵌完整內容，不需另外開啟 |
-| `SD-WBS.md` | 本次設計範圍清單。Issue body「設計範圍」已內嵌，對照執行 |
-| `TDD/issue-{N}.md` | 測試案例定義（SD 填寫）。merge 後由系統派生為 P1-code 的 TestReport |
+> **TDD（Technical Design Document）**：SD 階段產出的技術設計文件，包含設計說明與測試案例，作為 PG 實作依據。
 
 ### 產出標準
 
@@ -90,15 +81,6 @@ P1 由四個 Repo 組成，對應四個開發階段：
 
 ## PG 指引
 
-### 關聯檔案語義
-
-| 檔案 | 說明 |
-|------|------|
-| `business-logic.md` | 商業邏輯背景，了解功能目的 |
-| `SpecDiff` | 本次 SD PR 異動的 Spec/Prototype/Schema diff，確認本次實作範圍 |
-| `TDD` | 測試標準，pytest 數量須 ≥ 案例數 |
-| `TestReport` | 填寫「結果」「備註」兩欄，對應 TDD 案例 ID |
-
 ### 產出標準
 
 - pytest 數量 ≥ TDD 案例數
@@ -111,21 +93,7 @@ def test_create_user(client, db_session):
 
 - 前端新檔案一律使用 `.tsx`（舊 `.jsx` 漸進式遷移，不強制）
 
----
-
-## Branch 與 Commit 規範
-
-- Branch：`issue-{N}-{slug}`，由 GitHub Actions 自動建立，**不手動建立**
-- Commit：`{type}({scope}): 說明`，由 commitlint 強制執行
-  - 常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
-
-每次 commit 自動執行：
-- **Python**：`ruff check` + `ruff format`
-- **前端**：ESLint + Prettier（僅對暫存檔案）
-
----
-
-## 技術棧
+### 技術棧
 
 | 層級 | 選型 |
 |------|------|
@@ -144,6 +112,18 @@ def test_create_user(client, db_session):
 | **部署** | Docker + Railway（後端）+ Vercel（前端）|
 
 完整技術選型說明見 [TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md)。
+
+---
+
+## Branch 與 Commit 規範
+
+- Branch：`issue-{N}-{slug}`，由 GitHub Actions 自動建立，**不手動建立**
+- Commit：`{type}({scope}): 說明`，由 commitlint 強制執行
+  - 常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
+
+每次 commit 自動執行：
+- **Python**：`ruff check` + `ruff format`
+- **前端**：ESLint + Prettier（僅對暫存檔案）
 
 ## 語言
 

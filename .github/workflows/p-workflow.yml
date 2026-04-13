@@ -50,7 +50,7 @@ jobs:
               body: [
                 '## 關聯項目',
                 '',
-                '### 工作文件',
+                '### SA 工作文件',
                 `- business-logic.md：（待填入）`,
                 '',
                 '### 關聯 Issue',
@@ -59,7 +59,6 @@ jobs:
                 `- SD Issue：P1-design #（merge 後自動填入）`,
                 '',
                 '### 相關連結',
-                `- 階段：SA`,
                 `- 分支：（待填入）`,
                 `- Draft PR：（待建立）`,
               ].join('\n'),

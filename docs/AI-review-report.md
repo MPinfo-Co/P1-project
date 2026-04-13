@@ -1,5 +1,59 @@
 # AI 文件審查報告
 
+## 2026-04-13 13:38 (v16)
+
+> **背景脈絡**：v15 後本輪 git pull 僅 P1-analysis 有新 branch（issue-75）。CLAUDE.md 有新增「GitHub 物件操作原則」一節（自動串接流程圖 + 跨 Repo 引用格式），其餘文件無異動。v15 兩項 `[待處理]`：AI-review-prompt.md 步驟跳號已修正 ✓ FIXED；FunctionList.md 完成狀態欄位仍空白，續列。
+
+#### P1-project（審查 9 份文件，0 份有問題）
+
+**README.md**：
+- 未發現問題。
+
+**CLAUDE.md**：
+- 未發現問題。（新增「GitHub 物件操作原則」一節內容正確，自動串接流程圖與 guide.md 一致。）
+
+**guide.md**：
+- 未發現問題。
+
+**quick-start.md**：
+- 未發現問題。
+
+**project-board-guide.md**：
+- 未發現問題。
+
+**repo-design.md**：
+- 未發現問題。
+
+**AI-review-prompt.md**：
+- Phase 4 步驟跳號 ✓ FIXED（v15）。未發現新問題。
+
+**AI-review-gap-prompt.md**：
+- 未發現問題。
+
+**AI-review-doclist.md**：
+- 未發現問題。
+
+#### P1-design（審查 2 份文件，1 份有問題）
+
+**TechStack.md**：
+- 未發現問題。
+
+**FunctionList.md**：
+- **[待處理]** 完成狀態欄位全部空白（11 個功能均無填寫 `未開始`／`進行中`／`已完成`），文件標題已宣告欄位用途但未實際維護，讀者無法判斷功能完成度。（優化，續自 v15）
+
+#### P1-code（審查 1 份文件，0 份有問題）
+
+**SETUP.md**：
+- 未發現問題。
+
+### 摘要
+> 本次審查 12 份文件，發現 1 份有問題。
+
+### 未發現問題的文件
+> 以下 11 份文件未發現問題：README.md、CLAUDE.md、guide.md、quick-start.md、project-board-guide.md、repo-design.md、AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md、TechStack.md、SETUP.md。
+
+---
+
 ## 2026-04-13 11:14 (v15)
 
 > **背景脈絡**：v14 後 P1-code 合入 10 筆 commit（TestReport/issue-40/45、VersionDiff 3 筆、migration seed、conftest + pytest、frontend package.json 更新）。v14 6 項問題本輪逐一核對：#1 SpecDiff 命名已全面修正（guide.md L70、quick-start.md L141、repo-design.md 目錄樹與格式說明均已更新）；#2 repo-design.md `frontend/ ← React + TypeScript` 已修正；#5 doclist sub-repo CLAUDE.md 三行已移除；#6 TechStack.md L5 已改為 TypeScript + 漸進遷移說明。#3 d-workflow.md（不在 doclist 範圍）無法直接確認，#4 commit format 微差異已可接受（scope? 一致，僅佔位符用詞不同）。Ground truth：package.json `lint-staged` 已涵蓋 `.ts/.tsx`；`axios ^1.15.0` ✓；無 tailwindcss / @tanstack/react-query。
@@ -96,32 +150,6 @@
 ### 未發現問題的文件
 > 以下 13 份文件未發現問題：P1-project/README.md、project-board-guide.md、p-workflow.md、a-workflow.md、c-workflow.md、chore-workflow.md、AI-review-prompt.md、AI-review-gap-prompt.md、P1-analysis/README.md、P1-design/README.md、FunctionList.md、P1-code/README.md、P1-code/SETUP.md。
 
-### Doclist 完整性提醒
-- `AI-review-doclist.md` L24、L26、L30 列出的三份子 Repo CLAUDE.md 已不存在（詳見 #5，應優先處理）
-- `P1-code/SYSTEM.md` — 存在且為系統架構權威文件，建議納入審查清單（延續 v7-v13 提醒）
-
----
-
-## 2026-04-12 13:51 (v13)
-
-> **背景脈絡（重要）**：今日（2026-04-12）P1-code 有新 commit 合入（issue-102），TypeScript 工具鏈已全面就緒：`package.json` 新增 `typescript ^6.0.2`、`tsconfig.json` 存在、`eslint.config.js` 已涵蓋 `**/*.{js,jsx,ts,tsx}`、lint-staged 亦涵蓋 `.ts/.tsx`、`axios ^1.15.0` 也已加入。`frontend/src/` 仍為 0 個 `.tsx`、22 個 `.jsx`（工具鏈已備妥，源碼尚未轉換）。v12 的工具鏈差異（#2、#6）與架構表一致性問題（#1）已全部解決；TechStack.md Tailwind/TanStack 亦已移除（#8）。本輪新增兩項差異：repo-design.md（今日更新後）仍寫 "React + JavaScript"；d-workflow.md 與 CLAUDE.md 對測試報告目錄命名不一致（`PG測試報告` vs `TestReport`）。
-
-### 建議修改清單
-
-| # | 來源 | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
-|---|------|---------|------|---------|------|------------|
-| 1 | v13 | 事實差異 | 中 | [P1-project/docs/repo-design.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/repo-design.md) | P1-code 目錄結構 | `frontend/  ← React + JavaScript` 改為 `frontend/  ← React + TypeScript（遷移中，src/ 仍為 .jsx）`。今日 git pull 更新後此行仍說 JavaScript，與 CLAUDE.md（`React/TypeScript + Python/FastAPI 實作`）及 README.md（`React/TypeScript`）不一致。另：同文件 VersionDiff 範例已使用 `.tsx`，形成內部不一致 |
-| 2 | v13 | 事實差異 | 中 | [P1-project/docs/workflow/spec/d-workflow.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/workflow/spec/d-workflow.md) | Step 1 #8 | "Scaffold `PG測試報告/issue-{N}.md`" 與 `P1-project/CLAUDE.md` PG 指引表格中 `` `TestReport` `` 命名不一致。P1-code 目前兩目錄並存：`TestReport/`（issue-38/40/45）與 `PG測試報告/`（issue-90）。新 PG 依 CLAUDE.md 指引會找不到 d-workflow 實際 scaffold 的目錄。建議統一命名後同步 d-workflow.md 與 CLAUDE.md |
-| 3 | v12 | 事實差異 | 中 | [P1-project/CLAUDE.md](https://github.com/MPinfo-Co/P1-project/blob/main/CLAUDE.md) | 技術棧「樣式」與「State」行 | `Tailwind CSS v3 + MUI`（`樣式`行）應改為 `MUI`；`TanStack Query（Server）`（`State`行）應移除。`frontend/package.json` 無 `tailwindcss`／`@tanstack/react-query` 相依，`src/index.css` 無 `@tailwind` 指令。Axios 已解決（現已在 package.json），本項僅剩 Tailwind 與 TanStack |
-| 4 | v12 | 優化 | 低 | [P1-project/CLAUDE.md](https://github.com/MPinfo-Co/P1-project/blob/main/CLAUDE.md) | Commit 格式章節 | `` `{type}({scope}): 說明` `` 與 `docs/workflow/quick-start.md`（速查區塊及 L86）及 `P1-code/SETUP.md`（L49）的 `` `{type}: 工作說明` `` 不一致。`commitlint.config.js` `scope-empty: [0]` 兩者技術上均合法，需人類成員確立權威後同步三處 |
-| 5 | v12 | 事實差異 | 中 | [P1-project/docs/AI-review-doclist.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-doclist.md) | L24、L26、L30 | 列出 `P1-analysis/CLAUDE.md`、`P1-design/CLAUDE.md`、`P1-code/CLAUDE.md`，三份檔案已不存在（已集中於 P1-project/CLAUDE.md）。建議刪除三行，或改為單一備註 |
-| 6 | v12 | 事實差異 | 低 | [P1-design/TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md) | 程式語言章節（L5） | `**JavaScript**（前端語言，目前使用 `.jsx`；TypeScript 遷移規劃中）` — 工具鏈現已就緒（`typescript ^6.0.2`、`tsconfig.json`、eslint/.ts.tsx、lint-staged/.ts.tsx），「規劃中」已不準確。建議改為「TypeScript（遷移中；src/ 目前仍使用 `.jsx`，逐步轉換）」，與 CLAUDE.md 及 README.md 一致 |
-
-### 摘要
-> 本次審查 20 份文件（doclist 列 23 份，3 份子 Repo CLAUDE.md 因集中化已刪除），發現 5 份有問題，共 6 項建議修改（本輪新增 2 項；v12 共 8 項的處理結果：5 項已解決〔#1 CLAUDE.md 架構表一致、#2 TypeScript 工具鏈補齊、#3 Axios 加入 package.json、#6 SETUP.md/.ts.tsx 一致、#8 TechStack.md Tailwind/TanStack 已移除且 Axios 已加入〕；3 項未解決續列為 v13 #3/#4/#5；#7 更新語境後列為 v13 #6）。
-
-### 未發現問題的文件
-> 以下 15 份文件未發現問題：P1-project/README.md、guide.md、quick-start.md、project-board-guide.md、p-workflow.md、a-workflow.md、c-workflow.md、chore-workflow.md、AI-review-prompt.md、AI-review-gap-prompt.md、P1-analysis/README.md、P1-design/README.md、FunctionList.md、P1-code/README.md、P1-code/SETUP.md。
 
 ### Doclist 完整性提醒
 - **本輪最重要**：`AI-review-doclist.md` L24、L26、L30 列出的三份子 Repo CLAUDE.md 已不存在（詳見 #5，應優先處理）

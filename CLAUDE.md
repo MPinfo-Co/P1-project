@@ -26,7 +26,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 ## SA 流程
 
 ###  讀取
-1. 上層 Epic Issue body — 取得 PM 填寫的需求描述
+1. `business-logic.md` 的 `需求說明` — 預設值為 PM 填寫的需求描述
 
 ###  產出
 1. `business-logic.md` — 需求說明、商業邏輯、資料模型示意、SD 注意事項、畫面示意

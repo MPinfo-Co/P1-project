@@ -138,7 +138,7 @@ git checkout -b issue-{N}-{slug} origin/issue-{N}-{slug}
 | 要做什麼 | PG Issue body「實作範圍」 |
 | API 規格 | `P1-design/Spec/{異動文件}` |
 | 畫面規格 | `P1-design/Prototype/{異動文件}` |
-| 這次改了什麼（delta） | `P1-design/TDD/issue-{SD#}-diff.md` |
+| 這次改了什麼（delta） | `P1-design/SpecDiff/issue-{SD#}.md` |
 | 商業邏輯背景 | `P1-analysis/issue-{SA#}/business-logic.md` |
 | 測試標準 | `P1-design/TDD/issue-{SD#}.md` |
 

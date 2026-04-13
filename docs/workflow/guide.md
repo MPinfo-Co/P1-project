@@ -67,7 +67,7 @@ SD 若發現工作量太大，可拆分為多個 SD Issue 平行開發；所有 
 | 階段 | Delta 位置 | 說明 |
 |------|-----------|------|
 | SA | `P1-analysis/issue-{N}/` | 資料夾本身就是 delta |
-| SD | `P1-design/TDD/issue-{N}-diff.md` | 系統自動產生 |
+| SD | `P1-design/SpecDiff/issue-{N}.md` | 系統自動產生 |
 | PG | `P1-code/VersionDiff/issue-{N}.md` | merge 時自動產生 |
 
 ### 3. Issue Body 結構化（AI 可讀）

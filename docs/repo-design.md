@@ -137,11 +137,14 @@ P1-design/
 │   ├── xxx.md
 │   └── ...
 │
-├── TDD/                   ← 技術設計文件（以 Issue 為單位的 delta record）
+├── TDD/                   ← 技術設計文件（以 Issue 為單位）
 │   ├── issue-5.md         ← SD 填寫（設計說明＋測試案例）
-│   ├── issue-5-diff.md    ← 系統自動產生（修改項目 + 修改內容，勿手動編輯）
 │   ├── issue-6.md
-│   ├── issue-6-diff.md
+│   └── ...
+│
+├── SpecDiff/              ← 系統自動產生（修改項目 + 修改內容，勿手動編輯）
+│   ├── issue-5.md
+│   ├── issue-6.md
 │   └── ...
 │
 ```
@@ -151,7 +154,8 @@ P1-design/
 | 類型 | 位置 | 說明 |
 |------|------|------|
 | 活文件 | `Spec/`、`Prototype/`、`schema/schema.md` | 永遠反映最新狀態 |
-| Delta Record | `TDD/issue-N.md` | 記錄「這個 Issue 改了什麼」+ 測試案例 |
+| Delta Record（設計） | `TDD/issue-{N}.md` | SD 填寫：設計說明＋測試案例 |
+| Delta Record（變更摘要） | `SpecDiff/issue-{N}.md` | 系統自動產生：修改項目 + 修改內容 |
 
 **SD Issue body 格式（結構化，供 AI 讀取）：**
 
@@ -191,10 +195,10 @@ P1-design/
 
 > 說明：「案例數 ≥ 工作項目數」是最低安全線，確保每個 WBS 項目都有對應的測試。若遵循「每個 API 正常 + 錯誤各一個案例」規則，案例數通常會自然超過 WBS 項目數，不需刻意湊數。
 
-**TDD/issue-N-diff.md 格式（系統自動產生，勿手動編輯）：**
+**SpecDiff/issue-{N}.md 格式（系統自動產生，勿手動編輯）：**
 
 ```markdown
-# TDD Diff：Issue #N 標題
+# SpecDiff：Issue #N 標題
 
 ## 修改項目及內容
 - 02HomeAPI.md：新增 getHomeInfo() API
@@ -214,7 +218,7 @@ P1-design/
 
 ```
 P1-code/
-├── frontend/              ← React + JavaScript
+├── frontend/              ← React + TypeScript
 ├── backend/               ← Python + FastAPI
 │   └── tests/             ← pytest 測試
 ├── API/                   ← 外部 API 參考文件（PDF，唯讀）

@@ -50,16 +50,16 @@ PM（P1-project）開立 Epic
 
 | 文件 | 用途 |
 |------|------|
-| [docs/AI-review-prompt.md](docs/AI-review-prompt.md) | 文件審查任務 Prompt |
-| [docs/AI-review-gap-prompt.md](docs/AI-review-gap-prompt.md) | 缺口與孤立文件掃描 Prompt |
-| [docs/AI-review-doclist.md](docs/AI-review-doclist.md) | 審查範圍清單 |
-| [docs/AI-review-report.md](docs/AI-review-report.md) | 文件審查報告（自動產出） |
-| [docs/AI-review-gap-report.md](docs/AI-review-gap-report.md) | 缺口掃描報告（自動產出） |
+| [docs/ai-review/AI-review-prompt.md](docs/ai-review/AI-review-prompt.md) | 文件審查任務 Prompt |
+| [docs/ai-review/AI-review-gap-prompt.md](docs/ai-review/AI-review-gap-prompt.md) | 缺口與孤立文件掃描 Prompt |
+| [docs/ai-review/AI-review-doclist.md](docs/ai-review/AI-review-doclist.md) | 審查範圍清單 |
+| [docs/ai-review/AI-review-report.md](docs/ai-review/AI-review-report.md) | 文件審查報告（自動產出） |
+| [docs/ai-review/AI-review-gap-report.md](docs/ai-review/AI-review-gap-report.md) | 缺口掃描報告（自動產出） |
 
 ### Step 1 — 文件審查
-對 Claude 說：「請執行 [docs/AI-review-prompt.md](docs/AI-review-prompt.md)」
-→ 產出 `docs/AI-review-report.md`
+對 Claude 說：「請執行 [docs/ai-review/AI-review-prompt.md](docs/ai-review/AI-review-prompt.md)」
+→ 產出 `docs/ai-review/AI-review-report.md`
 
 ### Step 2 — 缺口與孤立文件掃描
-接續說：「請執行 [docs/AI-review-gap-prompt.md](docs/AI-review-gap-prompt.md)」
-→ 產出 `docs/AI-review-gap-report.md`
+接續說：「請執行 [docs/ai-review/AI-review-gap-prompt.md](docs/ai-review/AI-review-gap-prompt.md)」
+→ 產出 `docs/ai-review/AI-review-gap-report.md`

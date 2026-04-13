@@ -7,7 +7,7 @@
 
 ## 限制
 - 不修改受審文件的內容
-- 僅更新報告檔（`docs/AI-review-report.md`）
+- 僅更新報告檔（`docs/ai-review/AI-review-report.md`）
 - **所有檔案讀取必須使用本機 git repo（Read 工具讀取本機路徑），不得使用 GitHub MCP 工具**
 
 ---
@@ -24,7 +24,7 @@
 依序執行以下步驟（步驟 1–4 可平行，步驟 5 在步驟 1 完成後執行，步驟 6 在步驟 5 完成後執行）：
 
 1. **讀取審查清單**：讀取 `AI-review-doclist.md`，取得目標文件清單
-2. **讀取既有報告**：讀取 `docs/AI-review-report.md`（若存在），後續 prepend 新報告時保留歷史
+2. **讀取既有報告**：讀取 `docs/ai-review/AI-review-report.md`（若存在），後續 prepend 新報告時保留歷史
 3. **取得執行時間**：執行 `date '+%Y-%m-%d %H:%M'`，供報告 header 使用
 4. **讀取關鍵設定檔**：讀取以下檔案，確立技術棧的實際狀態：
    - `P1-code/frontend/package.json`（前端語言與框架）
@@ -40,7 +40,7 @@
 
 ## Phase 3 — 逐文件分析
 
-**開始前**：先將報告 header 寫入 `docs/AI-review-report.md`（prepend，保留既有內容往下推）：
+**開始前**：先將報告 header 寫入 `docs/ai-review/AI-review-report.md`（prepend，保留既有內容往下推）：
 
 ```markdown
 ## YYYY-MM-DD HH:MM (vN)
@@ -97,7 +97,7 @@
 
 ### 增量寫入規則
 
-每分析完一個 Repo 的所有文件，**立即**將該 Repo 的分析結果 append 到 `docs/AI-review-report.md`（依 Repo 順序：P1-project → P1-analysis → P1-design → P1-code）。
+每分析完一個 Repo 的所有文件，**立即**將該 Repo 的分析結果 append 到 `docs/ai-review/AI-review-report.md`（依 Repo 順序：P1-project → P1-analysis → P1-design → P1-code）。
 
 不等其他 Repo 分析完成，立即寫入，確保 timeout 發生時已有部分輸出。
 
@@ -110,7 +110,7 @@
 1. **補寫「摘要」**：填入「本次審查 N 份文件，發現 X 份有問題」
 2. **補寫「未發現問題的文件」**清單
 3. Commit & Push P1-project（直接 push main）
-4. 輸出報告連結：[AI-review-report.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md)
+4. 輸出報告連結：[AI-review-report.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/ai-review/AI-review-report.md)
 
 ---
 

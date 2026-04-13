@@ -23,9 +23,12 @@ P1-project/
 ├── CLAUDE.md              ← AI agent 工作指引
 └── docs/
     ├── repo-design.md     ← Repo 結構與格式規範（本文件）
-    ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
-    ├── AI-review-gap-prompt.md ← AI 缺口與孤立文件掃描 Prompt
-    ├── AI-review-doclist.md ← AI 文件審查範圍清單
+    ├── ai-review/         ← AI 文件審查相關檔案
+    │   ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
+    │   ├── AI-review-gap-prompt.md ← AI 缺口與孤立文件掃描 Prompt
+    │   ├── AI-review-doclist.md ← AI 文件審查範圍清單
+    │   ├── AI-review-report.md ← 文件審查報告（自動產出）
+    │   └── AI-review-gap-report.md ← 缺口掃描報告（自動產出）
     ├── workflow_guide.md  ← 設計理念、整體流程、關鍵機制
     ├── quick-start.md     ← 各角色第一天操作指南
     └── project-board-guide.md ← GitHub Projects 看板用法

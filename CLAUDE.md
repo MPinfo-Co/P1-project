@@ -25,7 +25,7 @@ Epic（P1-project）加上 epic label
 ```
 
 
-> 如需修改自動化或排查 workflow：[workflow_guide.md — GitHub Actions 自動化](https://github.com/MPinfo-Co/P1-project/blob/main/docs/workflow/workflow_guide.md)
+> 如需修改自動化或排查 workflow：[workflow_guide.md — GitHub Actions 自動化](https://github.com/MPinfo-Co/P1-project/blob/main/docs/workflow_guide.md)
 
 ---
 

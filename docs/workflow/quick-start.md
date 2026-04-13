@@ -194,7 +194,7 @@ git push origin issue-{N}-{slug}
 ## Commit Message 格式速查
 
 ```
-{type}: 工作說明
+{type}(scope?): 工作說明
 ```
 
 | Type | 什麼時候用 |

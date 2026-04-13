@@ -17,7 +17,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 
 1. 需要的資訊及相關連結都在 Issue body 之中，請以其中的資訊為主，不要發散，遇到問題詢問人類成員
 2. 從 issue body 的「分支」欄位取得 branch 名稱，切換到該 branch 並執行 `git pull`。Branch 由 GitHub Actions 自動建立，**不手動建立**。
-3. Commit 格式：`{type}({scope}): 說明`，常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
+3. Commit 格式：`{type}(scope?): 說明`，常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
 4. 所有文件產出使用繁體中文（zh-TW）
 5. 依Issue類型(SA,SD或PG)執行下面對應流程：
 

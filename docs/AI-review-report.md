@@ -1,5 +1,30 @@
 # AI 文件審查報告
 
+## 2026-04-13 13:56 (v17)
+
+### 摘要
+> 本次審查 12 份文件，發現 2 份有問題。
+
+#### P1-project（審查 9 份文件，1 份有問題）
+
+**project-board-guide.md**：
+- **[待處理]** 各角色工作流程表「觸發下游」欄 PG 列寫 `Merge → 關閉 Epic`，與 guide.md 不符——guide.md 明確說明「所有 PG Issue 完成後，PM 手動驗收並關閉 Epic」；PG merge 實際觸發的是關閉 PG Issue 並自動產生 VersionDiff，Epic 不會自動關閉。（事實差異）
+- **[待處理]** Chore 工作章節說「在**對應的 Repo** 建立 Issue，github workflow 會自動建立分支（`chore-{N}-{slug}`）」，未說明 P1-project Chore 的例外——repo-design.md 與 quick-start.md 均明確指出 P1-project 的 Chore Issue 不觸發任何自動化、純手動追蹤；PM 照此章節操作時會期待自動建分支但實際不會發生。步驟 3「等待 Approve 及 Merge」對 P1-project Chore 亦不適用（純手動關閉）。（事實差異）
+
+#### P1-design（審查 2 份文件，1 份有問題）
+
+**FunctionList.md**：
+- **[待處理]** 完成狀態欄位全部空白（11 個功能均無填寫 `未開始`／`進行中`／`已完成`），文件標題已宣告欄位用途但未實際維護，讀者無法判斷功能完成度。（優化，續自 v16）
+
+#### P1-code（審查 1 份文件，0 份有問題）
+
+**SETUP.md**：未發現問題。
+
+### 未發現問題的文件
+> 以下 10 份文件未發現問題：README.md、CLAUDE.md、guide.md、quick-start.md、repo-design.md、TechStack.md、SETUP.md、AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md。
+
+---
+
 ## 2026-04-13 13:38 (v16)
 
 ### 摘要
@@ -52,62 +77,3 @@
 
 ### 未發現問題的文件
 > 以下 10 份文件未發現問題：README.md、CLAUDE.md、guide.md、quick-start.md、project-board-guide.md、repo-design.md、AI-review-gap-prompt.md、AI-review-doclist.md、TechStack.md、SETUP.md。
-
----
-
-## 2026-04-12 14:27 (v14)
-
-#### P1-project（審查 14 份文件，5 份有問題）
-
-**CLAUDE.md**：Commit 格式 L22 `{type}({scope}): 說明` 與 quick-start.md L197 / SETUP.md L49 的 `{type}: 工作說明` 不一致（#4 續）。技術棧表已移除，v13 #3 **已解決**。
-
-**repo-design.md**：(a) P1-code 目錄結構 L217 `frontend/ ← React + JavaScript` 與 CLAUDE.md L12 / README.md L22（`React/TypeScript`）不一致（#2 續）。(b) P1-design 目錄樹 L140-145 仍以 `TDD/issue-5-diff.md` 描述 SD delta record，實際新 workflow 已改為 `SpecDiff/issue-{N}.md`；L194-208 的 TDD diff 格式說明同樣過時（#1 新）。
-
-**d-workflow.md**：(a) Step 1 #8 與輸出表 L46 仍寫 `PG測試報告/issue-{N}.md`，commit `05576ce` 已刪除 PG測試報告/，P1-code 僅有 TestReport/（#3 續）。(b) Step 2 與輸出表 L48 仍寫 `TDD/issue-{N}-diff.md`，實際 workflow 已改為 `SpecDiff/issue-{N}.md`（#1 新）。
-
-**guide.md**：Delta Record 表 L70 `P1-design/TDD/issue-{N}-diff.md` 應更新為 `P1-design/SpecDiff/issue-{N}.md`（#1 新）。
-
-**quick-start.md**：PG 確認任務表 L141 `P1-design/TDD/issue-{SD#}-diff.md` 應更新為 `P1-design/SpecDiff/issue-{SD#}.md`（#1 新）。
-
-**AI-review-doclist.md**：L24/L26/L30 列出的三份子 Repo CLAUDE.md 仍不存在（#5 續）。
-
-其餘 8 份未發現問題：README.md、project-board-guide.md、p-workflow.md、a-workflow.md、c-workflow.md、chore-workflow.md、AI-review-prompt.md、AI-review-gap-prompt.md。
-
-#### P1-analysis（審查 1 份文件，0 份有問題）
-
-**README.md**：簡短指引，未發現問題。
-
-#### P1-design（審查 3 份文件，1 份有問題）
-
-**TechStack.md**：L5 `JavaScript（前端語言，目前使用 .jsx；TypeScript 遷移規劃中）`——工具鏈已全面就緒（typescript ^6.0.2、tsconfig.json、eslint/lint-staged 涵蓋 .ts/.tsx），「規劃中」不再準確（#6 續）。
-
-其餘 2 份未發現問題：README.md、FunctionList.md。
-
-#### P1-code（審查 2 份文件，0 份有問題）
-
-**README.md**：`React 19 + TypeScript + FastAPI` 與 CLAUDE.md / P1-project README.md 一致。
-**SETUP.md**：L44 `.js/.jsx/.ts/.tsx` 與 lint-staged 一致；L49 `{type}: 工作說明` 與 quick-start.md 一致。
-
-### 建議修改清單
-
-| # | 來源 | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
-|---|------|---------|------|---------|------|------------|
-| 1 | v14 | 事實差異 | 中 | [P1-project/docs/workflow/guide.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/workflow/guide.md)、[d-workflow.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/workflow/spec/d-workflow.md)、[quick-start.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/workflow/quick-start.md)、[repo-design.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/repo-design.md) | 多處 | SD delta record 已從 `TDD/issue-{N}-diff.md` 改名為 `SpecDiff/issue-{N}.md`（P1-design 已有 SpecDiff/ 目錄，含 issue-38/40/45），但以下位置仍引用舊路徑：guide.md L70、d-workflow.md Step 2 + 輸出表 L48、quick-start.md L141、repo-design.md L140-145 樹狀圖 + L194-208 格式說明。CLAUDE.md L71 已更新為 `SpecDiff/issue-{N}.md`。建議四份文件同步更新 |
-| 2 | v13 | 事實差異 | 中 | [P1-project/docs/repo-design.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/repo-design.md) | P1-code 目錄結構 L217 | `frontend/  ← React + JavaScript` 改為 `frontend/  ← React + TypeScript（遷移中，src/ 仍為 .jsx）`。與 CLAUDE.md L12（`React/TypeScript + Python/FastAPI 實作`）及 README.md L22 不一致；同文件 L251 VersionDiff 範例已使用 `.tsx`，形成內部不一致 |
-| 3 | v13 | 事實差異 | 中 | [P1-project/docs/workflow/spec/d-workflow.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/workflow/spec/d-workflow.md) | Step 1 #8、輸出表 L46 | `PG測試報告/issue-{N}.md` 改為 `TestReport/issue-{N}.md`。commit `05576ce` 已刪除 PG測試報告/，P1-code 僅有 TestReport/。CLAUDE.md PG 階段 L77 亦寫 `TestReport/` |
-| 4 | v12 | 優化 | 低 | [P1-project/CLAUDE.md](https://github.com/MPinfo-Co/P1-project/blob/main/CLAUDE.md) | 起手式 L22 | `` `{type}({scope}): 說明` `` 與 `quick-start.md` L86、L197 及 `P1-code/SETUP.md` L49 的 `` `{type}: 工作說明` `` 不一致。`commitlint.config.js` `scope-empty: [0]` 兩者技術上均合法，需人類成員確立權威後同步 |
-| 5 | v12 | 事實差異 | 中 | [P1-project/docs/AI-review-doclist.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-doclist.md) | L24、L26、L30 | 列出 `P1-analysis/CLAUDE.md`、`P1-design/CLAUDE.md`、`P1-code/CLAUDE.md`，三份檔案已不存在（已集中於 P1-project/CLAUDE.md）。建議刪除三行，或改為單一備註 |
-| 6 | v12 | 事實差異 | 低 | [P1-design/TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md) | 程式語言章節 L5 | `**JavaScript**（前端語言，目前使用 .jsx；TypeScript 遷移規劃中）` — 工具鏈已全面就緒（typescript ^6.0.2、tsconfig.json、eslint/lint-staged 涵蓋 .ts/.tsx），「規劃中」已不準確。建議改為 `**TypeScript**（前端語言，遷移中；src/ 目前仍使用 .jsx，逐步轉換）` |
-
-### 摘要
-> 本次審查 20 份文件（doclist 列 23 份，3 份子 Repo CLAUDE.md 因集中化已刪除），發現 7 份有問題，共 6 項建議修改（本輪新增 1 項〔#1 SpecDiff 命名更新〕；v13 共 6 項的處理結果：1 項已解決〔#3 CLAUDE.md 技術棧表已移除〕，5 項未解決續列為 v14 #2-#6）。
-
-### 未發現問題的文件
-> 以下 13 份文件未發現問題：P1-project/README.md、project-board-guide.md、p-workflow.md、a-workflow.md、c-workflow.md、chore-workflow.md、AI-review-prompt.md、AI-review-gap-prompt.md、P1-analysis/README.md、P1-design/README.md、FunctionList.md、P1-code/README.md、P1-code/SETUP.md。
-
-
-### Doclist 完整性提醒
-- **本輪最重要**：`AI-review-doclist.md` L24、L26、L30 列出的三份子 Repo CLAUDE.md 已不存在（詳見 #5，應優先處理）
-- `P1-code/SYSTEM.md` — 存在且為系統架構權威文件，建議納入審查清單（延續 v7-v12 提醒）
-
-

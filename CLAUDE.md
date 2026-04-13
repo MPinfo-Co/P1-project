@@ -9,7 +9,7 @@ P1 由四個 Repo 組成，對應四個開發階段：
 | **P1-design**   | Prototype、API Spec、Schema、TDD        | SD | PR + SA/PM Review |
 | **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG | PR + SA/PM Review |
 
-> Repo 結構、Issue 格式、命名規則：[repo-design.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/repo-design.md)
+> Repo 結構、Issue 格式、命名規則：[repo-design.md](docs/repo-design.md)
 
 ---
 
@@ -25,7 +25,7 @@ Epic（P1-project）加上 epic label
 ```
 
 
-> 如需修改自動化或排查 workflow：[workflow_guide.md — GitHub Actions 自動化](https://github.com/MPinfo-Co/P1-project/blob/main/docs/workflow_guide.md)
+> 如需修改自動化或排查 workflow：[workflow_guide.md — GitHub Actions 自動化](docs/workflow_guide.md)
 
 ---
 

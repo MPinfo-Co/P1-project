@@ -104,10 +104,12 @@ jobs:
             }
 
             // 4. Scaffold SA 分析文件
+            const epicBody = epicIssue.body || '';
             const businessLogicContent = [
               `# 業務邏輯分析：${epicTitle}`,
               '',
               '## 需求說明',
+              epicBody,
               '',
               '## 商業邏輯（選填）',
               '',

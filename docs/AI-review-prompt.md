@@ -96,8 +96,8 @@
 
 1. **補寫「摘要」**：填入「本次審查 N 份文件，發現 X 份有問題」
 2. **補寫「未發現問題的文件」**清單
-4. Commit & Push P1-project（直接 push main）
-5. 輸出報告連結：[AI-review-report.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md)
+3. Commit & Push P1-project（直接 push main）
+4. 輸出報告連結：[AI-review-report.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-report.md)
 
 ---
 

@@ -2,8 +2,6 @@
 
 ## 2026-04-13 13:38 (v16)
 
-> **背景脈絡**：v15 後本輪 git pull 僅 P1-analysis 有新 branch（issue-75）。CLAUDE.md 有新增「GitHub 物件操作原則」一節（自動串接流程圖 + 跨 Repo 引用格式），其餘文件無異動。v15 兩項 `[待處理]`：AI-review-prompt.md 步驟跳號已修正 ✓ FIXED；FunctionList.md 完成狀態欄位仍空白，續列。
-
 ### 摘要
 > 本次審查 12 份文件，發現 1 份有問題。
 
@@ -16,8 +14,6 @@
 ---
 
 ## 2026-04-13 11:14 (v15)
-
-> **背景脈絡**：v14 後 P1-code 合入 10 筆 commit（TestReport/issue-40/45、VersionDiff 3 筆、migration seed、conftest + pytest、frontend package.json 更新）。v14 6 項問題本輪逐一核對：#1 SpecDiff 命名已全面修正（guide.md L70、quick-start.md L141、repo-design.md 目錄樹與格式說明均已更新）；#2 repo-design.md `frontend/ ← React + TypeScript` 已修正；#5 doclist sub-repo CLAUDE.md 三行已移除；#6 TechStack.md L5 已改為 TypeScript + 漸進遷移說明。#3 d-workflow.md（不在 doclist 範圍）無法直接確認，#4 commit format 微差異已可接受（scope? 一致，僅佔位符用詞不同）。Ground truth：package.json `lint-staged` 已涵蓋 `.ts/.tsx`；`axios ^1.15.0` ✓；無 tailwindcss / @tanstack/react-query。
 
 #### P1-project（審查 9 份文件，1 份有問題）
 
@@ -60,8 +56,6 @@
 ---
 
 ## 2026-04-12 14:27 (v14)
-
-> **背景脈絡**：v13（13:51）後 P1-project main 有 18 筆新 commit，CLAUDE.md 大幅改版（移除獨立技術棧表，PG 流程改為引用 TechStack.md）、多份 workflow 文件微調。P1-design 最新 commit `5007704 chore: auto-generate SpecDiff for issue-45` 顯示 SD delta record 已從 `TDD/issue-{N}-diff.md` 改名為 `SpecDiff/issue-{N}.md`（SpecDiff/ 目錄已有 3 個檔案）。P1-code 最新 commit `05576ce Delete PG測試報告 directory` 刪除了 PG測試報告/，僅餘 TestReport/。Ground truth：`package.json` 無 tailwindcss / @tanstack/react-query（但 CLAUDE.md 技術棧表已移除，此項自動解決）；`frontend/src/` 仍為 0 個 `.tsx`、22 個 `.jsx`。
 
 #### P1-project（審查 14 份文件，5 份有問題）
 

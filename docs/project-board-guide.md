@@ -42,42 +42,18 @@ idea → Next → Todo → In progress → Done
 
 ## Views 說明
 
-| View | 使用者 | 用途 |
-|------|--------|------|
-| 工作管理(Member) | 全員 | 查詢管理自己的工作（預設 `assignee:@me`）|
-| 工作規劃(Member) | 全員 | 填入個人實際 Start / Target date |
-| 近期工作(PM) | PM | 調整項目欄位內容 |
-| 專案週報(PM) | PM | 向上報告 |
-| 工作管理(PM) | PM | 無篩選全覽，分派週期給所有工作 |
-| Learn | 全員 | 學習資源庫（`status:Done(留存)`）|
-
----
-
-## 自動化流程
-
-PM 建立 Epic 後，系統自動串接各階段，**不需手動建 Issue 或分支**：
-
-```
-Epic（P1-project）加上 epic label
- └─ 自動建立 SA Issue + A-Branch + Draft PR（P1-analysis）
-     └─ SA merge → 自動建立 SD Issue + D-Branch + Draft PR（P1-design）
-         └─ SD merge → 自動建立 PG Issue + C-Branch + Draft PR（P1-code）
-```
-
-每個階段 merge 後，上游 Issue 自動關閉，Epic 關聯欄位自動更新。
+| View         | 使用者 | 用途                           |
+| ------------ | --- | ---------------------------- |
+| 工作管理(PM)     | PM  | 無篩選全覽，分派週期給所有工作              |
+| 近期工作(PM)     | PM  | 調整項目欄位內容                     |
+| 專案週報(PM)     | PM  | 向上報告                         |
+| 工作管理(Member) | 全員  | 查詢管理自己的工作（預設 `assignee:@me`） |
+| 工作規劃(Member) | 全員  | 填入個人實際 Start / Target date   |
+| Learn        | 全員  | 學習資源庫（`status:Done(留存)`）     |
 
 ---
 
 ## 各角色工作流程
-
-三個角色的流程結構相同，差異如下：
-
-| | SA | SD | PG |
-|--|----|----|-----|
-| **Repo** | P1-analysis | P1-design | P1-code |
-| **分支前綴** | `issue-{N}-` | `issue-{N}-` | `issue-{N}-` |
-| **主要產出** | business-logic.md | TDD、API Spec、Prototype | 程式碼 + pytest |
-| **觸發下游** | Merge → 建 SD Issue | Merge → 建 PG Issue | Merge → 關閉 Epic |
 
 **通用工作步驟：**
 1. 在**工作管理(Member)** 頁籤中，確認 Todo 項目之工作細節，例如：Issue 留言內有分支與 Draft PR 連結
@@ -85,8 +61,8 @@ Epic（P1-project）加上 epic label
 3. 完成工作後將 Draft PR 改為 **Ready for review** → 等待Approve及Merge
 4. 在**工作規劃(Member)** 填入(或點擊) Start / Target date
 
-> WIP 原則：**同時 In progress 不超過 2 個**。
-
+> WIP 原則：**同時 In progress 不超過 3 個，控制在2個之內**。
+> **自動化串接流程**與各**角色職責**詳見 [workflow_guide.md](workflow_guide.md)。
 ---
 
 ## Chore 工作

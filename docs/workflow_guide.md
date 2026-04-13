@@ -27,16 +27,26 @@
 ## 流程總覽
 
 ```
-PM（P1-project）開立 Epic
- └─ p-workflow 自動建立 SA Issue + A-Branch（P1-analysis）
-     └─ SA merge → a-workflow 自動建立 SD Issue + D-Branch（P1-design）
-         └─ SD merge → d-workflow 自動建立 PG Issue + C-Branch（P1-code）
-             └─ PG merge → 版本完成，VersionDiff 自動產生
+WF-P = p-workflow.yml in P1-project
+WF-A = a-workflow.yml in P1-analysis
+WF-D = d-workflow.yml in P1-design
+WF-C = c-workflow.yml in P1-code
+
+PM 開立 Epic（透過填寫範本）
+└─ [WF-P 自動建立] SA Issue + SA-Branch + Draft PR
+  └─ SA merge PR
+    └─ [WF-A 自動建立] SD Issue + SD-Branch + Draft PR
+      └─ SD merge PR
+        └─ [WF-D 自動產生] SpecDiff
+        └─ [WF-D 自動建立] PG Issue + PG-Branch + Draft PR
+          └─ PG merge PR
+            └─ [WF-C 自動產生] VersionDiff（記錄本次 Issue 的變更摘要）
+            └─ [WF-C 自動關閉] Epic、PG Issue
 ```
 
 | 階段 | 負責人 | Repo | 產出 |
 |------|--------|------|------|
-| 工作分派 | PM | P1-project | SA Issue + A-Branch |
+| 工作分派 | PM | P1-project | SA Issue + SA-Branch |
 | 系統分析 | SA | P1-analysis | business-logic.md、SD-WBS.md |
 | 系統設計 | SD | P1-design | Spec、Prototype、TDD |
 | 系統開發 | PG／AI | P1-code | 程式碼、測試、VersionDiff |

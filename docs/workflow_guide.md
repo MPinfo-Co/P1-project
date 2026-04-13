@@ -107,6 +107,18 @@ Token 以 Org-level Secret 集中管理，各 Repo workflow 直接引用。
 
 ---
 
+## 排程 AI 任務
+
+每天台灣時間 **凌晨 2:00** 自動執行，由 Claude Code Remote Agent 在雲端運作。
+
+| 任務 | 說明 |
+|------|------|
+| Daily Docs Review | 讀取 `docs/ai-review/AI-review-prompt.md`，審查四個 Repo 文件狀況，結果寫入 `docs/ai-review/AI-review-report.md`（直接 push main） |
+
+管理介面：https://claude.ai/code/scheduled
+
+---
+
 ## 例外處理
 
 ### Hotfix（線上緊急 bug）

@@ -15,17 +15,16 @@ P1 由四個 Repo 組成，對應四個開發階段：
 
 ## GitHub 物件操作原則
 
-Issue 與分支由 GitHub Actions 自動建立，**不手動操作**。自動串接流程：
+Issue 與分支由 GitHub Actions (workflow) 自動建立，**不手動操作**。自動串接流程：
 
 ```
-Epic（P1-project）加上 epic label
- └─ 自動建立 SA Issue + A-Branch + Draft PR（P1-analysis）
-     └─ SA merge → 自動建立 SD Issue + D-Branch + Draft PR（P1-design）
-         └─ SD merge → 自動建立 PG Issue + C-Branch + Draft PR（P1-code）
+開立Epic issue(epic label)
+ └─ 自動建立 SA Issue + SA Branch → SA merge → 
+     └─ 自動建立 SD Issue + SD Branch → SD merge → 
+         └─ 自動建立 PG Issue + PG Branch → PG merge → 關閉資源 
 ```
 
-
-> 如需修改自動化或排查 workflow：[workflow_guide.md — GitHub Actions 自動化](docs/workflow_guide.md)
+> 如需排查 workflow 請參考：[workflow_guide.md](docs/workflow_guide.md)
 
 ---
 
@@ -65,7 +64,7 @@ Epic（P1-project）加上 epic label
 	+ 測試案例總數 ≥ 工作範圍項目數
 	+ 設計決定只寫結論與理由，不寫曾考慮過的替代方案
 
- 
+ 
 
 2. 依TDD 「本次工作範圍」內容調整：`Prototype/`、`Spec/`、`schema/`（如有異動）
 	+ **活文件原則：** `Spec/`、`Prototype/`、`schema/` 永遠反映最新狀態，直接修改，不保留舊版。

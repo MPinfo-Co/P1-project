@@ -1,31 +1,28 @@
-# P1 開發指南
 
-> [← 回到總導覽](../../README.md)
+# 自動化流程核心目標
 
-> 本文件說明 P1 的設計理念與整體流程。
-> 第一天操作請看 [quick-start.md](quick-start.md)。
-> Repo 結構與格式規範請看 [repo-design.md](repo-design.md)。
-
----
-
-## 為什麼這樣設計
-
-兩個核心目標：
-
-**人類協作層面：**
+## 人類協作層面
 - **可追蹤**：每一行程式碼都能追溯到設計規格，每一份規格都能追溯到需求分析
 - **可驗證**：每個階段都有明確的品質把關，不符合標準的工作無法進入下一階段
 - **自動化**：重複性的文書工作（建立分支、記錄變更、通知下游）由系統自動完成
 
-**AI 協作層面：**
-- AI 接到 PG Issue 後，能沿著 Issue 關聯鏈自主讀取商業邏輯、設計規格、歷史異動，不需要人工交接，直接產出可交付的程式碼
-
-**終極目標：人負責決策，AI 負責執行。**
+## AI 協作層面
+- AI 接到 Issue 後，能沿著 Issue 關聯(PM>SA>PG>PG)自主讀取商業邏輯、設計規格、歷史異動，不需要人工交接，直接產出可交付的程式碼
 
 ---
 
-## 流程總覽
+# 流程總覽
 
+## 人工流程
+
+| 負責人 | 階段   | Repo        | 產出                   |
+| --- | ---- | ----------- | -------------------- |
+| PM  | 工作分派 | P1-project  | SA Issue + SA-Branch |
+| SA  | 系統分析 | P1-analysis | business-logic.md    |
+| SD  | 系統設計 | P1-design   | Spec、Prototype、TDD   |
+| PG  | 系統開發 | P1-code     | 程式碼、測試、VersionDiff   |
+
+## 自動化流程
 ```
 WF-P = p-workflow.yml in P1-project
 WF-A = a-workflow.yml in P1-analysis
@@ -34,24 +31,16 @@ WF-C = c-workflow.yml in P1-code
 
 PM 開立 Epic（透過填寫範本）
 └─ [WF-P 自動建立] SA Issue + SA-Branch + Draft PR
+└─ [WF-P 自動產生] issue-{N}/
   └─ SA merge PR
     └─ [WF-A 自動建立] SD Issue + SD-Branch + Draft PR
       └─ SD merge PR
-        └─ [WF-D 自動產生] SpecDiff
+        └─ [WF-D 自動產生] SpecDiff/issue-{N}.md
         └─ [WF-D 自動建立] PG Issue + PG-Branch + Draft PR
           └─ PG merge PR
-            └─ [WF-C 自動產生] VersionDiff（記錄本次 Issue 的變更摘要）
+            └─ [WF-C 自動產生] VersionDiff/issue-{N}.md
             └─ [WF-C 自動關閉] Epic、PG Issue
 ```
-
-| 階段 | 負責人 | Repo | 產出 |
-|------|--------|------|------|
-| 工作分派 | PM | P1-project | SA Issue + SA-Branch |
-| 系統分析 | SA | P1-analysis | business-logic.md、SD-WBS.md |
-| 系統設計 | SD | P1-design | Spec、Prototype、TDD |
-| 系統開發 | PG／AI | P1-code | 程式碼、測試、VersionDiff |
-
-**關鍵原則：下游分支在上游 merge 後才建立，確保 PG 永遠依據最新規格開發。**
 
 ---
 
@@ -74,11 +63,11 @@ SD 若發現工作量太大，可拆分為多個 SD Issue 平行開發；PG merg
 
 每個階段都有「這次改了什麼」的紀錄：
 
-| 階段 | Delta 位置 | 說明 |
-|------|-----------|------|
-| SA | `P1-analysis/issue-{N}/` | 資料夾本身就是 delta |
-| SD | `P1-design/SpecDiff/issue-{N}.md` | 系統自動產生 |
-| PG | `P1-code/VersionDiff/issue-{N}.md` | merge 時自動產生 |
+| 階段  | Delta 位置                           | 說明            |
+| --- | ---------------------------------- | ------------- |
+| SA  | `P1-analysis/issue-{N}/`           | 資料夾本身就是 delta |
+| SD  | `P1-design/SpecDiff/issue-{N}.md`  | 系統自動產生        |
+| PG  | `P1-code/VersionDiff/issue-{N}.md` | merge 時自動產生   |
 
 ### 3. Issue Body 結構化（AI 可讀）
 

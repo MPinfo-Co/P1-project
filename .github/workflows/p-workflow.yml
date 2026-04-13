@@ -50,19 +50,18 @@ jobs:
               body: [
                 '## 關聯項目',
                 '',
-                '### 工作狀態',
-                `- 階段：SA`,
-                `- 分支：（待填入）`,
-                `- Draft PR：（待建立）`,
+                '### 工作文件',
+                `- business-logic.md：（待填入）`,
                 '',
                 '### 關聯 Issue',
                 `- Epic：MPinfo-Co/P1-project#${epicNumber}`,
                 `- SA Issue：#（本 Issue）`,
                 `- SD Issue：P1-design #（merge 後自動填入）`,
-                `- PG Issue：P1-code #（merge 後自動填入）`,
                 '',
-                '### 關聯檔案',
-                `- business-logic.md：（待填入）`,
+                '### 相關連結',
+                `- 階段：SA`,
+                `- 分支：（待填入）`,
+                `- Draft PR：（待建立）`,
               ].join('\n'),
               labels: ['SA'],
             });
@@ -175,36 +174,10 @@ jobs:
               repo: analysisRepo,
               issue_number: saNumber,
               body: saIssue.data.body
-                .replace('SA Issue：#（本 Issue）', `SA Issue：P1-analysis #${saNumber}`)
+                .replace('SA Issue：#（本 Issue）', `SA Issue：#${saNumber}`)
                 .replace('分支：（待填入）', `分支：[${branchName}](https://github.com/${org}/${analysisRepo}/tree/${branchName})`)
                 .replace('Draft PR：（待建立）', saPrUrl ? `Draft PR：[#${saPrNumber}](${saPrUrl})` : 'Draft PR：（未建立）')
                 .replace('business-logic.md：（待填入）', `business-logic.md：[issue-${saNumber}/business-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/issue-${saNumber}/business-logic.md)`),
-            });
-
-            // 5. 更新 Epic Issue body
-            const currentBody = epicIssue.body || '';
-            const relationSection = [
-              '',
-              '## 關聯 Issue',
-              '<!-- 由系統自動填入，勿手動編輯 -->',
-              `- SA Issue：MPinfo-Co/P1-analysis#${saNumber}`,
-              `- SD Issue：P1-design #（待建立）`,
-              `- PG Issue：P1-code #（待建立）`,
-            ].join('\n');
-
-            const hasRelation = currentBody.includes('## 關聯 Issue');
-            const newBody = hasRelation
-              ? currentBody.replace(
-                  /## 關聯 Issue[\s\S]*?(?=\n## |\s*$)/,
-                  relationSection.trim()
-                )
-              : currentBody + relationSection;
-
-            await github.rest.issues.update({
-              owner: org,
-              repo: 'P1-project',
-              issue_number: epicNumber,
-              body: newBody,
             });
 
             // 6. 在 Epic Issue 留言

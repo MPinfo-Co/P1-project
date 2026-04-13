@@ -4,47 +4,10 @@
 
 > **背景脈絡**：v15 後本輪 git pull 僅 P1-analysis 有新 branch（issue-75）。CLAUDE.md 有新增「GitHub 物件操作原則」一節（自動串接流程圖 + 跨 Repo 引用格式），其餘文件無異動。v15 兩項 `[待處理]`：AI-review-prompt.md 步驟跳號已修正 ✓ FIXED；FunctionList.md 完成狀態欄位仍空白，續列。
 
-#### P1-project（審查 9 份文件，0 份有問題）
-
-**README.md**：
-- 未發現問題。
-
-**CLAUDE.md**：
-- 未發現問題。（新增「GitHub 物件操作原則」一節內容正確，自動串接流程圖與 guide.md 一致。）
-
-**guide.md**：
-- 未發現問題。
-
-**quick-start.md**：
-- 未發現問題。
-
-**project-board-guide.md**：
-- 未發現問題。
-
-**repo-design.md**：
-- 未發現問題。
-
-**AI-review-prompt.md**：
-- Phase 4 步驟跳號 ✓ FIXED（v15）。未發現新問題。
-
-**AI-review-gap-prompt.md**：
-- 未發現問題。
-
-**AI-review-doclist.md**：
-- 未發現問題。
-
 #### P1-design（審查 2 份文件，1 份有問題）
-
-**TechStack.md**：
-- 未發現問題。
 
 **FunctionList.md**：
 - **[待處理]** 完成狀態欄位全部空白（11 個功能均無填寫 `未開始`／`進行中`／`已完成`），文件標題已宣告欄位用途但未實際維護，讀者無法判斷功能完成度。（優化，續自 v15）
-
-#### P1-code（審查 1 份文件，0 份有問題）
-
-**SETUP.md**：
-- 未發現問題。
 
 ### 摘要
 > 本次審查 12 份文件，發現 1 份有問題。

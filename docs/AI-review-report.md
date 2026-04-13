@@ -18,7 +18,8 @@
 
 **repo-design.md**：P1-code 目錄樹 L221 `frontend/ ← React + TypeScript` ✓ FIXED（v14 #2）。SpecDiff 格式說明與路徑均正確 ✓ FIXED（v14 #1）。未發現新問題。
 
-**AI-review-prompt.md**：**[待處理]** Phase 4 步驟編號跳號：今日移除「建議修改清單」後步驟變為 `1, 2, 4, 5`，跳過 3。（事實差異，今日 prompt 改版引入）
+**AI-review-prompt.md**：
+- **[待處理]** Phase 4 步驟編號跳號：今日移除「建議修改清單」後步驟變為 `1, 2, 4, 5`，跳過 3。（事實差異，今日 prompt 改版引入）
 
 **AI-review-gap-prompt.md**：未發現問題。
 
@@ -28,7 +29,8 @@
 
 **TechStack.md**：L5 TypeScript 描述已修正為「新檔案一律使用 `.tsx`；舊 `.jsx` 漸進式遷移」 ✓ FIXED（v14 #6）。技術棧清單與 package.json / requirements.txt 核對一致（Axios ✓、Zustand ✓、Celery ✓、anthropic ✓）。未發現新問題。
 
-**FunctionList.md**：**[待處理]** 完成狀態欄位全部空白（11 個功能均無填寫 `未開始`／`進行中`／`已完成`），文件標題已宣告欄位用途但未實際維護，讀者無法從此文件判斷功能完成度。（優化）
+**FunctionList.md**：
+- **[待處理]** 完成狀態欄位全部空白（11 個功能均無填寫 `未開始`／`進行中`／`已完成`），文件標題已宣告欄位用途但未實際維護，讀者無法從此文件判斷功能完成度。（優化）
 
 #### P1-code（審查 1 份文件，0 份有問題）
 

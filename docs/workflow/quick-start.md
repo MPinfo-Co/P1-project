@@ -2,7 +2,7 @@
 
 > [← 回到總導覽](../../README.md)
 
-> 本文件是新成員的「第一天操作指南」。完整規範請閱讀 [guide.md](guide.md)；Repo 結構與格式規範請閱讀 [repo-design.md](../repo-design.md)。
+> 本文件是新成員的「第一天操作指南」。完整規範請閱讀 [workflow_guide.md](workflow_guide.md)；Repo 結構與格式規範請閱讀 [repo-design.md](../repo-design.md)。
 
 ---
 
@@ -31,7 +31,7 @@
 - 開啟 GitHub Projects 看板 → **Epic 全覽** view，確認各 Epic 狀態
 - 有 `blocked` 標籤的 Issue 需優先處理
 
-**⚠️ 常見卡關：** Epic 開立後若 15 分鐘內未在 P1-analysis 看到 SA Issue，代表 P-workflow 失敗。參考 [guide.md 的「例外處理」章節](guide.md#例外處理)手動處理。
+**⚠️ 常見卡關：** Epic 開立後若 15 分鐘內未在 P1-analysis 看到 SA Issue，代表 P-workflow 失敗。參考 [workflow_guide.md 的「例外處理」章節](workflow_guide.md#例外處理)手動處理。
 
 ## PM：今天有行政事務要記錄
 

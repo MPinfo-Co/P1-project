@@ -42,7 +42,7 @@
 ### Step 3 — 識別缺口
 比對以下面向，找出無文件覆蓋的主題：
 - 系統功能（對照 `FunctionList.md`）
-- Workflow 機制（對照 `guide.md` 流程）
+- Workflow 機制（對照 `workflow_guide.md` 流程）
 - 部署與維運操作
 - 跨 Repo 協作規則
 

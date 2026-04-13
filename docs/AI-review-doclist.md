@@ -8,7 +8,7 @@
 | ---------- | ----------------------------------------------------------------------------------- | ---------------------------------------- |
 | P1-project | [README.md](../README.md)                                                           | 專案總入口                                    |
 | P1-project | [CLAUDE.md](../CLAUDE.md)                                                           | AI agent 工作指引                            |
-| P1-project | [docs/workflow/guide.md](workflow/guide.md)                                         | 設計理念、整體流程、關鍵機制                           |
+| P1-project | [docs/workflow/workflow_guide.md](workflow/workflow_guide.md)                       | 設計理念、整體流程、關鍵機制                           |
 | P1-project | [docs/workflow/quick-start.md](workflow/quick-start.md)                             | 各角色第一天操作指南                               |
 | P1-project | [docs/workflow/project-board-guide.md](workflow/project-board-guide.md)             | GitHub Projects 看板用法、Views 說明、自動化流程（各角色） |
 | P1-project | [docs/repo-design.md](repo-design.md)                                               | Repo 結構、Issue 格式、命名規範                    |

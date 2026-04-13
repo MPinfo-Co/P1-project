@@ -1,5 +1,47 @@
 # AI 文件審查報告
 
+## 2026-04-13 11:14 (v15)
+
+> **背景脈絡**：v14 後 P1-code 合入 10 筆 commit（TestReport/issue-40/45、VersionDiff 3 筆、migration seed、conftest + pytest、frontend package.json 更新）。v14 6 項問題本輪逐一核對：#1 SpecDiff 命名已全面修正（guide.md L70、quick-start.md L141、repo-design.md 目錄樹與格式說明均已更新）；#2 repo-design.md `frontend/ ← React + TypeScript` 已修正；#5 doclist sub-repo CLAUDE.md 三行已移除；#6 TechStack.md L5 已改為 TypeScript + 漸進遷移說明。#3 d-workflow.md（不在 doclist 範圍）無法直接確認，#4 commit format 微差異已可接受（scope? 一致，僅佔位符用詞不同）。Ground truth：package.json `lint-staged` 已涵蓋 `.ts/.tsx`；`axios ^1.15.0` ✓；無 tailwindcss / @tanstack/react-query。
+
+#### P1-project（審查 9 份文件，1 份有問題）
+
+**README.md**：技術棧描述、文件連結均正確。未發現問題。
+
+**CLAUDE.md**：v14 #4 commit format 差異（`{type}(scope?): 說明` vs quick-start.md/SETUP.md `{type}(scope?): 工作說明`）已屬可接受範圍，scope 選填一致。未發現新問題。
+
+**guide.md**：Delta Record 表 L70 `P1-design/SpecDiff/issue-{N}.md` ✓ FIXED（v14 #1）。未發現問題。
+
+**quick-start.md**：PG 確認任務表 L141 `P1-design/SpecDiff/issue-{SD#}.md` ✓ FIXED（v14 #1）。未發現問題。
+
+**project-board-guide.md**：未發現問題。
+
+**repo-design.md**：P1-code 目錄樹 L221 `frontend/ ← React + TypeScript` ✓ FIXED（v14 #2）。SpecDiff 格式說明與路徑均正確 ✓ FIXED（v14 #1）。未發現新問題。
+
+**AI-review-prompt.md**：Phase 4 步驟編號跳號：今日移除「建議修改清單」後步驟變為 `1, 2, 4, 5`，跳過 3。（事實差異，今日 prompt 改版引入）
+
+**AI-review-gap-prompt.md**：未發現問題。
+
+**AI-review-doclist.md**：三份已不存在的子 Repo CLAUDE.md 已移除 ✓ FIXED（v14 #5）。未發現問題。
+
+#### P1-design（審查 2 份文件，1 份有問題）
+
+**TechStack.md**：L5 TypeScript 描述已修正為「新檔案一律使用 `.tsx`；舊 `.jsx` 漸進式遷移」 ✓ FIXED（v14 #6）。技術棧清單與 package.json / requirements.txt 核對一致（Axios ✓、Zustand ✓、Celery ✓、anthropic ✓）。未發現新問題。
+
+**FunctionList.md**：完成狀態欄位全部空白（11 個功能均無填寫 `未開始`／`進行中`／`已完成`），文件標題已宣告欄位用途但未實際維護，讀者無法從此文件判斷功能完成度。（優化）
+
+#### P1-code（審查 1 份文件，0 份有問題）
+
+**SETUP.md**：L44 pre-commit hook 描述涵蓋 `.js/.jsx/.ts/.tsx` ✓ FIXED（v12 #6）；package.json lint-staged 同步涵蓋 `.ts/.tsx` ✓。L49 commit format `{type}(scope?): 工作說明` 與 quick-start.md 一致。未發現問題。
+
+### 摘要
+> 本次審查 12 份文件，發現 2 份有問題。v14 所有 doclist 範圍內問題均已解決（d-workflow.md #3 不在 doclist，未核對）。
+
+### 未發現問題的文件
+> 以下 10 份文件未發現問題：README.md、CLAUDE.md、guide.md、quick-start.md、project-board-guide.md、repo-design.md、AI-review-gap-prompt.md、AI-review-doclist.md、TechStack.md、SETUP.md。
+
+---
+
 ## 2026-04-12 14:27 (v14)
 
 > **背景脈絡**：v13（13:51）後 P1-project main 有 18 筆新 commit，CLAUDE.md 大幅改版（移除獨立技術棧表，PG 流程改為引用 TechStack.md）、多份 workflow 文件微調。P1-design 最新 commit `5007704 chore: auto-generate SpecDiff for issue-45` 顯示 SD delta record 已從 `TDD/issue-{N}-diff.md` 改名為 `SpecDiff/issue-{N}.md`（SpecDiff/ 目錄已有 3 個檔案）。P1-code 最新 commit `05576ce Delete PG測試報告 directory` 刪除了 PG測試報告/，僅餘 TestReport/。Ground truth：`package.json` 無 tailwindcss / @tanstack/react-query（但 CLAUDE.md 技術棧表已移除，此項自動解決）；`frontend/src/` 仍為 0 個 `.tsx`、22 個 `.jsx`。
@@ -83,33 +125,4 @@
 - **本輪最重要**：`AI-review-doclist.md` L24、L26、L30 列出的三份子 Repo CLAUDE.md 已不存在（詳見 #5，應優先處理）
 - `P1-code/SYSTEM.md` — 存在且為系統架構權威文件，建議納入審查清單（延續 v7-v12 提醒）
 
----
-
-## 2026-04-09 18:36 (v12)
-
-> **背景脈絡（重要）**：今日（2026-04-09）多個 commit 顯示人類成員正在確立「前端 TypeScript 遷移」方向：commit `1a109ea`（CLAUDE.md L130 技術棧 JavaScript→TypeScript）、`2eae5ea`（repo-design.md VersionDiff 範例 .jsx→.tsx）、`8dd7a25`（README.md L22 React/JavaScript→React/TypeScript）。但 `P1-code/frontend/src/` 目前 0 個 `.tsx`、29 個 `.jsx`，工具鏈（ESLint `files: ['**/*.{js,jsx}']`、lint-staged `*.{js,jsx}`）亦未同步。本輪多項建議源於「已宣告 TS 方向但實作與其他文件未跟上」的過渡狀態，修改選項多為「補齊工具鏈 vs 回退文件」二擇一。
-
-### 建議修改清單
-
-| # | 來源 | 修改類型 | 風險 | 修改標的 | 位置 | 建議修改內容 |
-|---|------|---------|------|---------|------|------------|
-| 1 | v12 | 事實差異 | 中 | [P1-project/CLAUDE.md](https://github.com/MPinfo-Co/P1-project/blob/main/CLAUDE.md) | 專案架構表 L22 | `P1-code` 列「React/JavaScript + Python/FastAPI 實作」與 README.md L22（今日 commit `8dd7a25` 已改為 `React/TypeScript`）及 CLAUDE.md 自身 L130 技術棧章節「TypeScript，舊 .jsx 漸進遷移」**內部不一致**。commit `8dd7a25` 只更新 README.md 未同步 CLAUDE.md。建議 L22 改為 `React/TypeScript + Python/FastAPI 實作` 以與 README.md／L130 一致（或三處統一為 `React/JS-TS 遷移中`）|
-| 2 | v12 | 事實差異 | 中 | [P1-project/CLAUDE.md](https://github.com/MPinfo-Co/P1-project/blob/main/CLAUDE.md) | PG 指引 L110、技術棧 L130 | L130「前端 \| React 19 + Vite + React Router v7（TypeScript，舊 .jsx 漸進遷移）」與 L110「前端新檔案一律使用 `.tsx`」宣告 TS 遷移，但工具鏈未同步：`frontend/src/` 0 個 `.tsx`／29 個 `.jsx`；`eslint.config.js` 僅 `files: ['**/*.{js,jsx}']`；`package.json` lint-staged 僅涵蓋 `*.{js,jsx}`。若依此聲明建立 `.tsx` 檔將無 lint/format 把關。建議二擇一—(a) 補齊 ESLint/lint-staged/CI 對 `.tsx` 支援、刪除 `jsconfig.json`（目前與 `tsconfig.json` 並存）；(b) 回退 L110、L130 至「JavaScript（.jsx），TypeScript 遷移規劃中」與 TechStack.md L5 一致 |
-| 3 | v12 | 事實差異 | 中 | [P1-project/CLAUDE.md](https://github.com/MPinfo-Co/P1-project/blob/main/CLAUDE.md) | 技術棧 L131-133 | 移除未實際使用的 `Tailwind CSS v3`、`TanStack Query（Server）`、`Axios`。`frontend/package.json` 無 `tailwindcss`／`@tanstack/react-query`／`axios` 相依；`frontend/src/index.css` 無 `@tailwind` 指令；`tailwind.config.js` 為孤立設定檔。實際為 `MUI + Emotion`，目前無 HTTP client 套件（尚未導入）。與 #6 TechStack.md 同步修正 |
-| 4 | v12 | 優化 | 低 | [P1-project/CLAUDE.md](https://github.com/MPinfo-Co/P1-project/blob/main/CLAUDE.md) | Commit 格式 L117 | `` `{type}({scope}): 說明` `` 與 `P1-code/SETUP.md` L49／`quick-start.md` L197、L211、L86 的 `` `{type}: 工作說明` `` 不一致。commit `f578183`（2026-04-08）曾將 CLAUDE.md 改為無 scope，但今日 rewrite commit `57aa3c2` 復原為有 scope。`frontend/commitlint.config.js` 設定 `'scope-empty': [0]`（兩種格式技術上都合法），需人類成員確立權威後同步 CLAUDE.md L117、SETUP.md L49、quick-start.md 三處（L86 目前為無 scope，若改回有 scope 需一併更新） |
-| 5 | v12 | 事實差異 | 中 | [P1-project/docs/AI-review-doclist.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/AI-review-doclist.md) | L24、L26、L30 | 列出 `P1-analysis/CLAUDE.md`、`P1-design/CLAUDE.md`、`P1-code/CLAUDE.md`，但三份檔案已於 commit `f620722 chore: remove CLAUDE.md (centralized in P1-project)` 移除，本輪掃描確認不存在。建議三行刪除，或整併為單一備註：「CLAUDE.md 已集中於 `P1-project/CLAUDE.md`，子 Repo 不再維護」 |
-| 6 | v12 | 事實差異 | 低 | [P1-code/SETUP.md](https://github.com/MPinfo-Co/P1-code/blob/main/SETUP.md) | L44 | `對暫存的 `.js/.jsx/.ts/.tsx` 檔執行 ESLint + Prettier` 與 `frontend/package.json` lint-staged 實際 glob `*.{js,jsx}` 不符，`eslint.config.js` 也僅 lint `.{js,jsx}`。與 #2 (a) 方案搭配則反向補齊 lint-staged／ESLint 設定；採 (b) 方案則將 L44 改為 `對暫存的 `.js/.jsx` 檔執行 ESLint + Prettier` |
-| 7 | v12 | 優化 | 低 | [P1-code/README.md](https://github.com/MPinfo-Co/P1-code/blob/main/README.md) | L5 | `React 19 + TypeScript + FastAPI 前後端程式碼庫` 與 `P1-design/TechStack.md` L5「JavaScript（目前使用 `.jsx`；TypeScript 遷移規劃中）」措辭不一致。README.md 以肯定式聲明 TypeScript 但隻字未提遷移狀態，首次閱讀的 PG 會誤以為已完成遷移。建議改為與 TechStack.md L5 同樣的「遷移規劃中」措辭，維持兩份權威文件描述一致 |
-| 8 | v10 | 事實差異 | 中 | [P1-design/TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md) | 前端章節 L11、L14、L15 | 同 #3：移除未實際使用的 `Tailwind CSS v3`、`TanStack Query`、`Axios`（`package.json` 無對應相依；`src/` 無引用；`index.css` 無 `@tailwind`；實際為 `MUI + Emotion`）。`frontend/tailwind.config.js` 為孤立設定檔，建議一併評估刪除。注意：v10 #1 TechStack.md L5 TypeScript→JavaScript 已於 v11 後解決 |
-
-### 摘要
-> 本次審查 20 份文件（doclist 列 23 份，3 份子 Repo CLAUDE.md 因集中化已刪除，詳見 #5），發現 5 份有問題，共 8 項建議修改（本輪新增 7 項；v11 10 項處理結果：6 項已解決〔#1-#3 子 Repo CLAUDE.md 因集中化刪除、#4 chore-workflow.md 角色措辭、#5 TechStack.md L5 改 JavaScript、#8 quick-start.md L86 SA 卡關格式〕，1 項未解決續列為本輪 #8〔#6 TechStack.md L11/14/15〕，3 項被人類成員反轉方向而自動消解〔#7 P1-code/README Tailwind → 整檔簡化；#9 README L22、#10 quick-start L165 — 後兩者今日由 commit `8dd7a25` 與歷次 commit 明確改為 TypeScript 方向，原「改為 JavaScript」建議撤除〕）。本輪核心問題：人類成員正在推動 TypeScript 遷移但只改了部分文件，產生「CLAUDE.md 與 README.md／TechStack.md 內部不一致」與「宣告 TS 但工具鏈仍是 JS」兩類事實差異，需決定是「補齊工具鏈」還是「讓文件誠實反映『遷移規劃中』狀態」。
-
-### 未發現問題的文件
-> 以下 15 份文件未發現問題：P1-project/README.md、docs/workflow/guide.md、project-board-guide.md、repo-design.md、p-workflow.md、a-workflow.md、d-workflow.md、c-workflow.md、chore-workflow.md、docs/workflow/quick-start.md、AI-review-prompt.md、AI-review-gap-prompt.md、P1-analysis/README.md、P1-design/README.md、FunctionList.md。
-
-### Doclist 完整性提醒
-- **本輪最重要**：`AI-review-doclist.md` L24、L26、L30 列出的三份子 Repo CLAUDE.md 已不存在（詳見修改 #5，應優先處理）
-- `P1-code/SYSTEM.md` — 存在且為系統架構權威文件，建議納入審查清單（延續 v7-v11 提醒）
-- `P1-code/frontend/README.md` 與 `P1-code/backend/README.md` — 雖不再被簡化後的 P1-code/README.md 明示引用，但檔案仍存在且有實質內容，建議評估是否納入（延續 v10-v11 提醒）
 

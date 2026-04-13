@@ -76,7 +76,7 @@ Epic（P1-project）加上 epic label
 |--|----|----|-----|
 | **Repo** | P1-analysis | P1-design | P1-code |
 | **分支前綴** | `issue-{N}-` | `issue-{N}-` | `issue-{N}-` |
-| **主要產出** | business-logic.md、SD-WBS.md | TDD、API Spec、Prototype | 程式碼 + pytest |
+| **主要產出** | business-logic.md | TDD、API Spec、Prototype | 程式碼 + pytest |
 | **觸發下游** | Merge → 建 SD Issue | Merge → 建 PG Issue | Merge → 關閉 Epic |
 
 **通用工作步驟：**

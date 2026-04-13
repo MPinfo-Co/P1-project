@@ -9,9 +9,25 @@ P1 由四個 Repo 組成，對應四個開發階段：
 | **P1-design**   | Prototype、API Spec、Schema、TDD        | SD | PR + SA/PM Review |
 | **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG | PR + SA/PM Review |
 
+> Repo 結構、Issue 格式、命名規則：[repo-design.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/repo-design.md)
+
 ---
 
-# 處理特定 SA,SD或PG 時
+## GitHub 物件操作原則
+
+Issue 與分支由 GitHub Actions 自動建立，**不手動操作**。自動串接流程：
+
+```
+Epic（P1-project）加上 epic label
+ └─ 自動建立 SA Issue + A-Branch + Draft PR（P1-analysis）
+     └─ SA merge → 自動建立 SD Issue + D-Branch + Draft PR（P1-design）
+         └─ SD merge → 自動建立 PG Issue + C-Branch + Draft PR（P1-code）
+```
+
+
+---
+
+# 處理特定 SA,SD或PG Issue 時
 
 當人類成員指定處理特定 Issue 時，若Issue類型為:SA,SD或PG(在issue 標題中會標示)，開始實作前：
 

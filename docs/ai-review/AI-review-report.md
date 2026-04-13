@@ -1,5 +1,36 @@
 # AI 文件審查報告
 
+## 2026-04-13 18:34 (v19)
+
+#### P1-project（審查 9 份文件，4 份有問題）
+
+**workflow_guide.md**：
+- **[待處理]** L12 Issue 關聯順序寫「PM>SA>PG>PG」，正確順序應為「PM>SA>SD>PG」——SD 被遺漏且 PG 重複。（事實差異）
+- **[待處理]** L56 p-workflow.yml 連結使用同 Repo GitHub 絕對 URL（`https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml`），可改為相對路徑。（優化建議）
+
+**quick-start.md**：
+- **[待處理]** L3「← 回到總導覽」連結 `../../README.md`，但本文件位於 `docs/`，`../../` 超出 Repo 根目錄，GitHub 上為 404。應改為 `../README.md`。（事實差異）
+- **[待處理]** L34 連結 `workflow_guide.md#例外處理`，但 workflow_guide.md 中不存在「例外處理」標題，錨點無效。（事實差異）
+
+**project-board-guide.md**：
+- **[待處理]** L2「← 回到總導覽」連結 `../../README.md`，同 quick-start.md 問題，GitHub 上為 404。應改為 `../README.md`。（事實差異）
+
+**repo-design.md**：
+- **[待處理]** P1-code 目錄結構（L225–235）遺漏 `SETUP.md`，該檔案實際存在且為 doclist 收錄的重要文件。（事實差異）
+- **[待處理]** P1-code 目錄結構遺漏 `TestReport/` 目錄，該目錄實際存在且由 CLAUDE.md PG 流程定義為 PG 產出位置。（事實差異）
+
+#### P1-design（審查 2 份文件，0 份有問題）
+
+#### P1-code（審查 1 份文件，0 份有問題）
+
+### 摘要
+> 本次審查 12 份文件，發現 4 份有問題。
+
+### 未發現問題的文件
+> 以下 8 份文件未發現問題：README.md、CLAUDE.md、TechStack.md、FunctionList.md、SETUP.md、AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md。
+
+---
+
 ## 2026-04-13 06:59 (v18)
 
 ### 摘要
@@ -58,16 +89,3 @@
 
 ### 未發現問題的文件
 > 以下 10 份文件未發現問題：README.md、CLAUDE.md、guide.md、quick-start.md、repo-design.md、TechStack.md、SETUP.md、AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md。
-
----
-
-## 2026-04-13 13:38 (v16)
-
-### 摘要
-> 本次審查 12 份文件，發現 1 份有問題。
-
-**FunctionList.md**：
-- **[待處理]** 完成狀態欄位全部空白（11 個功能均無填寫 `未開始`／`進行中`／`已完成`），文件標題已宣告欄位用途但未實際維護，讀者無法判斷功能完成度。（優化，續自 v15）
-
-### 未發現問題的文件
-> 以下 11 份文件未發現問題：README.md、CLAUDE.md、guide.md、quick-start.md、project-board-guide.md、repo-design.md、AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md、TechStack.md、SETUP.md。

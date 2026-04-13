@@ -65,14 +65,6 @@ idea → Next → Todo → In progress → Done
 > **自動化串接流程**與各**角色職責**詳見 [workflow_guide.md](workflow_guide.md)。
 ---
 
-## Chore 工作
-
-1. 在**對應的 Repo** 建立 Issue，github workflow 會自動建立分支（`chore-{N}-{slug}`）。
-2. 改 Status 為 **In progress**，Pull 對應的分支到Local，開始作業
-3. 工作完成後，等待Approve及Merge。
-
----
-
 ## Learn 資源庫
 
 - Learn 工作完成後 Status 改為 **Done(留存)**（不用 Done）

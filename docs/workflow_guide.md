@@ -4,7 +4,7 @@
 
 > 本文件說明 P1 的設計理念與整體流程。
 > 第一天操作請看 [quick-start.md](quick-start.md)。
-> Repo 結構與格式規範請看 [repo-design.md](../repo-design.md)。
+> Repo 結構與格式規範請看 [repo-design.md](repo-design.md)。
 
 ---
 
@@ -58,7 +58,7 @@ P1-project Epic #1（PM）
         └── P1-code PG Issue #7
 ```
 
-SD 若發現工作量太大，可拆分為多個 SD Issue 平行開發；所有 PG Issue 完成後，PM 手動驗收並關閉 Epic。
+SD 若發現工作量太大，可拆分為多個 SD Issue 平行開發；PG merge 後，c-workflow 自動關閉 Epic。
 
 ### 2. Delta Record（變更追蹤）
 
@@ -72,7 +72,7 @@ SD 若發現工作量太大，可拆分為多個 SD Issue 平行開發；所有 
 
 ### 3. Issue Body 結構化（AI 可讀）
 
-每個 Issue body 包含標準化關聯欄位，AI 讀取 PG Issue 後可沿關聯鏈往上取得完整脈絡自主實作。格式定義見 [repo-design.md](../repo-design.md)。
+每個 Issue body 包含標準化關聯欄位，AI 讀取 PG Issue 後可沿關聯鏈往上取得完整脈絡自主實作。格式定義見 [repo-design.md](repo-design.md)。
 
 ### 4. 品質把關
 
@@ -84,15 +84,17 @@ SD 若發現工作量太大，可拆分為多個 SD Issue 平行開發；所有 
 
 ## GitHub Actions 自動化
 
-各 workflow 的詳細觸發條件與行為見 `spec/`：
+各 workflow 的 yml 檔如下：
 
-| Workflow | 規格文件 | 觸發 | 優先級 |
-|----------|---------|------|--------|
-| p-workflow | [spec/p-workflow.md](spec/p-workflow.md) | Epic 加上 `epic` label | P0 |
-| a-workflow | [spec/a-workflow.md](spec/a-workflow.md) | A-Branch merge | P0 |
-| d-workflow | [spec/d-workflow.md](spec/d-workflow.md) | D-Branch merge | P0 |
-| c-workflow | [spec/c-workflow.md](spec/c-workflow.md) | Push / PR / merge | P0 |
-| chore-workflow | [spec/chore-workflow.md](spec/chore-workflow.md) | Issue 加上 `chore` label | P1 |
+| Workflow | yml 檔 | 觸發 | 優先級 |
+|----------|--------|------|--------|
+| p-workflow | [p-workflow.yml](../.github/workflows/p-workflow.yml) | Epic 加上 `epic` label | P0 |
+| a-workflow | [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml) | A-Branch merge | P0 |
+| d-workflow | [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml) | D-Branch merge | P0 |
+| c-workflow | [c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml) | Push / PR / merge | P0 |
+| chore-workflow | [a-chore](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-chore-workflow.yml) / [d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-chore-workflow.yml) / [c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-chore-workflow.yml) | Issue 加上 `chore` label | P1 |
+
+> 如需了解 workflow 細節，直接詢問 AI 即可。
 
 ### Token 權限
 
@@ -132,4 +134,4 @@ SD 在 PR 留言說明影響範圍，PM 決定：繼續（SD 在現有 PR 更新
 
 ### workflow 自動化失敗（分支未自動建立）
 15 分鐘內未看到下游 Issue，查閱對應 workflow 的規格文件，依其「應急方案」手動處理：
-[p-workflow.md](spec/p-workflow.md)、[a-workflow.md](spec/a-workflow.md)、[d-workflow.md](spec/d-workflow.md)、[c-workflow.md](spec/c-workflow.md)
+[p-workflow.yml](../.github/workflows/p-workflow.yml)、[a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml)、[d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml)、[c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml)

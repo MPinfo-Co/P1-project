@@ -2,7 +2,7 @@
 
 > [← 回到總導覽](../../README.md)
 
-> 本文件是新成員的「第一天操作指南」。完整規範請閱讀 [workflow_guide.md](workflow_guide.md)；Repo 結構與格式規範請閱讀 [repo-design.md](../repo-design.md)。
+> 本文件是新成員的「第一天操作指南」。完整規範請閱讀 [workflow_guide.md](workflow_guide.md)；Repo 結構與格式規範請閱讀 [repo-design.md](repo-design.md)。
 
 ---
 

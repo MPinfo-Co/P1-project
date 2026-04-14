@@ -2,9 +2,12 @@
 
 > [← 回到總導覽](../README.md)
 
-[MP-BOX Project Board](https://github.com/orgs/MPinfo-Co/projects/4)
+
+## MP-BOX專案看板 [MP-BOX Project Board](https://github.com/orgs/MPinfo-Co/projects/4)
 
 ---
+
+![[Pasted image 20260414153338.png]]
 
 ## Views(頁籤) 說明
 
@@ -32,26 +35,23 @@
 | **Parent issue**        | 上層 Epic                                      |
 | **Sub-issues progress** | 子 issue 完成比例（自動計算）                           |
 
----
-
 ## Status 狀態說明
 
-| 狀態 | 說明 |
-|------|------|
-| idea | 剛進來的想法，未評估 |
-| Next | 評估可行，下版本候補 |
-| Todo | 本版本（本季）確認要做 |
-| In progress | 進行中（上限 2 個）|
-| Done | 完成 |
-| **Done(留存)** | Learn 專用，永久保留在 Learn View |
+| 狀態           | 說明                        |
+| ------------ | ------------------------- |
+| idea         | 剛進來的想法，未評估                |
+| Next         | 評估可行，下版本候補                |
+| Todo         | 本版本（本季）確認要做               |
+| In progress  | 進行中（上限 2 個）               |
+| Done         | 完成                        |
 
-> 版本週期：一季一個版本（Q1/Q2/Q3/Q4）。
+> 一季一個版本（Q1/Q2/Q3/Q4）， todo項目 即為當季(新版本)工作
 
 ---
 
 
 
-## 通用工作步驟
+## 工作步驟
 
 1. 在**工作管理(Member)頁籤** 中，整理自己的工作
 2. 選擇欲執行的 Todo 項目，將對應工作 Status 切換為 **「In progress」** 

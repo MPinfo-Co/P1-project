@@ -1,20 +1,24 @@
-# 自動化流程
-## 表單填寫：GitHub Issue Template 設定
+# 工作流程
 
-| Repo       | 說明             | yml檔案                                                                                             | 觸發             |
-| ---------- | -------------- | ------------------------------------------------------------------------------------------------- | -------------- |
-| P1-project | 開立 Epic 的表單    | [epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)     | p-workflow     |
-| ALL        | 行政事務追蹤         | [chore.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/chore.yml)   | chore-workflow |
-| ALL        | 設定禁止開立空白 Issue | [config.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/config.yml) |                |
+## 開立工作時所填寫的表單 - GitHub Issue Template 設定
 
-## 自動化流程說明
+| 工作類型   | 動作            | Repo       | yml檔案                                                                                                                                                                                                                                                                                                             | 開立後觸發...                           |
+| ------ | ------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| 系統功能修改 | 開立 Epic 表單    | P1-project | [epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)                                                                                                                                                                                                                     | p-workflow.yml<br>**見「Epic自動化流程」** |
+| 行政事務   | 行政 Chore 表單   | ALL        | [a-chore](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-chore-workflow.yml)  <br>[d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-chore-workflow.yml) <br>[c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-chore-workflow.yml) | chore-workflow.yml<br>**開立Branch** |
+| 其他工作   | 開立Draft Issue | ALL        |                                                                                                                                                                                                                                                                                                                   |                                    |
+
+> 統一透過專案看板[MP-BOX](https://github.com/orgs/MPinfo-Co/projects/4)開立工作
+> 設定禁止開立空白 Issue(設定檔：[config.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/config.yml))
+
+##  Epic自動化流程
+
+WF-P = [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml) in P1-project
+WF-A = [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml) in P1-analysis
+WF-D = [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml) in P1-design
+WF-C = [c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml) in P1-code
 
 ```
-WF-P = p-workflow.yml in P1-project
-WF-A = a-workflow.yml in P1-analysis
-WF-D = d-workflow.yml in P1-design
-WF-C = c-workflow.yml in P1-code
-
 PM 開立 Epic（透過填寫範本）
 └─ [WF-P 自動建立] SA Issue + SA-Branch + Draft PR
 └─ [WF-P 自動產生] P1-analysis:issue-{SA#}/business-logic.md
@@ -30,18 +34,7 @@ PM 開立 Epic（透過填寫範本）
             └─ [WF-C 自動關閉] Epic、PG Issue
 ```
 
-> 產生issue時，會自動在issue body產生與該issue相關的所有項目連結
-
-## 自動化設定檔 GitHub Actions 設定
-
-| Workflow       | yml 檔                                                                                                                                                                                                                                                                                                        | 觸發點                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
-| p-workflow     | [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml)                                                                                                                                                                                                         | Epic issue開立           |
-| a-workflow     | [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml)                                                                                                                                                                                                        | A-Branch merge         |
-| d-workflow     | [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml)                                                                                                                                                                                                          | D-Branch merge         |
-| c-workflow     | [c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml)                                                                                                                                                                                                            | Push / PR / merge      |
-| chore-workflow | [a-chore](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-chore-workflow.yml) / [d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-chore-workflow.yml) / [c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-chore-workflow.yml) | Issue 加上 `chore` label |
-
+> 產生各階段issue時，會自動在issue body產生與該issue相關的所有項目連結
 > 如需了解 workflow 細節，直接向AI詢問指定文件內涵即可。
 
 

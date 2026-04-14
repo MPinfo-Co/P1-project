@@ -6,26 +6,35 @@
 
 ---
 
-## 欄位說明
+## Views(頁籤) 說明
 
-| 欄位 | 用途 |
-|------|------|
-| **Status** | 工作階段 |
-| **Scope** | 分類標記（MP-Box / 資安專家 / Learn / Other）|
-| **週期** | 所屬工作週（5 天一個週期，PM 分配）|
-| **Start / Target date** | 工作者填入實際開始與完成日 |
-| **Estimate** | 預估工時（單位：天，導入中）|
-| **References** | Learn 項目的學習筆記連結（純網址或 `[標題](網址)`）|
-| **Parent issue** | 上層 Epic |
-| **Sub-issues progress** | 子 issue 完成比例（自動計算）|
+| View(頁籤名稱)   | 使用者 | 用途                           |
+| ------------ | --- | ---------------------------- |
+| 工作管理(PM)     | PM  | 無篩選全覽，分派週期給所有工作              |
+| 近期工作(PM)     | PM  | 調整項目欄位內容                     |
+| 專案週報(PM)     | PM  | 向上報告                         |
+| 工作管理(Member) | 全員  | 查詢管理自己的工作（預設 `assignee:@me`） |
+| 工作規劃(Member) | 全員  | 填入個人實際 Start / Target date   |
+
 
 ---
 
-## Status 流程
+## 看板欄位說明
 
-```
-idea → Next → Todo → In progress → Done
-```
+| 欄位                      | 用途                                           |
+| ----------------------- | -------------------------------------------- |
+| **Status**              | 工作階段 idea → Next → Todo → In progress → Done |
+| **Scope**               | 分類標記（MP-Box / 資安專家 / Learn / Other）          |
+| **週期**                  | 所屬工作週（5 天一個週期，PM 分配）                         |
+| **Start / Target date** | 工作者填入實際開始與完成日                                |
+| **Estimate**            | 預估工時（單位：天，導入中）                               |
+| **References**          | Learn 項目的學習筆記連結（純網址或 `[標題](網址)`）             |
+| **Parent issue**        | 上層 Epic                                      |
+| **Sub-issues progress** | 子 issue 完成比例（自動計算）                           |
+
+---
+
+## Status 狀態說明
 
 | 狀態 | 說明 |
 |------|------|
@@ -40,33 +49,18 @@ idea → Next → Todo → In progress → Done
 
 ---
 
-## Views 說明
 
-| View         | 使用者 | 用途                           |
-| ------------ | --- | ---------------------------- |
-| 工作管理(PM)     | PM  | 無篩選全覽，分派週期給所有工作              |
-| 近期工作(PM)     | PM  | 調整項目欄位內容                     |
-| 專案週報(PM)     | PM  | 向上報告                         |
-| 工作管理(Member) | 全員  | 查詢管理自己的工作（預設 `assignee:@me`） |
-| 工作規劃(Member) | 全員  | 填入個人實際 Start / Target date   |
-| Learn        | 全員  | 學習資源庫（`status:Done(留存)`）     |
 
----
+## 通用工作步驟
 
-## 各角色工作流程
-
-**通用工作步驟：**
-1. 在**工作管理(Member)** 頁籤中，確認 Todo 項目之工作細節，例如：Issue 留言內有分支與 Draft PR 連結
-2. 改 Status 為 **In progress**，Pull 對應的分支到Local，開始作業
-3. 完成工作後將 Draft PR 改為 **Ready for review** → 等待Approve及Merge
-4. 在**工作規劃(Member)** 填入(或點擊) Start / Target date
+1. 在**工作管理(Member)頁籤** 中，整理自己的工作
+2. 選擇欲執行的 Todo 項目，將對應工作 Status 切換為 **「In progress」** 
+3. Pull 對應的分支到Local環境，開始作業
+4. 作業完成後，將 Draft PR 改為 **「Ready for review」** 
+5. 等待Approve
+6. Merge
+7. 在**工作規劃(Member)頁籤** 中，透過**點擊**填入實際完成時間 Start / Target date 
 
 > WIP 原則：**同時 In progress 不超過 3 個，控制在2個之內**。
 > **自動化串接流程**與各**角色職責**詳見 [workflow_guide.md](workflow_guide.md)。
----
 
-## Learn 資源庫
-
-- Learn 工作完成後 Status 改為 **Done(留存)**（不用 Done）
-- 自動出現在 Learn View，不受週期篩選影響
-- References 欄位填入筆記連結供全員查閱

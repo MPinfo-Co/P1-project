@@ -30,7 +30,6 @@ P1-project/
     │   ├── AI-review-report.md ← 文件審查報告（自動產出）
     │   └── AI-review-gap-report.md ← 缺口掃描報告（自動產出）
     ├── workflow_guide.md  ← 設計理念、整體流程、關鍵機制
-    ├── quick-start.md     ← 各角色第一天操作指南
     └── project-board-guide.md ← GitHub Projects 看板用法
 ```
 
@@ -284,7 +283,7 @@ issue-{編號}-{簡短說明}
 
 ### Commit Message 格式
 
-格式由 `commitlint + husky` 強制執行，不符合格式的 commit 會被擋下。Type 說明見 [quick-start.md — Commit Message 格式速查](quick-start.md#commit-message-格式速查)。
+格式由 `commitlint + husky` 強制執行，不符合格式的 commit 會被擋下。常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`。
 
 ### 檔案命名
 - Spec 文件：`{畫面編號}{功能名稱}{類型}.md`，例：`03UserAPI.md`、`03UserPage.md`

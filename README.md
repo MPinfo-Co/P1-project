@@ -6,20 +6,14 @@ MP-BOX 是一套面向企業用戶的 AI 應用平台，協助企業解決資安
 
 ---
 
-## 新成員從這裡開始
-
-**[docs/quick-start.md](docs/quick-start.md)** — 第一天操作指南，按角色分類的完整步驟
-
----
-
 ## 四個 Repo
 
-| Repo            | 層級                                       | 負責角色  | 連結                                                                |
-| --------------- | ---------------------------------------- | ----- | ----------------------------------------------------------------- |
-| **P1-project**  | 產品管理（Epic、規範文件）                          | PM    | 你在這裡                                                              |
-| **P1-analysis** | 需求分析（業務邏輯、Use Case、SD-WBS）               | SA    | [MPinfo-Co/P1-analysis](https://github.com/MPinfo-Co/P1-analysis) |
-| **P1-design**   | 系統設計（Prototype、API Spec、Schema、TDD） | SD    | [MPinfo-Co/P1-design](https://github.com/MPinfo-Co/P1-design)     |
-| **P1-code**     | 系統開發（React/TypeScript + Python/FastAPI）  | PG／AI | [MPinfo-Co/P1-code](https://github.com/MPinfo-Co/P1-code)         |
+| Repo            | 層級                                      | 負責角色 | 連結                                                                |
+| --------------- | --------------------------------------- | ---- | ----------------------------------------------------------------- |
+| **P1-project**  | 產品管理（Epic、規範文件）                         | PM   | 你在這裡                                                              |
+| **P1-analysis** | 需求分析（業務邏輯、Use Case、SD-WBS）              | SA   | [MPinfo-Co/P1-analysis](https://github.com/MPinfo-Co/P1-analysis) |
+| **P1-design**   | 系統設計（Prototype、API Spec、Schema、TDD）     | SD   | [MPinfo-Co/P1-design](https://github.com/MPinfo-Co/P1-design)     |
+| **P1-code**     | 系統開發（React/TypeScript + Python/FastAPI） | PG   | [MPinfo-Co/P1-code](https://github.com/MPinfo-Co/P1-code)         |
 
 ```
 PM（P1-project）開立 Epic
@@ -34,7 +28,7 @@ PM（P1-project）開立 Epic
 
 | Repo | 路徑/文件 | 用途 |
 |------|----------|------|
-| P1-project | [docs/quick-start.md](docs/quick-start.md) | 各角色第一天操作指南 |
+| P1-project | [CLAUDE.md](CLAUDE.md) | AI agent 工作指引 |
 | P1-project | [docs/project-board-guide.md](docs/project-board-guide.md) | GitHub Projects 看板用法、Views 說明、自動化流程（各角色）|
 | P1-project | [docs/workflow_guide.md](docs/workflow_guide.md) | 設計理念、整體流程、關鍵機制 |
 | P1-project | [docs/repo-design.md](docs/repo-design.md) | Repo 結構、Issue 格式、命名規範 |

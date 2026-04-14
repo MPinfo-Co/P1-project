@@ -1,4 +1,4 @@
-# 工作流程
+# 一.工作流程
 
 ## 開立工作時所填寫的表單 - GitHub Issue Template 設定
 
@@ -30,12 +30,81 @@ PM 開立 Epic（透過填寫範本）
         └─ [WF-D 自動建立] PG Issue + PG-Branch + Draft PR
         └─ [WF-D 自動產生] P1-code:TestReport/issue-{SD#}.md
           └─ PG merge PR
-            └─ [WF-C 自動產生] P1-code:VersionDiff/issue-{PG#}.md
             └─ [WF-C 自動關閉] Epic、PG Issue
 ```
 
 > 產生各階段issue時，會自動在issue body產生與該issue相關的所有項目連結
 > 如需了解 workflow 細節，直接向AI詢問指定文件內涵即可。
+
+##  Issue body 
+###  Epic Issue body (由[epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)規範)
+
+```markdown
+## 功能說明
+<!-- 這個功能要解決什麼問題？ -->
+
+## 驗收條件
+<!-- 完成的定義是什麼？ -->
+```
+
+###  SA Issue body(由[p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml)產生)
+
+```Markdown
+## 關聯項目
+
+### SA 工作文件
+- business-logic.md：[issue-4/business-logic.md]
+
+### 關聯 Issue
+- Epic：MPinfo-Co/P1-project#1
+- SA Issue：#4（本 Issue）
+- SD Issue：P1-design #（merge 後自動填入）
+
+### 相關連結
+- 分支：[issue-4-xxx]
+- Draft PR：[#3]
+```
+
+###  SD Issue body(由[a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml) 產生)
+
+```markdown
+## 關聯項目
+
+### SD 工作文件
+- business-logic.md：[issue-4/business-logic.md]
+- TDD：[TDD/issue-5.md]
+
+### 關聯 Issue
+- Epic：MPinfo-Co/P1-project#1
+- SA Issue：MPinfo-Co/P1-analysis#4
+- SD Issue：#5（本 Issue）
+- PG Issue：P1-code #（merge 後自動填入）
+
+### 相關連結
+- 分支：[issue-5-xxx]
+- Draft PR：[#6]
+```
+###  PG Issue body(由[d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml)產生)
+
+```Markdown
+## 關聯項目
+
+### PG 工作文件
+- business-logic.md：[issue-4/business-logic.md]
+- SpecDiff：[SpecDiff/issue-5.md]
+- TDD：[TDD/issue-5.md]
+- TestReport：[TestReport/issue-5.md]
+
+### 關聯 Issue
+- Epic：MPinfo-Co/P1-project#1
+- SA Issue：MPinfo-Co/P1-analysis#4
+- SD Issue：MPinfo-Co/P1-design#5
+- PG Issue：#7（本 Issue）
+
+### 相關連結
+- 分支：[issue-7-xxx]
+- Draft PR：[#8]
+```
 
 
 ---

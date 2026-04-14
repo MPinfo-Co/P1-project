@@ -1,30 +1,13 @@
+# 自動化流程
+## 表單填寫：GitHub Issue Template 設定
 
-# 自動化流程核心目標
+| Repo       | 說明             | yml檔案                                                                                             | 觸發             |
+| ---------- | -------------- | ------------------------------------------------------------------------------------------------- | -------------- |
+| P1-project | 開立 Epic 的表單    | [epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)     | p-workflow     |
+| ALL        | 行政事務追蹤         | [chore.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/chore.yml)   | chore-workflow |
+| ALL        | 設定禁止開立空白 Issue | [config.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/config.yml) |                |
 
-## 人類協作層面
-
-- **可追蹤**：每一行程式碼都能追溯到設計規格，每一份規格都能追溯到需求分析
-- **可驗證**：每個階段都有明確的品質把關，不符合標準的工作無法進入下一階段
-- **自動化**：重複性的文書工作（建立分支、記錄變更、通知下游）由系統自動完成
-
-## AI 協作層面
-
-- AI 接到 Issue 後，能沿著 Issue 關聯(PM>SA>SD>PG)自主讀取商業邏輯、設計規格、歷史異動，不需要人工交接，直接產出可交付的程式碼
-
----
-
-# 流程總覽
-
-## 人工流程
-
-| 負責人 | 階段   | Repo        | 產出                   |
-| --- | ---- | ----------- | -------------------- |
-| PM  | 工作分派 | P1-project  | SA Issue + SA-Branch |
-| SA  | 系統分析 | P1-analysis | business-logic.md    |
-| SD  | 系統設計 | P1-design   | Spec、Prototype、TDD   |
-| PG  | 系統開發 | P1-code     | 程式碼、測試、VersionDiff   |
-
-## 自動化流程
+## 自動化流程說明
 
 ```
 WF-P = p-workflow.yml in P1-project
@@ -49,17 +32,18 @@ PM 開立 Epic（透過填寫範本）
 
 > 產生issue時，會自動在issue body產生與該issue相關的所有項目連結
 
-## GitHub Actions 自動化設定檔(yml 檔)
+## 自動化設定檔 GitHub Actions 設定
 
-| Workflow       | yml 檔                                                                                                                                                                                                                                                                                                        | 觸發                     | 優先級 |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | --- |
-| p-workflow     | [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml)                                                                                                                                                                                                 | Epic issue開立           | P0  |
-| a-workflow     | [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml)                                                                                                                                                                                                        | A-Branch merge         | P0  |
-| d-workflow     | [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml)                                                                                                                                                                                                          | D-Branch merge         | P0  |
-| c-workflow     | [c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml)                                                                                                                                                                                                            | Push / PR / merge      | P0  |
-| chore-workflow | [a-chore](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-chore-workflow.yml) / [d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-chore-workflow.yml) / [c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-chore-workflow.yml) | Issue 加上 `chore` label | P1  |
+| Workflow       | yml 檔                                                                                                                                                                                                                                                                                                        | 觸發點                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
+| p-workflow     | [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml)                                                                                                                                                                                                         | Epic issue開立           |
+| a-workflow     | [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml)                                                                                                                                                                                                        | A-Branch merge         |
+| d-workflow     | [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml)                                                                                                                                                                                                          | D-Branch merge         |
+| c-workflow     | [c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml)                                                                                                                                                                                                            | Push / PR / merge      |
+| chore-workflow | [a-chore](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-chore-workflow.yml) / [d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-chore-workflow.yml) / [c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-chore-workflow.yml) | Issue 加上 `chore` label |
 
 > 如需了解 workflow 細節，直接向AI詢問指定文件內涵即可。
+
 
 ---
 
@@ -67,9 +51,11 @@ PM 開立 Epic（透過填寫範本）
 
 ## 程式審查機制(自動＋人工)
 
-- **本地(commit時)**：pre-commit（ruff）+ husky lint-staged（ESLint、Prettier）+ commitlint
-- **CI(push時)**：ruff lint/format、ESLint、Prettier check、pytest（P1-code）
+### Repo：P1-analysis / P1-design / P1-code
 - **PR**：各階段審查人確認品質，需逐行確認細節
+### Repo：P1-code
+- **Local(commit時)**：pre-commit（ruff）+ husky lint-staged（ESLint、Prettier）+ commitlint
+- **Github(push時)**：ruff lint/format、ESLint、Prettier check、pytest
 
 ---
 

@@ -57,7 +57,7 @@ PM 開立 Epic（透過填寫範本）
 
 ### 關聯 Issue
 - Epic：MPinfo-Co/P1-project#1
-- SA Issue：#4（本 Issue）
+- SA Issue：#4
 - SD Issue：P1-design #（merge 後自動填入）
 
 ### 相關連結
@@ -77,7 +77,7 @@ PM 開立 Epic（透過填寫範本）
 ### 關聯 Issue
 - Epic：MPinfo-Co/P1-project#1
 - SA Issue：MPinfo-Co/P1-analysis#4
-- SD Issue：#5（本 Issue）
+- SD Issue：#5
 - PG Issue：P1-code #（merge 後自動填入）
 
 ### 相關連結
@@ -99,7 +99,7 @@ PM 開立 Epic（透過填寫範本）
 - Epic：MPinfo-Co/P1-project#1
 - SA Issue：MPinfo-Co/P1-analysis#4
 - SD Issue：MPinfo-Co/P1-design#5
-- PG Issue：#7（本 Issue）
+- PG Issue：#7
 
 ### 相關連結
 - 分支：[issue-7-xxx]

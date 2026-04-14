@@ -1,6 +1,6 @@
 # GitHub Projects 看板使用指南
 
-> [← 回到總導覽](../../README.md)
+> [← 回到總導覽](../README.md)
 
 [MP-BOX Project Board](https://github.com/orgs/MPinfo-Co/projects/4)
 

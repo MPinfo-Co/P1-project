@@ -9,7 +9,7 @@
 
 ## AI 協作層面
 
-- AI 接到 Issue 後，能沿著 Issue 關聯(PM>SA>PG>PG)自主讀取商業邏輯、設計規格、歷史異動，不需要人工交接，直接產出可交付的程式碼
+- AI 接到 Issue 後，能沿著 Issue 關聯(PM>SA>SD>PG)自主讀取商業邏輯、設計規格、歷史異動，不需要人工交接，直接產出可交付的程式碼
 
 ---
 
@@ -53,7 +53,7 @@ PM 開立 Epic（透過填寫範本）
 
 | Workflow       | yml 檔                                                                                                                                                                                                                                                                                                        | 觸發                     | 優先級 |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | --- |
-| p-workflow     | [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml)                                                                                                                                                                                                                                                    | Epic issue開立           | P0  |
+| p-workflow     | [p-workflow.yml](../.github/workflows/p-workflow.yml)                                                                                                                                                                                                                                                    | Epic issue開立           | P0  |
 | a-workflow     | [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml)                                                                                                                                                                                                        | A-Branch merge         | P0  |
 | d-workflow     | [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml)                                                                                                                                                                                                          | D-Branch merge         | P0  |
 | c-workflow     | [c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml)                                                                                                                                                                                                            | Push / PR / merge      | P0  |

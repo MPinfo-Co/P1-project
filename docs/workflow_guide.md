@@ -149,6 +149,27 @@ PM 開立 Epic（透過填寫範本）
 ```
 
 
+### TestReport/issue-{N}.md 格式（由[d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml)產生）：
+
+```markdown
+# TestReport：[SD] {功能標題}
+
+## 工作項目
+| # | 類型 | 說明 | PG執行註記 |
+|---|------|------|---|
+| 1 | API  | POST /api/leaves（建立請假申請） |  |
+| 2 | 畫面 | 請假申請表單 |  |
+
+## 測試案例
+| ID | 類型 | 前置條件 | 操作 | 預期結果 | PG執行註記 |
+|----|------|---------|------|---------|---|
+| T1 | 整合 | 登入 Tenant A | POST /api/leaves | 201，回傳 leave_id |  |
+| T2 | 整合 | 未登入 | POST /api/leaves | 401 Unauthorized |  |
+| T3 | 畫面 | 登入狀態 | 填寫表單，結束日早於開始日 | 顯示日期錯誤提示，禁止送出 |  |
+```
+
+> PG執行註記：工作項目填「已執行」或簡短註記；測試案例填「通過」、「失敗」或簡短註記。
+
 ### SpecDiff/issue-{N}.md 格式（由[d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml)產生）：
 
 ```markdown

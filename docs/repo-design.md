@@ -23,14 +23,14 @@ P1-project/
 ├── CLAUDE.md              ← AI agent 工作指引
 └── docs/
     ├── repo-design.md     ← Repo 結構與格式規範（本文件）
-    ├── ai-review/         ← AI 文件審查相關檔案
-    │   ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
-    │   ├── AI-review-gap-prompt.md ← AI 缺口與孤立文件掃描 Prompt
-    │   ├── AI-review-doclist.md ← AI 文件審查範圍清單
-    │   ├── AI-review-report.md ← 文件審查報告（自動產出）
-    │   └── AI-review-gap-report.md ← 缺口掃描報告（自動產出）
     ├── workflow_guide.md  ← 設計理念、整體流程、關鍵機制
-    └── project-board-guide.md ← GitHub Projects 看板用法
+    ├── project-board-guide.md ← GitHub Projects 看板用法
+    └── ai-review/         ← AI 文件審查相關檔案
+        ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
+        ├── AI-review-gap-prompt.md ← AI 缺口與孤立文件掃描 Prompt
+        ├── AI-review-doclist.md ← AI 文件審查範圍清單
+        ├── AI-review-report.md ← 文件審查報告（自動產出）
+        └── AI-review-gap-report.md ← 缺口掃描報告（自動產出）
 ```
 
 **Epic Issue body 格式：**
@@ -81,16 +81,22 @@ P1-analysis/
 **SA Issue body 格式（結構化，供 AI 讀取）：**
 
 ```markdown
-## 功能說明
-
 ## 關聯項目
-- Epic：P1-project #1
-- SA Issue：P1-analysis #4（本 Issue）
+
+### SA 工作文件
+- business-logic.md：[issue-4/business-logic.md](https://github.com/MPinfo-Co/P1-analysis/blob/issue-4-xxx/issue-4/business-logic.md)
+
+### 關聯 Issue
+- Epic：MPinfo-Co/P1-project#1
+- SA Issue：#4（本 Issue）
 - SD Issue：P1-design #（merge 後自動填入）
-- 階段：SA
+
+### 相關連結
+- 分支：[issue-4-xxx](https://github.com/MPinfo-Co/P1-analysis/tree/issue-4-xxx)
+- Draft PR：[#3](https://github.com/MPinfo-Co/P1-analysis/pull/3)
 ```
 
-> SA Issue 由 **P-workflow 自動建立**，不可手動建立。Issue body 由系統自動填入，包含 Epic 編號與 SA Issue 編號。
+> SA Issue 由 **P-workflow 自動建立**，不可手動建立。Issue body 由系統自動填入，包含 Epic 編號、SA Issue 編號、分支與 Draft PR 連結。
 
 ---
 
@@ -133,20 +139,21 @@ P1-design/
 **SD Issue body 格式（結構化，供 AI 讀取）：**
 
 ```markdown
-## 設計範圍
-<!-- 由系統自動填入，勿手動編輯 -->
-
 ## 關聯項目
-- Epic：P1-project #1
-- SA Issue：P1-analysis #4
-- SD Issue：P1-design #5（本 Issue）
-- PG Issue：P1-code #（merge 後自動填入）
-- 階段：SD
 
-## 若為拆分 Issue
-- 父 Epic：P1-project #1
-- 原始 SD Issue：P1-design #5
-- 本拆分標記：[1b]
+### SD 工作文件
+- business-logic.md：[issue-4/business-logic.md](https://github.com/MPinfo-Co/P1-analysis/blob/main/issue-4/business-logic.md)
+- TDD：[TDD/issue-5.md](https://github.com/MPinfo-Co/P1-design/blob/issue-5-xxx/TDD/issue-5.md)
+
+### 關聯 Issue
+- Epic：MPinfo-Co/P1-project#1
+- SA Issue：MPinfo-Co/P1-analysis#4
+- SD Issue：#5（本 Issue）
+- PG Issue：P1-code #（merge 後自動填入）
+
+### 相關連結
+- 分支：[issue-5-xxx](https://github.com/MPinfo-Co/P1-design/tree/issue-5-xxx)
+- Draft PR：[#6](https://github.com/MPinfo-Co/P1-design/pull/6)
 ```
 
 **TDD/issue-N.md 格式（SD 人工填寫）：**
@@ -197,8 +204,8 @@ P1-code/
 ├── SYSTEM.md              ← 系統架構與資料流說明
 ├── SETUP.md               ← 本地環境建置說明
 ├── docker-compose.yml     ← 本地開發環境
-├── TestReport/            ← PG 填寫測試結果（以 Issue 為單位）
-│   ├── issue-7.md
+├── TestReport/            ← PG 填寫測試結果（以 SD Issue 編號命名）
+│   ├── issue-5.md         ← 檔名用 SD Issue 編號（與 TDD、SpecDiff 一致）
 │   └── ...
 └── VersionDiff/           ← Merge 時自動產生
     ├── issue-7_Rex_20260326.md
@@ -208,16 +215,26 @@ P1-code/
 **PG Issue body 格式（結構化，供 AI 讀取）：**
 
 ```markdown
-## 實作範圍
-<!-- 由系統自動填入 SD 異動的 Spec/Prototype 清單 -->
-
 ## 關聯項目
-- Epic：P1-project #1
-- SA Issue：P1-analysis #4
-- SD Issue：P1-design #5
-- PG Issue：P1-code #7（本 Issue）
-- 階段：PG
+
+### PG 工作文件
+- business-logic.md：[issue-4/business-logic.md](https://github.com/MPinfo-Co/P1-analysis/blob/main/issue-4/business-logic.md)
+- SpecDiff：[SpecDiff/issue-5.md](https://github.com/MPinfo-Co/P1-design/blob/main/SpecDiff/issue-5.md)
+- TDD：[TDD/issue-5.md](https://github.com/MPinfo-Co/P1-design/blob/main/TDD/issue-5.md)
+- TestReport：[TestReport/issue-5.md](https://github.com/MPinfo-Co/P1-code/blob/issue-7-xxx/TestReport/issue-5.md)
+
+### 關聯 Issue
+- Epic：MPinfo-Co/P1-project#1
+- SA Issue：MPinfo-Co/P1-analysis#4
+- SD Issue：MPinfo-Co/P1-design#5
+- PG Issue：#7（本 Issue）
+
+### 相關連結
+- 分支：[issue-7-xxx](https://github.com/MPinfo-Co/P1-code/tree/issue-7-xxx)
+- Draft PR：[#8](https://github.com/MPinfo-Co/P1-code/pull/8)
 ```
+
+> TestReport 檔名使用 **SD Issue 編號**（與 TDD、SpecDiff 一致），非 PG Issue 編號。
 
 **VersionDiff/issue-N_author_date.md 格式：**
 

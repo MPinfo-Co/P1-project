@@ -1,5 +1,32 @@
 # AI 文件審查報告
 
+## 2026-04-14 18:06 (v20)
+
+#### P1-project（審查 9 份文件，3 份有問題）
+
+**workflow_guide.md**：
+- **[待處理]** 章節編號重複：L198「## 2.1 程式審查機制(自動＋人工)」與 L208「## 2.1文件自動審查機制」同為 2.1，後者應改為 2.2。（事實差異）
+
+**project-board-guide.md**：
+- **[待處理]** L10 使用 Obsidian 風格圖片嵌入語法 `![[Pasted image 20260414153338.png]]`，GitHub Markdown 不支援此語法，實際渲染會顯示為字面文字而非圖片。應改為標準 `![alt](path)` 並確認圖檔已納入 Repo。（事實差異）
+
+**repo-design.md**：
+- **[待處理]** P1-code 目錄結構（L88–99）遺漏 `docker-compose.yml`，該檔案實際存在於 P1-code 根目錄。（事實差異）
+
+#### P1-design（審查 2 份文件，0 份有問題）
+
+#### P1-code（審查 1 份文件，0 份有問題）
+
+### 摘要
+> 本次審查 12 份文件，發現 3 份有問題。
+
+### 未發現問題的文件
+> 以下 9 份文件未發現問題：README.md、CLAUDE.md、TechStack.md、FunctionList.md、SETUP.md、AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md。
+
+（補充：v19 列出的 workflow_guide.md L12/L56 問題、quick-start.md 問題、v19 所列 repo-design.md 缺少 SETUP.md 與 TestReport/ 之項目均已處理；FunctionList.md 完成狀態欄位已填入「未開始」；SETUP.md Python 版本已對齊 3.12+。）
+
+---
+
 ## 2026-04-13 18:34 (v19)
 
 #### P1-project（審查 9 份文件，4 份有問題）
@@ -64,28 +91,3 @@
 
 ### 未發現問題的文件
 > 以下 6 份文件未發現問題：README.md、CLAUDE.md、repo-design.md、AI-review-prompt.md、AI-review-gap-prompt.md、TechStack.md。
-
----
-
-## 2026-04-13 13:56 (v17)
-
-### 摘要
-> 本次審查 12 份文件，發現 2 份有問題。
-
-#### P1-project（審查 9 份文件，1 份有問題）
-
-**project-board-guide.md**：
-- **[待處理]** 各角色工作流程表「觸發下游」欄 PG 列寫 `Merge → 關閉 Epic`，與 guide.md 不符——guide.md 明確說明「所有 PG Issue 完成後，PM 手動驗收並關閉 Epic」；PG merge 實際觸發的是關閉 PG Issue 並自動產生 VersionDiff，Epic 不會自動關閉。（事實差異）
-- **[待處理]** Chore 工作章節說「在**對應的 Repo** 建立 Issue，github workflow 會自動建立分支（`chore-{N}-{slug}`）」，未說明 P1-project Chore 的例外——repo-design.md 與 quick-start.md 均明確指出 P1-project 的 Chore Issue 不觸發任何自動化流程、純手動追蹤；PM 照此章節操作時會期待自動建分支但實際不會發生。步驟 3「等待 Approve 及 Merge」對 P1-project Chore 亦不適用（純手動關閉）。（事實差異）
-
-#### P1-design（審查 2 份文件，1 份有問題）
-
-**FunctionList.md**：
-- **[待處理]** 完成狀態欄位全部空白（11 個功能均無填寫 `未開始`／`進行中`／`已完成`），文件標題已宣告欄位用途但未實際維護，讀者無法判斷功能完成度。（優化，續自 v16）
-
-#### P1-code（審查 1 份文件，0 份有問題）
-
-**SETUP.md**：未發現問題。
-
-### 未發現問題的文件
-> 以下 10 份文件未發現問題：README.md、CLAUDE.md、guide.md、quick-start.md、repo-design.md、TechStack.md、SETUP.md、AI-review-prompt.md、AI-review-gap-prompt.md、AI-review-doclist.md。

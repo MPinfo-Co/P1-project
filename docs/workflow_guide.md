@@ -11,7 +11,7 @@
 > 統一透過專案看板[MP-BOX](https://github.com/orgs/MPinfo-Co/projects/4)開立工作
 > 設定禁止開立空白 Issue(設定檔：[config.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/config.yml))
 
-##  Epic自動化流程
+##  1.1 Epic自動化流程
 
 WF-P = [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml) in P1-project
 WF-A = [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml) in P1-analysis
@@ -36,7 +36,7 @@ PM 開立 Epic（透過填寫範本）
 > 產生各階段issue時，會自動在issue body產生與該issue相關的所有項目連結
 > 如需了解 workflow 細節，直接向AI詢問指定文件內涵即可。
 
-##  Issue body 
+##  1.2 Issue body 
 ###  Epic Issue body (由[epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)規範)
 
 ```markdown
@@ -106,7 +106,7 @@ PM 開立 Epic（透過填寫範本）
 - Draft PR：[#8]
 ```
 
-## 自動產生的md文件格式
+## 1.3 自動產生的md文件格式
 
 ### business-logic.md 格式（由[p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml)產生）
 
@@ -134,7 +134,7 @@ PM 開立 Epic（透過填寫範本）
 ```markdown
 # TDD：[SD] {功能標題}
 
-## 本次工作範圍
+## 工作項目
 | # | 類型 | 說明 |
 |---|------|------|
 | 1 | API  | POST /api/leaves（建立請假申請） |
@@ -172,9 +172,9 @@ PM 開立 Epic（透過填寫範本）
 
 ---
 
-# 品質把關
+# 二.品質把關
 
-## 程式審查機制(自動＋人工)
+## 2.1 程式審查機制(自動＋人工)
 
 ### Repo：P1-analysis / P1-design / P1-code
 - **PR**：各階段審查人確認品質，需逐行確認細節
@@ -184,7 +184,7 @@ PM 開立 Epic（透過填寫範本）
 
 ---
 
-## 文件自動審查機制
+## 2.1文件自動審查機制
 
 每天台灣時間 **凌晨 2:00** 自動執行，由 Claude Code Remote Agent 在雲端運作。
 

@@ -39,7 +39,7 @@ PM 開立 Epic（透過填寫範本）
 ##  1.2 Issue body 
 ###  Epic Issue body (由[epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)規範)
 
-```markdown
+```Markdown
 ## 功能說明
 <!-- 這個功能要解決什麼問題？ -->
 
@@ -129,7 +129,7 @@ PM 開立 Epic（透過填寫範本）
 （主要畫面或操作流程的文字描述）
 ```
 
-### TDD/issue-N.md 格式（由[a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml)產生）：
+### TDD/issue-{N}.md 格式（由[a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml)產生）：
 
 ```markdown
 # TDD：[SD] {功能標題}

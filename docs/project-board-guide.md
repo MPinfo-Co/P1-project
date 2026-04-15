@@ -7,7 +7,7 @@
 
 ---
 
-![[project_board.png]]
+![](images/project_board.png)
 
 ## Views(頁籤) 說明
 

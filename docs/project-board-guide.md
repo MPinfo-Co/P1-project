@@ -7,7 +7,7 @@
 
 ---
 
-![[Pasted image 20260414153338.png]]
+![[project_board.png]]
 
 ## Views(頁籤) 說明
 
@@ -51,7 +51,7 @@
 
 
 
-## 工作步驟
+## 通用工作步驟
 
 1. 在**工作管理(Member)頁籤** 中，整理自己的工作
 2. 選擇欲執行的 Todo 項目，將對應工作 Status 切換為 **「In progress」** 

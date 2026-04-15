@@ -1,15 +1,16 @@
-# GitHub Projects 看板使用指南
+---
+github_repo: chingsungshen|P1-project
+github_issue: 94
+---
 
 > [← 回到總導覽](../README.md)
-
-
-## MP-BOX專案看板 [MP-BOX Project Board](https://github.com/orgs/MPinfo-Co/projects/4)
+# MP-BOX專案看板 [MP-BOX Project Board](https://github.com/orgs/MPinfo-Co/projects/4)
 
 ---
 
 ![](images/project_board.png)
 
-## Views(頁籤) 說明
+# Views(頁籤) 說明
 
 | View(頁籤名稱)   | 使用者 | 用途                           |
 | ------------ | --- | ---------------------------- |
@@ -22,7 +23,7 @@
 
 ---
 
-## 看板欄位說明
+# 看板欄位說明
 
 | 欄位                      | 用途                                           |
 | ----------------------- | -------------------------------------------- |
@@ -35,7 +36,7 @@
 | **Parent issue**        | 上層 Epic                                      |
 | **Sub-issues progress** | 子 issue 完成比例（自動計算）                           |
 
-## Status 狀態說明
+# Status 狀態說明
 
 | 狀態           | 說明                        |
 | ------------ | ------------------------- |
@@ -51,7 +52,7 @@
 
 
 
-## 通用工作步驟
+# 通用工作步驟
 
 1. 在**工作管理(Member)頁籤** 中，整理自己的工作
 2. 選擇欲執行的 Todo 項目，將對應工作 Status 切換為 **「In progress」** 

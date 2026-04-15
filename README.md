@@ -6,23 +6,6 @@ MP-BOX 是一套面向企業用戶的 AI 應用平台，協助企業解決資安
 
 ---
 
-## 四個 Repo
-
-| Repo            | 層級                                      | 負責角色 | 連結                                                                |
-| --------------- | --------------------------------------- | ---- | ----------------------------------------------------------------- |
-| **P1-project**  | 產品管理（Epic、規範文件）                         | PM   | 你在這裡                                                              |
-| **P1-analysis** | 需求分析（業務邏輯、Use Case、SD-WBS）              | SA   | [MPinfo-Co/P1-analysis](https://github.com/MPinfo-Co/P1-analysis) |
-| **P1-design**   | 系統設計（Prototype、API Spec、Schema、TDD）     | SD   | [MPinfo-Co/P1-design](https://github.com/MPinfo-Co/P1-design)     |
-| **P1-code**     | 系統開發（React/TypeScript + Python/FastAPI） | PG   | [MPinfo-Co/P1-code](https://github.com/MPinfo-Co/P1-code)         |
-
-```
-PM（P1-project）開立 Epic
- └─ p-workflow 自動建立 SA Issue + Branch（P1-analysis）
-     └─ SA merge → a-workflow 自動建立 SD Issue + Branch（P1-design）
-         └─ SD merge → d-workflow 自動建立 PG Issue + Branch（P1-code）
-```
-
----
 
 ## 重要文件索引
 
@@ -31,6 +14,8 @@ PM（P1-project）開立 Epic
 | P1-project | [CLAUDE.md](CLAUDE.md) | AI agent 工作指引 |
 | P1-project | [docs/project-board-guide.md](docs/project-board-guide.md) | GitHub Projects 看板用法、Views 說明、自動化流程（各角色）|
 | P1-project | [docs/workflow_guide.md](docs/workflow_guide.md) | 設計理念、整體流程、關鍵機制 |
+| P1-project | [docs/issue-body-spec.md](docs/issue-body-spec.md) | 各階段 Issue body 格式（SA/SD/PG） |
+| P1-project | [docs/auto-file-format.md](docs/auto-file-format.md) | 自動產生 md 文件格式（business-logic、TDD、TestReport、SpecDiff） |
 | P1-project | [docs/repo-design.md](docs/repo-design.md) | Repo 結構、Issue 格式、命名規範 |
 | P1-code | [SETUP.md](https://github.com/MPinfo-Co/P1-code/blob/main/SETUP.md) | 開發環境準備，clone 後第一步 |
 | P1-design | [TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md) | 技術選型與各層選擇原因 |

@@ -1,6 +1,6 @@
-# 專案架構
+# 專案Repo 設計
 
-P1 由四個 Repo 組成，對應四個開發階段：
+專案由四個 Repo 組成，對應四個開發階段
 
 | Repo            | 職責                                   | 角色 | Merge 方式          |
 | --------------- | ------------------------------------ | -- | ----------------- |
@@ -9,34 +9,26 @@ P1 由四個 Repo 組成，對應四個開發階段：
 | **P1-design**   | Prototype、API Spec、Schema、TDD        | SD | PR + SA/PM Review |
 | **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG | PR + SA/PM Review |
 
-> 若需Repo 結構細節請參考：[repo-design.md](docs/repo-design.md)
+> 「Repo 結構細節」，請參考：[repo-design.md](docs/repo-design.md)
+> 「workflow細節」或「串接流程」，請參考：[workflow_guide.md](docs/workflow_guide.md)
+> 「Issue body內文」，請參考：[issue-body-spec.md](docs/issue-body-spec.md)
+> 「自動產生檔案的內文格式」，請參考：[auto-file-format.md](docs/auto-file-format.md)
 
 ---
+# 專案限制
 
-## GitHub 物件操作原則
-
-Issue 與分支由 GitHub Actions (workflow) 自動建立，**不手動操作**。自動串接流程：
-
-```
-開立Epic issue(epic label)
- └─ 自動建立 SA Issue + SA Branch → SA merge → 
-     └─ 自動建立 SD Issue + SD Branch → SD merge → 
-         └─ 自動建立 PG Issue + PG Branch → PG merge → 關閉資源 
-```
-
-> 如需了解「workflow細節」或「Issue body內文」 或「自動產生檔案的內文格式」，請參考：[workflow_guide.md](docs/workflow_guide.md)
+- Branch 由 GitHub Actions 自動建立，**不手動建立**。
+- 所有文件產出使用繁體中文（zh-TW）
+- Commit 格式：`{type}(scope?): 說明`，常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
 
 ---
-
 # 處理特定 SA,SD或PG Issue 時
 
 當人類成員指定處理特定 Issue 時，若Issue類型為:SA,SD或PG(在issue 標題中會標示)，開始實作前：
 
 1. 需要的資訊及相關連結都在 Issue body 之中，請以其中的資訊為主，不要發散，遇到問題詢問人類成員
-2. 從 issue body 的「分支」欄位取得 branch 名稱，切換到該 branch 並執行 `git pull`。Branch 由 GitHub Actions 自動建立，**不手動建立**。
-3. Commit 格式：`{type}(scope?): 說明`，常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
-4. 所有文件產出使用繁體中文（zh-TW）
-5. 依Issue類型(SA,SD或PG)執行下面對應流程：
+2. 從 issue body 的「分支」欄位取得 branch 名稱，切換到該 branch 並執行 `git pull`。
+3. 依Issue類型(SA,SD或PG)執行下面對應流程：
 
 ---
 

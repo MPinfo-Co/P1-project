@@ -4,12 +4,12 @@
 
 ## Repo 總覽
 
-```
-P1-project    產品管理（Epic、技術研究、規範文件）← PM 大本營
-P1-analysis   需求分析（A-Repo）
-P1-design     系統設計（D-Repo）
-P1-code       系統開發（C-Repo）
-```
+| Repo            | 職責                                   | 角色 | Merge 方式          |
+| --------------- | ------------------------------------ | -- | ----------------- |
+| **P1-project**  | Epic、規範文件                            | PM | 直接 push to main   |
+| **P1-analysis** | 商業邏輯分析                                | SA | 直接 merge（無需 PR）   |
+| **P1-design**   | Prototype、API Spec、Schema、TDD        | SD | PR + SA/PM Review |
+| **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG | PR + SA/PM Review |
 
 ---
 
@@ -36,7 +36,7 @@ P1-project/
 
 ---
 
-### P1-analysis（A-Repo）
+### P1-analysis
 
 ```
 P1-analysis/
@@ -48,11 +48,11 @@ P1-analysis/
 └── references/            ← 全域參考文件（架構圖、命名規則、API Schema 等）
 ```
 
->文件 business-logic.md 格式，請參考[workflow_guide.md](workflow_guide.md)[自動產生的md文件格式]段
+>文件 business-logic.md 格式，請參考 [auto-file-format.md](auto-file-format.md)
 
 ---
 
-### P1-design（D-Repo）
+### P1-design
 
 ```
 P1-design/
@@ -78,12 +78,11 @@ P1-design/
 ```
 
 
->文件 TDD/issue-{N}.md 及 SpecDiff/issue-{N}.md 格式
->請參考[workflow_guide.md](workflow_guide.md)[自動產生的md文件格式]段
+>文件 TDD/issue-{N}.md 及 SpecDiff/issue-{N}.md 格式，請參考 [auto-file-format.md](auto-file-format.md)
 
 ---
 
-### P1-code（C-Repo）
+### P1-code
 
 ```
 P1-code/

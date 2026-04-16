@@ -4,9 +4,9 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     # SSB 連線
     SSB_HOST: str = "https://192.168.10.48"
+    SSB_LOGSPACE: str = "ALL"
     SSB_USERNAME: str = ""
     SSB_PASSWORD: str = ""
-    SSB_LOGSPACE: str = ""
 
     SSB_SEARCH_EXPRESSION: str = (
         # Windows AD 資安事件
@@ -47,6 +47,8 @@ class Settings(BaseSettings):
 
     # P1-code ingest endpoint
     P1_CODE_URL: str = "http://localhost:8000"
+
+    # 帳密（需在 .env 設定）
     INGEST_SECRET: str = ""
 
     @property

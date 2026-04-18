@@ -110,3 +110,48 @@ const theme = createTheme({
 - `ThemeProvider` 包住整個 App，讓所有 MUI 元件自動套用相同的主色與字型，不需要每個元件重複設定。
 - `CssBaseline` 消除瀏覽器預設的 margin/padding 差異，確保跨瀏覽器一致。
 - `StrictMode` 在開發環境下幫助找出潛在問題（例如 effect 執行兩次是正常的）。
+
+---
+
+### 3.2 登入流程
+
+**這步在做什麼：** 使用者輸入帳密，前端呼叫後端取得 JWT，登入狀態存入瀏覽器，後續所有 API 請求帶著這個 token。
+
+**流程：**
+```
+Login.jsx（使用者填表單）
+  → authStore.login()（Zustand）
+    → POST /api/auth/login
+      → 拿到 access_token
+        → 存入 localStorage
+          → 頁面跳轉到 /
+```
+
+**關鍵程式碼（`authStore.js`）：**
+```js
+login: async (email, password) => {
+  const res = await fetch(`${BASE_URL}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  })
+  if (res.status === 401) throw new Error('帳號或密碼錯誤')
+  const { access_token } = await res.json()
+  localStorage.setItem('mp-box-token', access_token)   // 持久化
+  set({ token: access_token, user: { email } })         // 更新 Zustand state
+},
+```
+
+**守門機制（`App.jsx`）：**
+```jsx
+function ProtectedRoute({ children }) {
+  const { token } = useAuth()
+  return token ? children : <Navigate to="/login" replace />
+}
+```
+
+只要 `token` 不存在（未登入或 token 清空），`ProtectedRoute` 就把使用者踢回 `/login`。
+
+**設計原因：**
+- token 存在 `localStorage` 而非只放在 state，是因為頁面重新整理後 state 會清空，但 `localStorage` 不會。`authStore` 初始化時會從 `localStorage` 讀取：`token: localStorage.getItem('mp-box-token') || null`。
+- 登出時同時清空 `localStorage` 和 Zustand state，確保兩邊同步。

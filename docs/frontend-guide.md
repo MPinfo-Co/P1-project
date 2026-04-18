@@ -285,3 +285,73 @@ useEffect(() => {
 - 篩選不即時觸發 API（不是每次 onChange 就打），而是等使用者按「套用」，避免打太多無效請求。
 - `useCallback` + `useEffect` 的組合是 React 中控制非同步請求的標準做法：依賴陣列明確宣告「什麼情況下重跑」。
 - 預設只顯示 `pending + investigating`（未結案），讓資安人員看到需要處理的事件，不被已結案的資料淹沒。
+
+---
+
+### 3.5 開啟事件詳情
+
+**這步在做什麼：** 點擊事件後進入詳情頁，顯示事件分析結果、處置建議、原始 log，並可新增處置紀錄。
+
+**流程：**
+```
+點擊表格列
+  → navigate('/ai-partner/:partnerId/issues/:issueId')
+    → IssueDetail 掛載
+      → GET /api/events/:issueId
+        → setEvent(data) → 畫面渲染
+```
+
+**取得路由參數：**
+```jsx
+const { partnerId, issueId } = useParams()  // 從 URL 取出 :partnerId 和 :issueId
+```
+
+**三個 Tab 的切換：**
+```jsx
+const [tabIndex, setTabIndex] = useState(0)
+
+<Tabs value={tabIndex} onChange={(_, v) => setTabIndex(v)}>
+  <Tab label="事件詳情" />   {/* tabIndex === 0 */}
+  <Tab label="歷史事件" />   {/* tabIndex === 1 */}
+  <Tab label="處置紀錄" />   {/* tabIndex === 2 */}
+</Tabs>
+
+{tabIndex === 0 && <事件詳情內容 />}
+{tabIndex === 1 && <歷史事件內容 />}
+{tabIndex === 2 && <處置紀錄內容 />}
+```
+
+用 `tabIndex` state 控制顯示，不用 React Router 子路由，因為 Tab 切換不需要改變 URL。
+
+**新增處置紀錄（兩步驟 API）：**
+```jsx
+async function addHistoryEntry() {
+  // Step 1：如果狀態有變，先更新狀態
+  if (histStatus !== event.current_status) await updateStatus(histStatus)
+
+  // Step 2：新增歷史紀錄
+  await fetch(`/api/events/${issueId}/history`, {
+    method: 'POST',
+    body: JSON.stringify({ note: histNote }),
+  })
+
+  await fetchEvent()  // 重新拉取，畫面自動更新
+}
+```
+
+**右側聊天面板：**
+
+目前是 placeholder，面板可透過 `chatVisible` state 收合：
+
+```jsx
+<Box sx={{ width: chatVisible ? 360 : 40, transition: 'width 0.2s' }}>
+  <Collapse in={chatVisible} orientation="horizontal">
+    {/* AI 諮詢功能（即將推出）*/}
+  </Collapse>
+</Box>
+```
+
+**設計原因：**
+- 詳情頁每次掛載都重新 fetch，確保資料是最新的（不依賴清單頁傳來的快取資料）。
+- 送出處置紀錄後呼叫 `fetchEvent()` 重新拉取，讓歷史列表即時更新，不需要手動操作 local state。
+- 聊天面板用 `transition: 'width 0.2s'` 做收合動畫，寬度從 360px 收到 40px（只留收合按鈕）。

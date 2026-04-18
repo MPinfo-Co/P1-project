@@ -355,3 +355,69 @@ async function addHistoryEntry() {
 - 詳情頁每次掛載都重新 fetch，確保資料是最新的（不依賴清單頁傳來的快取資料）。
 - 送出處置紀錄後呼叫 `fetchEvent()` 重新拉取，讓歷史列表即時更新，不需要手動操作 local state。
 - 聊天面板用 `transition: 'width 0.2s'` 做收合動畫，寬度從 360px 收到 40px（只留收合按鈕）。
+
+---
+
+## 4. 狀態管理設計
+
+本章說明這個專案為什麼同時使用兩種狀態管理工具，以及各自的邊界在哪裡。
+
+### 兩種工具的分工
+
+| 狀態 | 工具 | 原因 |
+|------|------|------|
+| 登入狀態 / JWT token | **Zustand** (`authStore.js`) | 需要跨多個元件共享、且要持久化到 `localStorage` |
+| 資安事件資料 | **React Context** (`IssuesContext.jsx`) | 僅在 App 內部共享，Context 就夠用 |
+| 篩選條件、loading、tab 狀態 | **Local state** (`useState`) | 只有該元件自己用，不需要往上提 |
+
+### 決策原則
+
+```
+資料只有自己用？
+  → useState（local state）
+
+需要跨多個元件共享、但不需要持久化？
+  → React Context
+
+需要跨元件共享、且需要持久化（localStorage/sessionStorage）？
+  → Zustand
+```
+
+### Zustand 怎麼用（`authStore.js`）
+
+```jsx
+// 建立 store
+const useAuthStore = create((set, get) => ({
+  token: localStorage.getItem('mp-box-token') || null,
+  login: async (email, password) => { /* ... */ },
+  logout: async () => { /* ... */ },
+}))
+
+// 在任何元件中取用
+function Header() {
+  const { logout } = useAuth()  // useAuth 是 useAuthStore 的封裝
+  return <Button onClick={logout}>登出</Button>
+}
+```
+
+### React Context 怎麼用（`IssuesContext.jsx`）
+
+```jsx
+// 1. 建立 Context
+const IssuesContext = createContext(null)
+
+// 2. Provider 包住子樹
+export function IssuesProvider({ children }) {
+  const [issues, setIssues] = useState(...)
+  return <IssuesContext.Provider value={{ issues, updateIssue }}>{children}</IssuesContext.Provider>
+}
+
+// 3. 子元件取用
+export function useIssues() {
+  return useContext(IssuesContext)
+}
+```
+
+### 注意事項
+
+`IssuesContext` 目前讀取的是 `data/issues.js`（mock 資料），**`IssueList.jsx` 和 `IssueDetail.jsx` 實際上直接呼叫 API，並未使用此 Context**。這是過渡狀態：早期用 mock 資料開發 UI，後來接上真實 API 時直接在元件內 fetch，Context 尚未同步移除。

@@ -223,3 +223,65 @@ const title = Object.entries(PAGE_TITLES)
 **設計原因：**
 - Layout 用 `flex` 排列，Sidebar 固定寬度，右側內容區 `flex: 1` 自動填滿剩餘空間。
 - `height: '100vh'` 確保佈局永遠填滿整個視窗高度。
+
+---
+
+### 3.4 瀏覽事件清單
+
+**這步在做什麼：** 從後端拉取資安事件列表，顯示成表格，支援狀態/日期/關鍵字篩選，點擊列進入詳情。
+
+**流程：**
+```
+IssueList.jsx 掛載
+  → useEffect 觸發 fetchEvents()
+    → GET /api/events?page=1&status=pending,investigating
+      → 拿到 { items, total }
+        → setRows(items) → 表格重新渲染
+```
+
+**篩選的兩階段設計：**
+
+篩選條件分成「輸入中」和「已套用」兩組 state：
+
+```jsx
+const [filterStatus, setFilterStatus] = useState('all')   // 使用者正在輸入的值
+const [applied, setApplied] = useState({ status: '_default', ... })  // 實際生效的值
+
+function applyFilters() {
+  setPage(1)
+  setApplied({ status: filterStatus, ... })  // 按下「套用」才生效
+}
+```
+
+`useCallback` 讓 `fetchEvents` 只在 `applied` 或 `page` 變動時重新建立，避免無限迴圈：
+
+```jsx
+const fetchEvents = useCallback(async () => {
+  // ... fetch 邏輯
+}, [applied, page])  // 只有這兩個值變動才重建
+
+useEffect(() => {
+  fetchEvents()
+}, [fetchEvents])  // fetchEvents 重建時才觸發
+```
+
+**影響範圍 Popover：**
+
+```jsx
+<Chip
+  label={row.affected_summary}
+  onClick={(e) => {
+    e.stopPropagation()   // 阻止觸發 row 的點擊事件（避免跳到詳情頁）
+    setPopoverAnchor(e.currentTarget)
+    setPopoverContent(row.affected_detail)
+  }}
+/>
+<Popover open={Boolean(popoverAnchor)} anchorEl={popoverAnchor} ...>
+  {formatDesc(popoverContent)}
+</Popover>
+```
+
+**設計原因：**
+- 篩選不即時觸發 API（不是每次 onChange 就打），而是等使用者按「套用」，避免打太多無效請求。
+- `useCallback` + `useEffect` 的組合是 React 中控制非同步請求的標準做法：依賴陣列明確宣告「什麼情況下重跑」。
+- 預設只顯示 `pending + investigating`（未結案），讓資安人員看到需要處理的事件，不被已結案的資料淹沒。

@@ -421,3 +421,34 @@ export function useIssues() {
 ### 注意事項
 
 `IssuesContext` 目前讀取的是 `data/issues.js`（mock 資料），**`IssueList.jsx` 和 `IssueDetail.jsx` 實際上直接呼叫 API，並未使用此 Context**。這是過渡狀態：早期用 mock 資料開發 UI，後來接上真實 API 時直接在元件內 fetch，Context 尚未同步移除。
+
+---
+
+## 5. 技術框架速查表
+
+快速查詢各框架的核心概念與在本專案的用法。
+
+### React
+- **核心概念：** 元件（Component）是回傳 JSX 的函式；state 變動時 React 重新渲染元件。
+- **本專案用法：** 所有 UI 都是 React 元件（`.jsx` 檔）。
+- **常見問題：** `useEffect` 的依賴陣列要列清楚，遺漏依賴會造成資料過時；多餘依賴會造成無限迴圈。
+
+### React Router v6
+- **核心概念：** 用 `<Routes>/<Route>` 宣告 URL 對應的元件；`<Outlet>` 讓父路由嵌入子路由；`useParams()` 取 URL 參數；`useNavigate()` 程式化跳頁。
+- **本專案用法：** `App.jsx` 定義所有路由，`Layout` 是父路由，子頁面透過 `<Outlet>` 渲染。
+- **常見問題：** v6 已移除 `<Switch>`，改用 `<Routes>`；`<Redirect>` 改成 `<Navigate>`。
+
+### MUI (Material UI) v6
+- **核心概念：** 提供現成的 React 元件（`Button`、`Table`、`Tabs` 等）；用 `sx` prop 傳入樣式物件做覆寫。
+- **本專案用法：** 幾乎所有畫面元素都用 MUI 元件；主色在 `theme.js` 統一設定為 `#2e3f6e`。
+- **常見問題：** 樣式覆寫優先使用 `sx` prop，需要全域覆寫才改 `theme.js` 的 `components`。
+
+### Zustand
+- **核心概念：** 用 `create()` 建立 store；store 裡可以放 state 和 action；任何元件用 `useXxxStore()` 取用，變動時只有有訂閱的元件重新渲染。
+- **本專案用法：** `authStore.js` 管理登入狀態和 JWT token。
+- **常見問題：** 不需要 Provider 包住元件，這是 Zustand 比 Context 輕量的地方。
+
+### Vite
+- **核心概念：** 開發時用原生 ES Module，不需打包就能執行，HMR 極速；`import.meta.env.VITE_*` 讀環境變數。
+- **本專案用法：** `npm run dev` 啟動開發伺服器；API base URL 從 `.env` 的 `VITE_API_URL` 讀取。
+- **常見問題：** 環境變數必須以 `VITE_` 開頭才會暴露給前端；`.env` 不要 commit 到 git。

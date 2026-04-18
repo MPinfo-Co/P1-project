@@ -23,6 +23,8 @@ P1-project/
 └── docs/
     ├── repo-design.md     ← Repo 結構（本文件）
     ├── workflow_guide.md  ← 工作流程
+    ├── issue-body-spec.md ← Issue body 內文格式規範
+    ├── auto-file-format.md ← 系統自動產生檔案格式說明
     ├── project-board-guide.md ← GitHub Projects 看板用法
     └── ai-review/         ← AI 文件審查相關檔案
         ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
@@ -45,7 +47,6 @@ P1-analysis/
 │   └── business-logic.md  ← 系統自動產生，SA 人工填寫（需求說明、商業邏輯…）
 ├── issue-5/
 │   └── ...
-└── references/            ← 全域參考文件（架構圖、命名規則、API Schema 等）
 ```
 
 >文件 business-logic.md 格式，請參考 [auto-file-format.md](auto-file-format.md)
@@ -87,8 +88,8 @@ P1-design/
 ```
 P1-code/
 ├── README.md              ← 無內文，透過連結導引到「MP-Box 專案總導覽」
-├── SYSTEM.md              ← 系統架構與資料流說明
 ├── SETUP.md               ← 本地環境建置說明
+├── docker-compose.yml     ← 本地開發容器設定
 ├── frontend/              ← React + TypeScript
 ├── backend/               ← Python + FastAPI
 │   └── tests/             ← pytest 測試

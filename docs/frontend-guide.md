@@ -59,3 +59,54 @@
 | **Vite** | 開發/打包工具 | 極速的 HMR（熱更新），取代傳統 webpack | `vite.config.js` |
 
 > **為什麼同時有 Zustand 和 Context？** 兩者都能跨元件共享資料，但職責不同。詳見第 4 章。
+
+---
+
+## 3. 主流程走讀
+
+以下按照使用者實際操作順序，逐步說明每個環節涉及哪些檔案、資料怎麼流動、以及為什麼這樣設計。
+
+---
+
+### 3.1 程式啟動
+
+**這步在做什麼：** 瀏覽器載入頁面，React 掛載到 HTML，全域主題套用完成。
+
+**流程：**
+```
+index.html（#root）
+  → main.jsx（createRoot + render）
+    → ThemeProvider（套用 theme.js）
+      → CssBaseline（重置瀏覽器預設樣式）
+        → App（路由入口）
+```
+
+**關鍵程式碼（`main.jsx`）：**
+```jsx
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </StrictMode>
+)
+```
+
+**`theme.js` 做了什麼：**
+```js
+const theme = createTheme({
+  palette: { primary: { main: '#2e3f6e' } },  // 深藍色為主色
+  typography: {
+    fontFamily: "-apple-system, ..., 'Microsoft JhengHei', sans-serif",  // 支援中文字型
+  },
+  components: {
+    MuiButton: { styleOverrides: { root: { textTransform: 'none' } } },  // 按鈕不強制大寫
+  },
+})
+```
+
+**設計原因：**
+- `ThemeProvider` 包住整個 App，讓所有 MUI 元件自動套用相同的主色與字型，不需要每個元件重複設定。
+- `CssBaseline` 消除瀏覽器預設的 margin/padding 差異，確保跨瀏覽器一致。
+- `StrictMode` 在開發環境下幫助找出潛在問題（例如 effect 執行兩次是正常的）。

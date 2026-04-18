@@ -452,3 +452,18 @@ export function useIssues() {
 - **核心概念：** 開發時用原生 ES Module，不需打包就能執行，HMR 極速；`import.meta.env.VITE_*` 讀環境變數。
 - **本專案用法：** `npm run dev` 啟動開發伺服器；API base URL 從 `.env` 的 `VITE_API_URL` 讀取。
 - **常見問題：** 環境變數必須以 `VITE_` 開頭才會暴露給前端；`.env` 不要 commit 到 git。
+
+---
+
+## 6. 目前尚未完成的功能
+
+以下功能在程式碼中有 placeholder 或 TODO，但尚未實作：
+
+| 功能 | 位置 | 現狀 |
+|------|------|------|
+| **AI 聊天面板** | `IssueDetail.jsx` 右側 | 已有收合 UI，內容為「即將推出」placeholder |
+| **歷史事件 tab** | `IssueDetail.jsx` Tab 1 | 顯示「尚無相似歷史案例」，等 Epic 2 實作 |
+| **負責人員顯示** | `IssueList.jsx`、`IssueDetail.jsx` | 目前只顯示 `User #ID`，等 `GET /api/users/me` 實作 |
+| **IssuesContext 接 API** | `contexts/IssuesContext.jsx` | 目前讀 mock 資料，主頁面已直接呼叫 API |
+
+這些是已知的技術債，開發時注意不要誤以為 Context 的 mock 資料是真實資料。

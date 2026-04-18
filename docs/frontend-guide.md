@@ -155,3 +155,71 @@ function ProtectedRoute({ children }) {
 **設計原因：**
 - token 存在 `localStorage` 而非只放在 state，是因為頁面重新整理後 state 會清空，但 `localStorage` 不會。`authStore` 初始化時會從 `localStorage` 讀取：`token: localStorage.getItem('mp-box-token') || null`。
 - 登出時同時清空 `localStorage` 和 Zustand state，確保兩邊同步。
+
+---
+
+### 3.3 進入主畫面
+
+**這步在做什麼：** 登入成功後，使用者進入主畫面，看到 Sidebar + Header 的佈局框架，子頁面在右側內容區切換。
+
+**路由結構（`App.jsx`）：**
+```
+/login          → Login（不含 Layout）
+/               → Layout（含 Sidebar + Header）
+  index         → Home
+  /ai-partner   → AiPartner
+  /ai-partner/:partnerId/issues        → IssueList
+  /ai-partner/:partnerId/issues/:id   → IssueDetail
+  /kb           → KnowledgeBase
+  /settings/account → Account
+  /settings/role    → Role
+  /settings/ai-config → AiConfig
+```
+
+**Layout 結構（`Layout.jsx`）：**
+```jsx
+<Box sx={{ display: 'flex', height: '100vh' }}>
+  <Sidebar />                          {/* 固定 260px，深色背景 */}
+  <Box sx={{ flex: 1, flexDirection: 'column' }}>
+    <Header />                         {/* 頂部列，白色背景 */}
+    <Box component="main">
+      <Outlet />                       {/* 子頁面在這裡渲染 */}
+    </Box>
+  </Box>
+</Box>
+```
+
+`<Outlet />` 是 React Router 的概念：父路由定義 Layout，子路由的元件會「插入」到 Outlet 的位置，不需要每個頁面自己重複寫 Sidebar 和 Header。
+
+**Sidebar active 狀態（`Sidebar.jsx`）：**
+```jsx
+<NavLink to="/ai-partner">
+  {({ isActive }) => (
+    <ListItemButton sx={isActive ? activeSx : defaultSx}>
+      <ListItemText primary="AI夥伴" />
+    </ListItemButton>
+  )}
+</NavLink>
+```
+
+React Router 的 `NavLink` 會自動判斷當前路徑是否匹配，提供 `isActive` 讓我們套用不同樣式（左邊紫色 border + 白色文字）。
+
+**Header 動態標題（`Header.jsx`）：**
+```js
+const PAGE_TITLES = {
+  '/ai-partner': 'AI夥伴',
+  '/kb': '知識庫',
+  '/settings/account': '帳號',
+  // ...
+}
+// 依當前 pathname 找最長匹配的 key
+const title = Object.entries(PAGE_TITLES)
+  .filter(([path]) => pathname.startsWith(path))
+  .sort((a, b) => b[0].length - a[0].length)[0]?.[1] ?? 'MP-Box'
+```
+
+標題不是寫死的，而是根據當前 URL 動態對應，新增頁面只需要在 `PAGE_TITLES` 加一行。
+
+**設計原因：**
+- Layout 用 `flex` 排列，Sidebar 固定寬度，右側內容區 `flex: 1` 自動填滿剩餘空間。
+- `height: '100vh'` 確保佈局永遠填滿整個視窗高度。

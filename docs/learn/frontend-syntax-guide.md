@@ -9,45 +9,48 @@
 
 ## 語法索引表
 
-| 語法 | 出現章節 | 跳到說明 |
-|------|----------|----------|
-| `createRoot().render()` | 3.1 程式啟動 | [連結](#createrootrender) |
-| `StrictMode` | 3.1 程式啟動 | [連結](#strictmode) |
-| `ThemeProvider` | 3.1 程式啟動 | [連結](#themeprovider) |
-| `CssBaseline` | 3.1 程式啟動 | [連結](#cssbaseline) |
-| `createTheme()` | 3.1 程式啟動 | [連結](#createtheme) |
-| `styleOverrides` | 3.1 程式啟動 | [連結](#styleoverrides) |
-| `async / await` | 3.2 登入流程 | [連結](#async--await) |
-| `fetch(url, options)` | 3.2 登入流程 | [連結](#fetchurl-options) |
-| `JSON.stringify()` | 3.2 登入流程 | [連結](#jsonstringify) |
-| `res.status` / `res.json()` | 3.2 登入流程 | [連結](#resstatus--resjson) |
-| `localStorage.setItem()` | 3.2 登入流程 | [連結](#localstoragesetitem) |
-| Zustand `set()` | 3.2 登入流程 | [連結](#zustand-set) |
-| `ProtectedRoute` 模式 | 3.2 登入流程 | [連結](#protectedroute-模式) |
-| 三元運算子 `? :` | 3.2 登入流程 | [連結](#三元運算子--) |
-| `<Navigate>` | 3.2 登入流程 | [連結](#navigate) |
-| `<Routes>` / `<Route>` | 3.3 主畫面 | [連結](#routes--route) |
-| 巢狀路由 | 3.3 主畫面 | [連結](#巢狀路由) |
-| `<Box sx={...}>` | 3.3 主畫面 | [連結](#box-sx) |
-| `<Outlet />` | 3.3 主畫面 | [連結](#outlet-) |
-| `<NavLink>` + `isActive` | 3.3 主畫面 | [連結](#navlink--isactive) |
-| `Object.entries().filter().sort()` | 3.3 主畫面 | [連結](#objectentriesfiltersort) |
-| 可選鏈 `?.` 與空值合併 `??` | 3.3 主畫面 | [連結](#可選鏈--與空值合併-) |
-| `useState` | 3.4 事件清單 | [連結](#usestate) |
-| `useCallback` | 3.4 事件清單 | [連結](#usecallback) |
-| `useEffect` | 3.4 事件清單 | [連結](#useeffect) |
-| `e.stopPropagation()` | 3.4 事件清單 | [連結](#estoppropagation) |
-| `<Chip>` | 3.4 事件清單 | [連結](#chip) |
-| `<Popover>` | 3.4 事件清單 | [連結](#popover) |
-| `useParams()` | 3.5 事件詳情 | [連結](#useparams) |
-| `<Tabs>` / `<Tab>` | 3.5 事件詳情 | [連結](#tabs--tab) |
-| 條件渲染 `&&` | 3.5 事件詳情 | [連結](#條件渲染-) |
-| 兩步驟 async function | 3.5 事件詳情 | [連結](#兩步驟-async-function) |
-| `transition` 動畫 | 3.5 事件詳情 | [連結](#transition-動畫) |
-| `<Collapse>` | 3.5 事件詳情 | [連結](#collapse) |
-| `create((set, get) => {...})` | 4. 狀態管理 | [連結](#createset-get--) |
-| `useXxxStore()` | 4. 狀態管理 | [連結](#usexxxstore) |
-| `createContext()` | 4. 狀態管理 | [連結](#createcontext) |
+| 語法 | 簡易說明 | 出現章節 | 跳到說明 |
+|------|----------|----------|----------|
+| `createRoot().render()` | 把 React App 掛載進 HTML | 3.1 程式啟動 | [連結](#createrootrender) |
+| `StrictMode` | 開發環境警告模式，幫助找出潛在問題 | 3.1 程式啟動 | [連結](#strictmode) |
+| `ThemeProvider` | 讓所有 MUI 元件套用同一套主題 | 3.1 程式啟動 | [連結](#themeprovider) |
+| `CssBaseline` | 消除瀏覽器預設樣式差異 | 3.1 程式啟動 | [連結](#cssbaseline) |
+| `createTheme()` | 建立 MUI 主題物件（主色、字型） | 3.1 程式啟動 | [連結](#createtheme) |
+| `styleOverrides` | 全站覆寫特定 MUI 元件的預設樣式 | 3.1 程式啟動 | [連結](#styleoverrides) |
+| `async / await` | 等待非同步操作完成再繼續執行 | 3.2 登入流程 | [連結](#async--await) |
+| `fetch(url, options)` | 瀏覽器內建的 HTTP 請求函式 | 3.2 登入流程 | [連結](#fetchurl-options) |
+| `JSON.stringify()` | 把 JS 物件轉成字串以便放入 HTTP body | 3.2 登入流程 | [連結](#jsonstringify) |
+| `res.status` / `res.json()` | 讀取回應狀態碼 / 解析回應 body | 3.2 登入流程 | [連結](#resstatus--resjson) |
+| `localStorage.setItem()` | 把資料存入瀏覽器，重新整理後仍保留 | 3.2 登入流程 | [連結](#localstoragesetitem) |
+| Zustand `set()` | 更新 store 的 state，觸發重新渲染 | 3.2 登入流程 | [連結](#zustand-set) |
+| `ProtectedRoute` 模式 | 未登入時攔截路由並跳轉到登入頁 | 3.2 登入流程 | [連結](#protectedroute-模式) |
+| 三元運算子 `? :` | 條件成立取前者，否則取後者 | 3.2 登入流程 | [連結](#三元運算子--) |
+| `<Navigate>` | 渲染時立刻跳轉到指定路徑 | 3.2 登入流程 | [連結](#navigate) |
+| `<Routes>` / `<Route>` | 宣告 URL 路徑對應哪個元件 | 3.3 主畫面 | [連結](#routes--route) |
+| 巢狀路由 | 子路由嵌入父路由的 Outlet 位置 | 3.3 主畫面 | [連結](#巢狀路由) |
+| `<Box sx={...}>` | MUI 萬用容器，sx 傳入 CSS 樣式 | 3.3 主畫面 | [連結](#box-sx) |
+| `<Outlet />` | 父路由中子路由元件的渲染位置 | 3.3 主畫面 | [連結](#outlet-) |
+| `<NavLink>` + `isActive` | 連結元件，自動提供是否匹配當前路徑 | 3.3 主畫面 | [連結](#navlink--isactive) |
+| `Object.entries().filter().sort()` | 從物件篩選並排序，取最精確匹配 | 3.3 主畫面 | [連結](#objectentriesfiltersort) |
+| 可選鏈 `?.` 與空值合併 `??` | 安全取值 / null 時套用預設值 | 3.3 主畫面 | [連結](#可選鏈--與空值合併-) |
+| `useState` | 元件內部狀態，更新時觸發重新渲染 | 3.4 事件清單 | [連結](#usestate) |
+| `useCallback` | 快取函式參考，防止 useEffect 無限迴圈 | 3.4 事件清單 | [連結](#usecallback) |
+| `useEffect` | 渲染後執行副作用（如 fetch 資料） | 3.4 事件清單 | [連結](#useeffect) |
+| `e.stopPropagation()` | 阻止點擊事件冒泡到父元素 | 3.4 事件清單 | [連結](#estoppropagation) |
+| `<Chip>` | MUI 圓角小標籤，可顯示摘要或點擊 | 3.4 事件清單 | [連結](#chip) |
+| `<Popover>` | MUI 浮動層，錨定在某元素旁彈出 | 3.4 事件清單 | [連結](#popover) |
+| `useParams()` | 從 URL 取出動態路由參數 | 3.5 事件詳情 | [連結](#useparams) |
+| `<Tabs>` / `<Tab>` | MUI 分頁切換，用 state 控制選中項 | 3.5 事件詳情 | [連結](#tabs--tab) |
+| 條件渲染 `&&` | 條件成立才渲染右側元件 | 3.5 事件詳情 | [連結](#條件渲染-) |
+| 兩步驟 async function | await 串接多個 API，確保依序執行 | 3.5 事件詳情 | [連結](#兩步驟-async-function) |
+| `transition` 動畫 | CSS 樣式變化時加上平滑過渡效果 | 3.5 事件詳情 | [連結](#transition-動畫) |
+| `<Collapse>` | MUI 展開/收合動畫元件 | 3.5 事件詳情 | [連結](#collapse) |
+| `create((set, get) => {...})` | 建立 Zustand store（state + action） | 4. 狀態管理 | [連結](#createset-get--) |
+| `useXxxStore()` | 元件取用 Zustand store，不需 Provider | 4. 狀態管理 | [連結](#usexxxstore) |
+| `createContext()` | 建立跨元件共享資料的 Context 管道 | 4. 狀態管理 | [連結](#createcontext) |
+| `<Context.Provider>` | 提供資料給包住的所有子元件 | 4. 狀態管理 | [連結](#contextprovider) |
+| `useContext()` | 子元件讀取 Context 提供的資料 | 4. 狀態管理 | [連結](#usecontext) |
+| 自訂 hook 封裝 | 把 useContext 包成 hook，簡化使用 | 4. 狀態管理 | [連結](#自訂-hook-封裝) |
 | `<Context.Provider>` | 4. 狀態管理 | [連結](#contextprovider) |
 | `useContext()` | 4. 狀態管理 | [連結](#usecontext) |
 | 自訂 hook 封裝 | 4. 狀態管理 | [連結](#自訂-hook-封裝) |

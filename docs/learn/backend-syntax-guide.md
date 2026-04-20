@@ -85,6 +85,106 @@ app.add_middleware(
 
 ## 4.2 使用者登入與 JWT 認證
 
+### `@router.post()` / `@router.get()`
+
+**是什麼：** 路由裝飾器，宣告「這個函式處理指定 HTTP 方法與路徑的請求」。
+
+**專案範例：**
+```python
+@router.post("/login")
+def login(email: str, password: str, db: Session = Depends(get_db)):
+    ...
+```
+
+**白話解釋：** 像門牌，`@router.post("/login")` 就是「有人寄 POST 信到 /login，就交給這個函式處理」。搭配 `app.include_router(auth_router, prefix="/api/auth")`，完整路徑是 `/api/auth/login`。`@router.get` 處理 GET、`@router.patch` 處理 PATCH，以此類推。
+
+**常見錯誤：**
+- 路由路徑是相對於 router，不是完整路徑；忘記這點會導致路由註冊到錯誤的 URL
+
+---
+
+### `Depends()`
+
+**是什麼：** FastAPI 依賴注入，自動執行指定函式並把結果傳進路由函式。
+
+**專案範例：**
+```python
+@router.get("/")
+def list_events(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    # current_user 和 db 都由 FastAPI 自動注入
+    ...
+```
+
+**白話解釋：** 不需要在每個路由裡重複寫「驗證 token、拿資料庫連線」，`Depends(get_current_user)` 告訴 FastAPI「先幫我跑 get_current_user()，把結果塞進 current_user」。類似 middleware，但更精確——每個函式可以聲明自己需要哪些依賴。
+
+**常見錯誤：**
+- `Depends` 裡傳的是函式本身（`Depends(get_db)`），不是呼叫結果；不要寫成 `Depends(get_db())`（多了括號）
+
+---
+
+### `bcrypt.checkpw()` / `bcrypt.hashpw()`
+
+**是什麼：** bcrypt 密碼雜湊庫，`hashpw` 把密碼加密存進資料庫，`checkpw` 驗證密碼是否正確。
+
+**專案範例：**
+```python
+# 建立雜湊（註冊時）
+password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+
+# 驗證密碼（登入時）
+bcrypt.checkpw(password.encode(), user.password_hash)
+```
+
+**白話解釋：** 密碼不能明文存資料庫，bcrypt 把密碼「磨碎」成固定長度的雜湊值（不可逆）。驗證時 `checkpw` 把輸入的密碼用同樣方式磨碎，比對結果是否一致，而非比對原始密碼。
+
+**常見錯誤：**
+- `checkpw` 的第一個參數要是 bytes（`password.encode()`），傳 str 會報 TypeError
+
+---
+
+### `jwt.encode()` / `jwt.decode()`
+
+**是什麼：** python-jose 的 JWT 操作函式，encode 產生 token，decode 驗證並解析 token 內容。
+
+**專案範例：**
+```python
+# 產生 token
+token = jwt.encode(
+    {"sub": str(user.id), "exp": expire},
+    settings.JWT_SECRET_KEY,
+    algorithm="HS256"
+)
+
+# 驗證並解析 token
+payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=["HS256"])
+user_id = payload.get("sub")
+```
+
+**白話解釋：** JWT 是一個加密的字串，裡面藏著使用者 ID（sub）和過期時間（exp）。encode 用 secret key 簽署產生 token，decode 用同樣的 secret key 驗證簽名並取出裡面的資料。
+
+**常見錯誤：**
+- decode 要捕捉 `JWTError` exception，否則 token 過期或被竄改時會直接 crash；`algorithms=` 參數是 list，不是字串
+
+---
+
+### `db.query().filter().first()`
+
+**是什麼：** SQLAlchemy ORM 查詢語法，從資料庫查一筆符合條件的記錄。
+
+**專案範例：**
+```python
+user = db.query(User).filter(User.email == email).first()
+```
+
+**白話解釋：** 等同 SQL `SELECT * FROM users WHERE email = 'xxx' LIMIT 1`。`.query(User)` 指定查哪個表，`.filter(...)` 是 WHERE 條件，`.first()` 取第一筆（找不到回傳 None）。
+
+**常見錯誤：**
+- `filter(User.email == email)` 的 `==` 是 ORM 的比較運算（回傳條件物件），不是 Python 的相等比較，這是正確的寫法
+- `.first()` 找不到回傳 None，記得做 `if user is None` 的檢查
+
 ---
 
 ## 4.3 排程任務：Flash Task

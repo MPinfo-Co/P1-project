@@ -173,6 +173,164 @@ components: {
 
 ## 3.2 登入流程
 
+### `async / await`
+
+**是什麼：** 處理非同步操作的語法，讓等待回應的程式碼讀起來像同步。
+
+**專案範例：**
+```js
+login: async (email, password) => {
+  const res = await fetch(`${BASE_URL}/api/auth/login`, { ... })
+  const { access_token } = await res.json()
+}
+```
+
+**白話解釋：** `fetch` 打 API 需要時間，`await` 就是「等到拿到結果再繼續執行」。不加 `await` 的話，程式碼不等 API 回應就往下跑，會拿到 Promise 物件而非真正的資料。
+
+**常見錯誤：**
+- 忘記在函式前加 `async`，加了 `await` 卻沒有 `async` 的函式宣告會直接報語法錯誤
+- `await` 只能用在 `async` 函式內部，不能在一般函式裡使用
+
+---
+
+### `fetch(url, options)`
+
+**是什麼：** 瀏覽器內建的 HTTP 請求函式。
+
+**專案範例：**
+```js
+const res = await fetch(`${BASE_URL}/api/auth/login`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email, password }),
+})
+```
+
+**白話解釋：** 就像寄信，`url` 是收件地址，`method: 'POST'` 是寄信方式（POST = 新增資料），`headers` 說明信封格式（JSON），`body` 是信的內容。
+
+**常見錯誤：**
+- POST 請求忘記加 `'Content-Type': 'application/json'`，後端就讀不到 body 的內容
+
+---
+
+### `JSON.stringify()`
+
+**是什麼：** 把 JavaScript 物件轉成 JSON 字串。
+
+**專案範例：**
+```js
+body: JSON.stringify({ email, password })
+```
+
+**白話解釋：** `{ email, password }` 是 JS 物件，但 HTTP 只能傳字串。`JSON.stringify` 把它轉成 `'{"email":"a@b.com","password":"123"}'` 才能放進 body 傳送。
+
+**常見錯誤：**
+- body 直接放物件 `{ email, password }` 不轉字串，後端收到的會是 `[object Object]` 字串，完全讀不到值
+
+---
+
+### `res.status` / `res.json()`
+
+**是什麼：** `res.status` 是 HTTP 回應的狀態碼（數字）；`res.json()` 是把回應 body 解析成 JS 物件的非同步方法。
+
+**專案範例：**
+```js
+if (res.status === 401) throw new Error('帳號或密碼錯誤')
+const { access_token } = await res.json()
+```
+
+**白話解釋：** 伺服器的回應像回信，`status` 是信上的戳章（200 = 成功、401 = 未授權、500 = 伺服器錯誤），`res.json()` 是拆開信封讀裡面的內容。
+
+**常見錯誤：**
+- `res.json()` 本身是非同步的，忘記加 `await` 會拿到 Promise 物件而非解析後的資料
+
+---
+
+### `localStorage.setItem()`
+
+**是什麼：** 把資料存到瀏覽器本地儲存，關閉頁面或重新整理後仍然保留。
+
+**專案範例：**
+```js
+localStorage.setItem('mp-box-token', access_token)
+```
+
+**白話解釋：** 像在瀏覽器裡放一個小抽屜，key（`'mp-box-token'`）是抽屜標籤，value（`access_token`）是放進去的東西。重新整理頁面後還在，關掉分頁也還在。
+
+**常見錯誤：**
+- 只把 token 存在 state（`useState`）沒有存 localStorage，頁面重新整理後 state 清空，登入狀態消失
+- 對應的讀取是 `localStorage.getItem('mp-box-token')`，刪除是 `localStorage.removeItem('mp-box-token')`
+
+---
+
+### Zustand `set()`
+
+**是什麼：** Zustand 提供的函式，用來更新 store 裡的 state，觸發有訂閱的元件重新渲染。
+
+**專案範例：**
+```js
+set({ token: access_token, user: { email } })
+```
+
+**白話解釋：** 類似 React 的 `setState`，呼叫後 store 裡的值更新，所有有使用這些值的元件自動重新渲染。`set` 是合併（merge）而非取代，只需要傳要改的欄位。
+
+**常見錯誤：**
+- `set({ token: null })` 不會刪掉其他欄位（如 `user`），只會把 `token` 改成 null，其他欄位保持不變
+
+---
+
+### `ProtectedRoute` 模式
+
+**是什麼：** 一個包裝元件，用來攔截未登入的使用者並強制跳轉到登入頁。
+
+**專案範例：**
+```jsx
+function ProtectedRoute({ children }) {
+  const { token } = useAuth()
+  return token ? children : <Navigate to="/login" replace />
+}
+```
+
+**白話解釋：** 像門衛，`children` 是要進去的內容（受保護的頁面），有 token（有憑證）才放行，沒有就推回登入頁。在 `App.jsx` 裡把需要登入才能看的路由用 `<ProtectedRoute>` 包住即可。
+
+**常見錯誤：**
+- 忘記用 `<ProtectedRoute>` 包住受保護路由，未登入的人可以直接輸入 URL 進入
+
+---
+
+### 三元運算子 `? :`
+
+**是什麼：** 簡化版的 if/else，根據條件回傳兩個值之一。
+
+**專案範例：**
+```jsx
+return token ? children : <Navigate to="/login" replace />
+```
+
+**白話解釋：** `條件 ? 成立時的值 : 不成立時的值`。上面這行等同於：
+```js
+if (token) { return children } else { return <Navigate to="/login" replace /> }
+```
+
+**常見錯誤：**
+- 在 JSX 裡不能直接用 `if/else`，條件渲染通常用三元運算子或 `&&`
+
+---
+
+### `<Navigate>`
+
+**是什麼：** React Router v6 的跳轉元件，渲染時立刻跳轉到指定路徑。
+
+**專案範例：**
+```jsx
+<Navigate to="/login" replace />
+```
+
+**白話解釋：** `replace` 表示取代當前的瀏覽器歷史記錄，使用者按「返回」不會回到被攔截的頁面（而是再往前一頁）。
+
+**常見錯誤：**
+- React Router v5 用 `<Redirect to="/login" />`，v6 改成 `<Navigate to="/login" />`，兩者不相容
+
 ---
 
 ## 3.3 進入主畫面

@@ -335,6 +335,151 @@ if (token) { return children } else { return <Navigate to="/login" replace /> }
 
 ## 3.3 進入主畫面
 
+### `<Routes>` / `<Route>`
+
+**是什麼：** React Router v6 宣告 URL 路徑對應元件的語法。
+
+**專案範例：**
+```jsx
+<Routes>
+  <Route path="/login" element={<Login />} />
+  <Route path="/" element={<Layout />}>
+    <Route index element={<Home />} />
+    <Route path="ai-partner" element={<AiPartner />} />
+  </Route>
+</Routes>
+```
+
+**白話解釋：** `<Routes>` 是路由清單，每個 `<Route>` 是一條規則：「當 URL 是 `/login`，就顯示 `<Login />` 元件」。路由規則列在這裡，符合哪條就渲染哪個元件。
+
+**常見錯誤：**
+- React Router v5 用 `<Switch>`，v6 改成 `<Routes>`，不能混用
+- v6 的 `<Route>` 必須放在 `<Routes>` 裡，不能獨立存在
+
+---
+
+### 巢狀路由
+
+**是什麼：** `<Route>` 裡面包 `<Route>`，子路由繼承父路由的路徑，畫面嵌套在父路由的 `<Outlet>` 位置。
+
+**專案範例：**
+```jsx
+<Route path="/" element={<Layout />}>
+  <Route path="ai-partner" element={<AiPartner />} />
+</Route>
+```
+
+**白話解釋：** 父路由 `/` 對應 `<Layout>`（含 Sidebar + Header），子路由 `ai-partner` 的完整路徑是 `/ai-partner`，對應的 `<AiPartner />` 會插入 `<Layout>` 裡的 `<Outlet />` 位置。這樣所有子頁面都共用同一個 Layout，不用每個頁面重寫 Sidebar。
+
+**常見錯誤：**
+- 子路由的 `path` 不要加開頭的 `/`，寫 `path="ai-partner"` 而非 `path="/ai-partner"`；加了 `/` 會變成絕對路徑，不繼承父路由
+
+---
+
+### `<Box sx={...}>`
+
+**是什麼：** MUI 的萬用容器元件，`sx` prop 接受 CSS 樣式物件。
+
+**專案範例：**
+```jsx
+<Box sx={{ display: 'flex', height: '100vh' }}>
+  <Sidebar />
+  <Box sx={{ flex: 1, flexDirection: 'column' }}>
+    <Outlet />
+  </Box>
+</Box>
+```
+
+**白話解釋：** `<Box>` 預設渲染成 `<div>`，`sx` 是 MUI 的 CSS-in-JS 寫法。常用版面語法：
+- `display: 'flex'`：子元素橫排（CSS Flexbox）
+- `flex: 1`：撐滿父容器剩餘空間
+- `height: '100vh'`：高度等於整個視窗高度（vh = viewport height）
+
+**常見錯誤：**
+- `sx` 的值是字串，寫 `display: flex`（不加引號）會報錯，要寫 `display: 'flex'`
+- 數值如 `flex: 1` 不加引號，字串如 `height: '100vh'` 要加引號
+
+---
+
+### `<Outlet />`
+
+**是什麼：** React Router 的佔位符，子路由的元件會渲染到這個位置。
+
+**專案範例：**
+```jsx
+// Layout.jsx
+<Box component="main">
+  <Outlet />
+</Box>
+```
+
+**白話解釋：** `<Layout>` 定義了外框（Sidebar + Header），`<Outlet />` 是中間的空位。當路由切換到 `/ai-partner` 時，`<AiPartner />` 自動填入這個空位。不需要每個子頁面自己重寫 Sidebar 和 Header。
+
+**常見錯誤：**
+- 父路由的元件忘記放 `<Outlet />`，子路由元件就永遠不會出現
+
+---
+
+### `<NavLink>` + `isActive`
+
+**是什麼：** React Router 的連結元件，提供 `isActive` 讓你知道當前 URL 是否匹配此連結。
+
+**專案範例：**
+```jsx
+<NavLink to="/ai-partner">
+  {({ isActive }) => (
+    <ListItemButton sx={isActive ? activeSx : defaultSx}>
+      <ListItemText primary="AI夥伴" />
+    </ListItemButton>
+  )}
+</NavLink>
+```
+
+**白話解釋：** `NavLink` 把 `isActive`（布林值）傳給你的 function，你的 function 回傳 JSX。這個模式叫 render props。`isActive` 是 true 就套用 `activeSx`（左側紫色 border + 白色文字），React Router 自動計算當前路徑是否匹配。
+
+**常見錯誤：**
+- `isActive` 是 NavLink 算好傳給你的，不需要自己比對 `pathname`
+
+---
+
+### `Object.entries().filter().sort()`
+
+**是什麼：** 三個陣列/物件方法串接，從物件中篩選並排序。
+
+**專案範例：**
+```js
+const title = Object.entries(PAGE_TITLES)
+  .filter(([path]) => pathname.startsWith(path))
+  .sort((a, b) => b[0].length - a[0].length)[0]?.[1] ?? 'MP-Box'
+```
+
+**白話解釋：**
+1. `Object.entries(PAGE_TITLES)` — 把 `{ '/ai-partner': 'AI夥伴', ... }` 轉成 `[['/ai-partner', 'AI夥伴'], ...]`
+2. `.filter(([path]) => pathname.startsWith(path))` — 留下路徑開頭匹配當前 URL 的
+3. `.sort((a, b) => b[0].length - a[0].length)` — 路徑長的排前面（越具體的匹配優先）
+4. `[0]?.[1]` — 取第一筆的標題文字
+
+**常見錯誤：**
+- `.sort()` 不傳比較函式時，會用字串排序而非長度排序，結果不可預期
+
+---
+
+### 可選鏈 `?.` 與空值合併 `??`
+
+**是什麼：** `?.` 是「如果存在才取值，否則回傳 undefined」；`??` 是「左側是 null/undefined 就取右側的值」。
+
+**專案範例：**
+```js
+[0]?.[1] ?? 'MP-Box'
+```
+
+**白話解釋：**
+- `[0]?.[1]`：如果 `[0]` 存在才取 `[1]`，不存在就回傳 undefined（不報錯）
+- `?? 'MP-Box'`：如果結果是 undefined，就用 `'MP-Box'` 當預設值
+
+**常見錯誤：**
+- `??` 和 `||` 的差異：`||` 遇到空字串 `''`、`0`、`false` 也會取右側；`??` 只對 `null` 和 `undefined` 生效，空字串和 0 不受影響
+
 ---
 
 ## 3.4 瀏覽事件清單

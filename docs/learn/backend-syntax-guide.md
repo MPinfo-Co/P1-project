@@ -386,6 +386,86 @@ print(new_event.id)
 
 ## 4.6 前端查詢事件
 
+### `Query(...)`
+
+**是什麼：** FastAPI 的查詢參數宣告，定義 URL `?key=value` 格式的參數、預設值與驗證規則。
+
+**專案範例：**
+```python
+@router.get("/")
+def list_events(
+    status: Optional[str] = Query(None),
+    keyword: Optional[str] = Query(None),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+):
+    ...
+```
+
+**白話解釋：** `Query(None)` 表示這個參數可選（預設 None）；`Query(1, ge=1)` 表示預設值 1，且值必須 >= 1（ge = greater or equal）；`le=100` 表示 <= 100。FastAPI 自動從 URL 取出這些參數，不需要手動解析字串。
+
+**常見錯誤：**
+- `Query` 要從 `fastapi` import（`from fastapi import Query`），不是 Python 內建
+
+---
+
+### `class Schema(BaseModel)`
+
+**是什麼：** Pydantic BaseModel，定義 API 的輸入輸出資料格式，有型別驗證與自動序列化。
+
+**專案範例：**
+```python
+class EventResponse(BaseModel):
+    id: int
+    title: str
+    current_status: str
+    star_rank: int
+
+    class Config:
+        from_attributes = True  # 允許從 ORM 物件直接轉換
+```
+
+**白話解釋：** FastAPI 用 Pydantic schema 做兩件事：收到請求時自動驗證格式（型別不對直接回 422 錯誤）；回傳回應時自動把 ORM 物件序列化成 JSON，只留下 schema 定義的欄位。
+
+**常見錯誤：**
+- ORM model（SQLAlchemy，定義資料庫結構）和 API schema（Pydantic，定義 API 格式）是兩個不同的 class，初學者常混淆；`from_attributes = True` 是 Pydantic v2 的寫法，v1 是 `orm_mode = True`
+
+---
+
+### `response_model=`
+
+**是什麼：** 路由裝飾器的參數，指定回應要用哪個 Pydantic schema 序列化，也用於自動產生 API 文件。
+
+**專案範例：**
+```python
+@router.get("/", response_model=list[EventResponse])
+def list_events(...):
+    events = db.query(SecurityEvent).all()
+    return events  # FastAPI 自動序列化成 EventResponse 格式
+```
+
+**白話解釋：** FastAPI 會把路由函式回傳的 ORM 物件，自動轉換成 `EventResponse` 的格式（只留 schema 定義的欄位），不用自己手動序列化成 dict。`list[EventResponse]` 表示回傳的是一個陣列。
+
+**常見錯誤：**
+- ORM 物件有欄位但 schema 沒定義，那個欄位不會出現在 response（這是特性，用來過濾敏感欄位）；schema 有欄位但 ORM 物件沒有，會拋出 `ValidationError`
+
+---
+
+### `Optional[str] = None`
+
+**是什麼：** Python 型別標注，表示這個參數可以是 str 或 None，預設值是 None（可選參數）。
+
+**專案範例：**
+```python
+keyword: Optional[str] = None
+status: Optional[str] = None
+```
+
+**白話解釋：** `Optional[str]` 等同 `Union[str, None]`，告訴 FastAPI 和 Pydantic 這個欄位不是必填的。Python 3.10+ 可以寫成更簡潔的 `str | None`。
+
+**常見錯誤：**
+- 只寫 `= None` 沒有寫型別標注（`keyword = None`），FastAPI 無法正確產生 API 文件和做型別驗證；`Optional` 需要從 `typing` import（`from typing import Optional`）
+
 ---
 
 ## 6. 配置管理

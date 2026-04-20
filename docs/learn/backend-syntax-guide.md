@@ -543,4 +543,124 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 ## 7. 測試架構
 
+### `@pytest.fixture`
+
+**是什麼：** 把函式宣告為 pytest 固件，測試函式把它列為參數即可自動取用，支援自動清理。
+
+**專案範例：**
+```python
+@pytest.fixture
+def db_session(engine):
+    with Session(engine) as session:
+        yield session      # 測試函式在這裡執行
+        session.rollback() # 測試結束後自動清理
+```
+
+**白話解釋：** `yield` 前是「準備工作」（建立 DB session），`yield` 後是「清理工作」（rollback）。測試函式執行完畢後，pytest 自動執行 rollback，確保每個測試的資料不互相影響。
+
+**常見錯誤：**
+- fixture 裡忘記 rollback 或 close，導致測試之間的資料互相污染，讓測試結果不穩定
+
+---
+
+### `conftest.py`
+
+**是什麼：** pytest 的特殊檔案，放在這裡的 fixture 自動對同目錄及子目錄的測試可用，不需要 import。
+
+**專案範例：**
+```python
+# tests/conftest.py
+@pytest.fixture
+def engine():
+    engine = create_engine("sqlite:///:memory:")
+    Base.metadata.create_all(engine)
+    yield engine
+    Base.metadata.drop_all(engine)
+
+@pytest.fixture
+def client(app, db_session):
+    app.dependency_overrides[get_db] = lambda: db_session
+    yield TestClient(app)
+    app.dependency_overrides.clear()
+```
+
+**白話解釋：** 不用在每個測試檔案 import fixture，pytest 自動載入 `conftest.py` 的所有 fixture，測試函式直接用參數名稱取用。`conftest.py` 放在 `tests/` 根目錄，所有測試檔案都能用。
+
+**常見錯誤：**
+- 把 fixture 放在普通測試檔案（`test_xxx.py`），其他測試檔案就取用不到；`conftest.py` 的名稱不能改
+
+---
+
+### `TestClient(app)`
+
+**是什麼：** FastAPI 提供的測試 HTTP 客戶端，不需要真正啟動伺服器就能發送請求。
+
+**專案範例：**
+```python
+from fastapi.testclient import TestClient
+
+def test_login_success(client):
+    """對應 TDD T1"""
+    response = client.post(
+        "/api/auth/login",
+        json={"email": "admin@test.com", "password": "password123"}
+    )
+    assert response.status_code == 200
+```
+
+**白話解釋：** `TestClient` 像一個「假的瀏覽器」，直接在記憶體裡呼叫 FastAPI，不用 `uvicorn` 啟動伺服器，速度快且不依賴網路。`client.post(url, json=data)` 的 `json=` 自動序列化成 JSON。
+
+**常見錯誤：**
+- `client.post(url, json=data)` 的 `json=` 是 JSON body；`data=` 是 form data，兩者傳到後端的解析方式不同，用錯會造成 422 錯誤
+
+---
+
+### `app.dependency_overrides`
+
+**是什麼：** 把 FastAPI 的依賴注入替換成測試版本，最常用於把正式 DB 換成 SQLite 測試 DB。
+
+**專案範例：**
+```python
+# 在 conftest.py 的 client fixture 裡
+app.dependency_overrides[get_db] = lambda: test_db_session
+yield TestClient(app)
+app.dependency_overrides.clear()  # 測試結束後清空
+```
+
+**白話解釋：** `get_db` 正常情況回傳正式 PostgreSQL 連線，測試時用 `dependency_overrides` 把它換成 SQLite 記憶體資料庫。整個 app 的所有 `Depends(get_db)` 都自動用測試版本，不用修改任何業務程式碼。
+
+**常見錯誤：**
+- 測試結束後忘記 `app.dependency_overrides.clear()`，會影響後續測試；通常放在 fixture 的 `yield` 後面確保一定執行
+
+---
+
+### `assert response.status_code`
+
+**是什麼：** pytest 斷言，驗證結果是否符合預期，不符合時測試失敗並顯示差異。
+
+**專案範例：**
+```python
+def test_login_success(client):
+    """對應 TDD T1"""
+    response = client.post("/api/auth/login", json={
+        "email": "admin@test.com",
+        "password": "password123"
+    })
+    assert response.status_code == 200
+    assert "access_token" in response.json()
+
+def test_login_wrong_password(client):
+    """對應 TDD T2"""
+    response = client.post("/api/auth/login", json={
+        "email": "admin@test.com",
+        "password": "wrong"
+    })
+    assert response.status_code == 401
+```
+
+**白話解釋：** `assert` 後面的條件必須為 True，否則 pytest 標記此測試為 FAILED 並顯示實際值。`response.json()` 把回應 body 解析成 Python dict，可以用 `["key"]` 或 `in` 來驗證內容。
+
+**常見錯誤：**
+- 只斷言 `status_code` 沒有斷言 body 內容，測試通過但回傳資料有誤；錯誤訊息不夠清楚時可用 `assert x == y, "說明文字"` 加上描述
+
 ---

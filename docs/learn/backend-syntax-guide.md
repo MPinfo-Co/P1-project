@@ -44,6 +44,43 @@
 
 ## 4.1 應用程式啟動
 
+### `app.include_router()`
+
+**是什麼：** 把一個路由器（router）的所有路由掛載到 FastAPI 應用，並加上統一的 URL 前綴。
+
+**專案範例：**
+```python
+app.include_router(auth_router, prefix="/api/auth")
+app.include_router(events_router, prefix="/api/events")
+app.include_router(health_router)
+```
+
+**白話解釋：** router 是一組路由的集合，`include_router` 把它「接」進主應用。加了 `prefix="/api/auth"` 後，auth_router 裡的 `/login` 路由完整路徑就變成 `/api/auth/login`。這樣不同模組的路由可以各自管理，main.py 只負責組裝。
+
+**常見錯誤：**
+- prefix 末尾加斜線（`"/api/auth/"`），路由路徑前也有斜線，導致雙斜線（`/api/auth//login`）
+
+---
+
+### `CORSMiddleware`
+
+**是什麼：** 允許瀏覽器從不同網域（如前端 localhost:5173）存取這個 API。
+
+**專案範例：**
+```python
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+**白話解釋：** 瀏覽器的安全機制會阻擋「跨域請求」（前端 localhost:5173 打後端 localhost:8000）。`CORSMiddleware` 告訴瀏覽器「這個來源是被允許的，放行」。`allow_methods=["*"]` 表示所有 HTTP 方法都允許。
+
+**常見錯誤：**
+- `allow_origins=["*"]` 開發方便，但正式環境要改成指定網域，否則任何網站都能呼叫你的 API
+
 ---
 
 ## 4.2 使用者登入與 JWT 認證

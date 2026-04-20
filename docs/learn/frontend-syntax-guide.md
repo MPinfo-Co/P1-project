@@ -602,6 +602,121 @@ useEffect(() => {
 
 ## 3.5 開啟事件詳情
 
+### `useParams()`
+
+**是什麼：** React Router Hook，從當前 URL 取出動態路由參數。
+
+**專案範例：**
+```jsx
+const { partnerId, issueId } = useParams()
+```
+
+**白話解釋：** 路由定義是 `/ai-partner/:partnerId/issues/:issueId`，當 URL 是 `/ai-partner/3/issues/42` 時，`useParams()` 回傳 `{ partnerId: '3', issueId: '42' }`，不需要自己解析 URL。
+
+**常見錯誤：**
+- 取出的值永遠是字串，要傳給 API 的數字欄位記得用 `Number(issueId)` 轉型
+
+---
+
+### `<Tabs>` / `<Tab>`
+
+**是什麼：** MUI 的分頁切換元件，用 state 控制哪個 Tab 被選中。
+
+**專案範例：**
+```jsx
+const [tabIndex, setTabIndex] = useState(0)
+
+<Tabs value={tabIndex} onChange={(_, v) => setTabIndex(v)}>
+  <Tab label="事件詳情" />
+  <Tab label="歷史事件" />
+  <Tab label="處置紀錄" />
+</Tabs>
+```
+
+**白話解釋：** `value` 控制哪個 Tab 選中（對應 Tab 的 index，從 0 開始），`onChange` 的第二個參數 `v` 是點擊的 Tab index，呼叫 `setTabIndex(v)` 更新。
+
+**常見錯誤：**
+- `onChange={(e, v) => ...}` 裡第一個參數是 event（通常不用），第二個才是 index；常見錯誤是寫 `onChange={(v) => setTabIndex(v)}` 把 event 當成 index
+
+---
+
+### 條件渲染 `&&`
+
+**是什麼：** 用 `&&` 短路運算在 JSX 中有條件地渲染元件。
+
+**專案範例：**
+```jsx
+{tabIndex === 0 && <事件詳情內容 />}
+{tabIndex === 1 && <歷史事件內容 />}
+{tabIndex === 2 && <處置紀錄內容 />}
+```
+
+**白話解釋：** `A && B`：A 為 true 時才回傳 B；A 為 false 時回傳 false，React 不渲染 false。三行分別只在對應 tabIndex 時顯示內容。
+
+**常見錯誤：**
+- `{count && <元件 />}` 當 `count` 是 `0` 時，React 會渲染數字 `0` 而非不渲染（因為 `0` 不是 false）。要寫 `{count > 0 && <元件 />}`
+
+---
+
+### 兩步驟 async function
+
+**是什麼：** 用 `await` 串接多個非同步 API 呼叫，確保依序執行。
+
+**專案範例：**
+```jsx
+async function addHistoryEntry() {
+  // Step 1：如果狀態有變，先更新狀態
+  if (histStatus !== event.current_status) await updateStatus(histStatus)
+
+  // Step 2：新增歷史紀錄
+  await fetch(`/api/events/${issueId}/history`, {
+    method: 'POST',
+    body: JSON.stringify({ note: histNote }),
+  })
+
+  await fetchEvent()  // 重新拉取，畫面自動更新
+}
+```
+
+**白話解釋：** `await` 保證第一個 API 完成後才執行下一個。先更新狀態、再新增紀錄、最後重新拉取最新資料，順序不能亂。
+
+**常見錯誤：**
+- 兩個 API 沒有先後依賴時，用 `await` 一個一個串接會讓它們變成序列執行（較慢）；若可以同時打，改用 `await Promise.all([api1(), api2()])` 更有效率
+
+---
+
+### `transition` 動畫
+
+**是什麼：** CSS `transition` 讓元素的樣式值變化有平滑的過渡動畫。
+
+**專案範例：**
+```jsx
+<Box sx={{ width: chatVisible ? 360 : 40, transition: 'width 0.2s' }}>
+```
+
+**白話解釋：** `chatVisible` 改變時，`width` 不是瞬間從 360 跳到 40，而是在 0.2 秒內平滑過渡。格式是 `'屬性名 時間'`，可以加緩動函式如 `'width 0.2s ease'`。
+
+**常見錯誤：**
+- `transition` 要和變化的屬性放在同一個元素；該屬性要有明確的數值起始/終止點（如 `width: 360` vs `width: 40`），`width: auto` 無法過渡
+
+---
+
+### `<Collapse>`
+
+**是什麼：** MUI 的動畫元件，讓內容以展開/收合動畫顯示或隱藏。
+
+**專案範例：**
+```jsx
+<Collapse in={chatVisible} orientation="horizontal">
+  {/* AI 諮詢功能 */}
+</Collapse>
+```
+
+**白話解釋：** `in` 是 true 時展開，false 時收合；`orientation="horizontal"` 是水平方向（預設是垂直，從上往下展開）。這裡聊天面板從右側水平收合。
+
+**常見錯誤：**
+- 預設 `orientation` 是垂直方向，水平收合要明確加上 `orientation="horizontal"`
+
 ---
 
 ## 4. 狀態管理設計

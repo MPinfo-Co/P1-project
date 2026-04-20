@@ -189,6 +189,88 @@ user = db.query(User).filter(User.email == email).first()
 
 ## 4.3 排程任務：Flash Task
 
+### `@celery_app.task`
+
+**是什麼：** 把函式宣告為 Celery 非同步任務，可以交給 Worker 在背景執行，不阻塞 API server。
+
+**專案範例：**
+```python
+@celery_app.task(name="flash_task")
+def run_flash_task():
+    # 拉取日誌、送 AI 分析...
+    ...
+```
+
+**白話解釋：** `@celery_app.task` 讓這個函式可以被「丟進佇列」交給另一個程序執行。API server 丟完就繼續處理其他請求，不用等任務完成。類似「把工作單交給倉庫，倉庫慢慢處理，你繼續接客」。
+
+**常見錯誤：**
+- 直接呼叫 `run_flash_task()` 是同步執行；要用 `run_flash_task.delay()` 才是非同步丟進佇列
+
+---
+
+### `beat_schedule`
+
+**是什麼：** Celery Beat 的排程設定，定義哪個任務在什麼時間自動執行。
+
+**專案範例：**
+```python
+beat_schedule = {
+    "flash-task-every-20-min": {
+        "task": "flash_task",
+        "schedule": crontab(minute="*/20"),
+    },
+    "pro-task-daily": {
+        "task": "pro_task",
+        "schedule": crontab(hour=2, minute=0),
+    },
+}
+```
+
+**白話解釋：** 像設定手機鬧鐘，`crontab(minute="*/20")` 是「每 20 分鐘響一次」，`crontab(hour=2, minute=0)` 是「每天凌晨 02:00」。Celery Beat 是一個獨立程序，按時把任務丟進佇列。
+
+**常見錯誤：**
+- `beat_schedule` 需要 Celery Beat 程序獨立啟動（`celery -A worker beat`），光啟動 Worker 不會執行排程
+
+---
+
+### `httpx.AsyncClient`
+
+**是什麼：** 非同步 HTTP 客戶端，用 `async/await` 方式呼叫外部 API，不阻塞程式。
+
+**專案範例：**
+```python
+async with httpx.AsyncClient() as client:
+    response = await client.get(
+        url,
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    data = response.json()
+```
+
+**白話解釋：** 類似 Python 的 `requests` 庫，但支援非同步。`async with` 確保用完自動關閉連線（類似 `with open()` 處理檔案）。`await client.get()` 等待回應時不會卡住其他程式碼。
+
+**常見錯誤：**
+- 在同步函式裡用 `await httpx` 會報錯；忘記 `async with`，手動建立的 `AsyncClient` 需要呼叫 `.aclose()` 關閉
+
+---
+
+### list slicing `logs[i:i+300]`
+
+**是什麼：** Python list 切片，取出指定索引範圍的元素。
+
+**專案範例：**
+```python
+for i in range(0, len(logs), 300):
+    chunk = logs[i:i+300]
+    # 把這批 300 筆送給 AI 分析
+    await analyze_chunk(chunk)
+```
+
+**白話解釋：** `logs[i:i+300]` 取出從 index i 開始的 300 筆。`range(0, len(logs), 300)` 以 300 為步伐走過整個 list：第一次 i=0（取 0-299），第二次 i=300（取 300-599），以此類推。
+
+**常見錯誤：**
+- 最後一批不足 300 筆時 Python 自動取到結尾，不會報錯，不需要特別處理邊界
+
 ---
 
 ## 4.4 AI 快速分析（Claude Haiku）

@@ -339,6 +339,49 @@ for event in events:
 
 ## 4.5 AI 日報彙整（Claude Sonnet）
 
+### `db.add()` / `db.merge()`
+
+**是什麼：** `db.add` 新增記錄（INSERT），`db.merge` 存在就更新、不存在就新增（UPSERT）。
+
+**專案範例：**
+```python
+# 全新事件：INSERT
+new_event = SecurityEvent(title="可疑登入", match_key="4625_john")
+db.add(new_event)
+
+# 延續事件：更新已存在的記錄
+existing_event.detection_count += 1
+existing_event.date_end = today
+db.merge(existing_event)
+
+db.commit()
+```
+
+**白話解釋：** `db.add` 永遠新增一筆，適合第一次建立。`db.merge` 根據主鍵判斷——主鍵已存在就 UPDATE，不存在就 INSERT，適合「建立或更新」的場景（如延續事件累加計數）。
+
+**常見錯誤：**
+- 用 `db.add` 插入主鍵重複的記錄會拋出 `IntegrityError`；`db.add` 和 `db.merge` 都需要後續 `db.commit()` 才真正寫進資料庫
+
+---
+
+### `db.commit()` / `db.refresh()`
+
+**是什麼：** `commit` 把交易提交到資料庫，`refresh` 重新從資料庫讀取物件的最新狀態。
+
+**專案範例：**
+```python
+db.add(new_event)
+db.commit()
+db.refresh(new_event)
+# 現在 new_event.id 有值了（資料庫自動產生的）
+print(new_event.id)
+```
+
+**白話解釋：** `db.add(obj)` 只是把修改放在暫存區，`db.commit()` 才真正送進資料庫。`db.refresh(obj)` 讓 Python 物件同步資料庫的最新值，最常用在取得資料庫自動產生的欄位（如 id、created_at）。
+
+**常見錯誤：**
+- commit 後忘記 refresh，讀取 `new_event.id` 可能還是 None；如果在 commit 後繼續操作同一個 session，也要注意 SQLAlchemy 的 lazy loading 行為
+
 ---
 
 ## 4.6 前端查詢事件

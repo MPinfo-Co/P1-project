@@ -1,7 +1,3 @@
----
-github_repo: chingsungshen|P1-project
-github_issue: 94
----
 
 > [← 回到總導覽](../README.md)
 # MP-BOX專案看板 [MP-BOX Project Board](https://github.com/orgs/MPinfo-Co/projects/4)

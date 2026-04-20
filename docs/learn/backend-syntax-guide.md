@@ -275,6 +275,66 @@ for i in range(0, len(logs), 300):
 
 ## 4.4 AI 快速分析（Claude Haiku）
 
+### `client.messages.create()`
+
+**是什麼：** Anthropic SDK 呼叫 Claude 的核心函式，傳入模型名稱與對話訊息，回傳 AI 分析結果。
+
+**專案範例：**
+```python
+response = client.messages.create(
+    model="claude-haiku-4-5-20251001",
+    max_tokens=4096,
+    system="你是資安事件分析師，請用 JSON 格式回傳分析結果。",
+    messages=[{"role": "user", "content": log_text}]
+)
+```
+
+**白話解釋：** `messages` 是一個對話陣列，每筆有 `role`（user 或 assistant）和 `content`（訊息內容）。`max_tokens` 限制回應長度，避免 token 費用失控。`model` 指定要用哪個 Claude 版本。
+
+**常見錯誤：**
+- 忘記設 `max_tokens` 可能超出 API 限制；`model` 名稱拼錯或使用已退役的模型 ID 會直接拋出 API 錯誤
+
+---
+
+### system / user message 結構
+
+**是什麼：** Claude API 的 prompt 格式，`system` 設定 AI 的角色與回應規範，`messages` 是對話內容。
+
+**專案範例：**
+```python
+# system 告訴 AI 它的角色和輸出格式
+system = """你是資安事件分析師。分析以下日誌，回傳 JSON 陣列，
+每筆包含：star_rank(1-5), title, match_key, suggests"""
+
+# messages 是實際輸入的日誌內容
+messages = [{"role": "user", "content": f"日誌資料：\n{log_text}"}]
+```
+
+**白話解釋：** `system` 是「背景設定」（告訴 AI 它的角色、輸出格式要求），`messages` 是「每次的實際輸入」。分開設定讓 `system` 部分可以享受 Anthropic 的 Prompt Cache，重複呼叫時只有 `messages` 計費。
+
+**常見錯誤：**
+- 把所有指令塞進 `messages` 的 user content 而不用 `system` 參數，每次都全量計費，無法享受快取優惠
+
+---
+
+### `json.loads()`
+
+**是什麼：** 把 JSON 字串解析成 Python dict 或 list。
+
+**專案範例：**
+```python
+result_text = response.content[0].text
+events = json.loads(result_text)
+# events 現在是 Python list，可以用 for 迴圈處理
+for event in events:
+    print(event["title"])
+```
+
+**白話解釋：** Claude 回傳的是文字字串，`json.loads()` 把 `'[{"title": "可疑登入"}]'` 這樣的字串轉成 Python 可以操作的 list。`json.dumps()` 是反方向（Python 物件轉 JSON 字串）。
+
+**常見錯誤：**
+- AI 有時回傳的 JSON 外面包了 markdown code block（` ```json...``` `），直接 `json.loads` 會失敗，需要先用字串處理或正則清掉包裝
+
 ---
 
 ## 4.5 AI 日報彙整（Claude Sonnet）

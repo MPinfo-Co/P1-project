@@ -721,4 +721,127 @@ async function addHistoryEntry() {
 
 ## 4. 狀態管理設計
 
+### `create((set, get) => {...})`
+
+**是什麼：** Zustand 建立 store 的函式，接受一個 callback 回傳 state 和 action 的物件。
+
+**專案範例：**
+```jsx
+const useAuthStore = create((set, get) => ({
+  token: localStorage.getItem('mp-box-token') || null,
+  login: async (email, password) => {
+    // ...
+    set({ token: access_token, user: { email } })
+  },
+  logout: async () => {
+    localStorage.removeItem('mp-box-token')
+    set({ token: null, user: null })
+  },
+}))
+```
+
+**白話解釋：** `set` 用來更新 state，`get` 用來在 action 裡讀取當前 state。所有 state（如 `token`）和操作函式（如 `login`、`logout`）都定義在同一個物件裡，不需要 Redux 那樣分散在多個檔案。
+
+**常見錯誤：**
+- 在 action 裡讀其他 state 要用 `get().token`，不能直接用外層的 `token` 變數（閉包問題，會讀到初始值）
+
+---
+
+### `useXxxStore()`
+
+**是什麼：** Zustand store 回傳的 Hook，在元件中取用 state 和 action，不需要 Provider。
+
+**專案範例：**
+```jsx
+function Header() {
+  const { logout } = useAuth()  // useAuth 是 useAuthStore 的封裝
+  return <Button onClick={logout}>登出</Button>
+}
+```
+
+**白話解釋：** 不像 React Context 需要用 Provider 包住元件樹，Zustand 的 store 是全域的，任意元件直接 import 就能用。只有訂閱的值改變時，該元件才重新渲染。
+
+**常見錯誤：**
+- `const store = useAuthStore()` 取出整個 store 物件，任何欄位改變都會重新渲染；應該解構只取需要的欄位：`const { token } = useAuthStore()`
+
+---
+
+### `createContext()`
+
+**是什麼：** 建立一個 React Context 物件，作為跨元件共享資料的管道。
+
+**專案範例：**
+```jsx
+const IssuesContext = createContext(null)
+```
+
+**白話解釋：** `createContext(null)` 建立管道，`null` 是預設值（當元件不在任何 Provider 內時使用）。Context 本身不儲存資料，只是一個媒介。
+
+**常見錯誤：**
+- 在沒有對應 Provider 的元件樹裡使用 Context，會拿到 `createContext` 的預設值（null）而非期待的資料
+
+---
+
+### `<Context.Provider>`
+
+**是什麼：** Context 的提供者，`value` 裡的資料可以被包住的所有子元件取用。
+
+**專案範例：**
+```jsx
+export function IssuesProvider({ children }) {
+  const [issues, setIssues] = useState([])
+  return (
+    <IssuesContext.Provider value={{ issues, updateIssue }}>
+      {children}
+    </IssuesContext.Provider>
+  )
+}
+```
+
+**白話解釋：** Provider 像廣播站，`value` 是廣播內容，包在裡面的所有子元件（任意深度）都能「收聽」。`{children}` 是被包住的子元件。
+
+**常見錯誤：**
+- `value={{ issues, updateIssue }}` 每次渲染都建立新物件（記憶體位址不同），會導致所有消費者重新渲染，資料量大時可考慮用 `useMemo` 包住 value
+
+---
+
+### `useContext()`
+
+**是什麼：** 在被 Provider 包住的子元件中讀取 Context 的值。
+
+**專案範例：**
+```jsx
+export function useIssues() {
+  return useContext(IssuesContext)
+}
+```
+
+**白話解釋：** 在任意深度的子元件裡呼叫 `useContext(IssuesContext)`，就能拿到最近的 `IssuesContext.Provider` 的 `value`，不需要一層一層用 props 傳遞。
+
+**常見錯誤：**
+- 元件不在對應的 Provider 範圍內，`useContext` 回傳的是 `createContext` 的預設值（null），容易造成 null reference 錯誤
+
+---
+
+### 自訂 hook 封裝
+
+**是什麼：** 把 `useContext` 包成自訂 hook，讓使用更簡潔，且可集中加入防呆邏輯。
+
+**專案範例：**
+```jsx
+// IssuesContext.jsx 裡定義
+export function useIssues() {
+  return useContext(IssuesContext)
+}
+
+// 其他元件使用
+import { useIssues } from '../contexts/IssuesContext'
+const { issues } = useIssues()
+```
+
+**白話解釋：** 不用每次都寫 `import IssuesContext; useContext(IssuesContext)` 這兩步，改成 `import { useIssues }; useIssues()` 一步到位。未來想在 hook 裡加防呆（如「如果不在 Provider 內就報錯」），只需要改一個地方。
+
+**常見錯誤：**
+- 直接把 `IssuesContext` export 出去讓各元件自己 `useContext`，無法集中管理，防呆邏輯散落各處
+
 ---

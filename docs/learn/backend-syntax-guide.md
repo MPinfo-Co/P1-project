@@ -470,6 +470,75 @@ status: Optional[str] = None
 
 ## 6. 配置管理
 
+### `class Settings(BaseSettings)`
+
+**是什麼：** Pydantic Settings，從環境變數或 `.env` 檔案讀取設定值，有型別驗證。
+
+**專案範例：**
+```python
+from pydantic_settings import BaseSettings
+
+class Settings(BaseSettings):
+    DATABASE_URL: str
+    JWT_SECRET_KEY: str
+    ANTHROPIC_API_KEY: str
+
+    class Config:
+        env_file = ".env"
+
+settings = Settings()
+```
+
+**白話解釋：** 把所有環境變數集中在一個 class，啟動時自動讀取 `.env` 或系統環境變數。有型別標注（`str`、`int`），讀不到必填欄位或型別錯誤會直接報錯，不用等到用到時才發現問題。
+
+**常見錯誤：**
+- Pydantic v2 的 Settings 要從 `pydantic_settings` import，不是 `pydantic`；`.env` 裡的變數名稱和 class 欄位名稱大小寫不一致時，Pydantic 預設大小寫不敏感，但最好保持一致
+
+---
+
+### `settings.DATABASE_URL`
+
+**是什麼：** 全域讀取設定值的方式，任何地方 import settings 物件即可取用。
+
+**專案範例：**
+```python
+# 任何檔案都可以這樣用
+from app.core.config import settings
+
+engine = create_engine(settings.DATABASE_URL)
+print(settings.ANTHROPIC_API_KEY)
+```
+
+**白話解釋：** `settings` 是在 `config.py` 建立的全域實例（`settings = Settings()`），Python module 的特性讓它只建立一次，之後任何地方 import 都拿到同一個物件，不會重複讀取 `.env`。
+
+**常見錯誤：**
+- 直接用 `os.environ.get("DATABASE_URL")` 讀取環境變數，沒有型別驗證，且設定分散在各處難以管理；遺漏必要環境變數時要等到用到才報錯
+
+---
+
+### `.env` + `Field(...)`
+
+**是什麼：** `.env` 是存放環境變數的文字檔；`Field` 為 Settings 欄位設定預設值、說明或驗證規則。
+
+**專案範例：**
+```python
+class Settings(BaseSettings):
+    FLASH_INTERVAL_MINUTES: int = Field(default=20, description="Flash Task 執行間隔（分鐘）")
+    ANALYSIS_MODE: str = Field(default="full", pattern="^(full|windows_only)$")
+```
+
+```ini
+# .env 檔案內容
+DATABASE_URL=postgresql://user:pass@localhost/mpbox
+JWT_SECRET_KEY=your-secret-key-here
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+**白話解釋：** `.env` 讓你在本機開發時不用設定真實的系統環境變數，只要有這個檔案 Pydantic 就會讀到。`Field(default=20)` 設定找不到環境變數時的預設值，`pattern=` 可以限制值的格式。
+
+**常見錯誤：**
+- `.env` 裡有密鑰（API key、DB 密碼），絕對不能 commit 到 git；確認 `.gitignore` 包含 `.env`（應有 `.env.example` 供參考用）
+
 ---
 
 ## 7. 測試架構

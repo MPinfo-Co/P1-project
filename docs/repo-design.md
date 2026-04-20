@@ -28,10 +28,8 @@ P1-project/
     ├── project-board-guide.md ← GitHub Projects 看板用法
     └── ai-review/         ← AI 文件審查相關檔案
         ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
-        ├── AI-review-gap-prompt.md ← AI 缺口與孤立文件掃描 Prompt
         ├── AI-review-doclist.md ← AI 文件審查範圍清單
-        ├── AI-review-report.md ← 文件審查報告（自動產出）
-        └── AI-review-gap-report.md ← 缺口掃描報告（自動產出）
+        └── AI-review-report.md ← 文件審查報告（自動產出）
 ```
 
 

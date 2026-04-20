@@ -484,6 +484,120 @@ const title = Object.entries(PAGE_TITLES)
 
 ## 3.4 瀏覽事件清單
 
+### `useState`
+
+**是什麼：** React Hook，在元件內建立一個可觸發重新渲染的狀態值。
+
+**專案範例：**
+```jsx
+const [filterStatus, setFilterStatus] = useState('all')
+const [applied, setApplied] = useState({ status: '_default' })
+```
+
+**白話解釋：** `filterStatus` 是讀取值，`setFilterStatus` 是更新函式，`'all'` 是初始值。呼叫 `setFilterStatus('pending')` 後，React 重新渲染元件，畫面自動更新。
+
+**常見錯誤：**
+- 直接修改 state 變數（`filterStatus = 'new'`）不會觸發重新渲染，一定要用 `setFilterStatus('new')` 才有效
+
+---
+
+### `useCallback`
+
+**是什麼：** 快取函式參考，只在依賴陣列的值改變時重新建立函式。
+
+**專案範例：**
+```jsx
+const fetchEvents = useCallback(async () => {
+  // ... fetch 邏輯
+}, [applied, page])
+```
+
+**白話解釋：** 每次元件重新渲染，函式都會重新建立（記憶體位址不同）。`useCallback` 讓 `fetchEvents` 在 `applied` 和 `page` 沒變時保持同一個參考位址，避免 `useEffect` 以為「函式變了！要重跑！」造成無限迴圈。
+
+**常見錯誤：**
+- `useCallback` 的依賴陣列沒有列出函式內用到的 state 或 props，函式內會讀到過時的舊值（stale closure）
+
+---
+
+### `useEffect`
+
+**是什麼：** 元件渲染後執行副作用，依賴陣列裡的值改變時重新執行。
+
+**專案範例：**
+```jsx
+useEffect(() => {
+  fetchEvents()
+}, [fetchEvents])
+```
+
+**白話解釋：** 元件掛載後、或 `fetchEvents` 這個函式參考改變時，執行 `fetchEvents()`。這裡監聽 `fetchEvents` 而非直接監聽 `applied`/`page`，是因為 `fetchEvents` 已經用 `useCallback` 封裝了這些依賴，邏輯集中在一處。
+
+**常見錯誤：**
+- 依賴陣列寫 `[]` 以為只執行一次，但 `fetchEvents` 內部讀到的 `applied` 會永遠是初始值（stale closure）
+- 依賴陣列完全省略，每次渲染都執行，可能造成無限迴圈
+
+---
+
+### `e.stopPropagation()`
+
+**是什麼：** 阻止事件向上冒泡（傳遞到父元素的事件處理器）。
+
+**專案範例：**
+```jsx
+<Chip
+  onClick={(e) => {
+    e.stopPropagation()
+    setPopoverAnchor(e.currentTarget)
+  }}
+/>
+```
+
+**白話解釋：** `<Chip>` 在 `<TableRow>` 裡，點擊 Chip 事件會「冒泡」到 Row，觸發 Row 的 `onClick`（跳到詳情頁）。`stopPropagation()` 告訴瀏覽器「這個點擊到我這裡停，不要往上傳給 Row」。
+
+**常見錯誤：**
+- 子元素的點擊意外觸發父元素的事件，通常就是忘記 `stopPropagation`
+
+---
+
+### `<Chip>`
+
+**是什麼：** MUI 的標籤元件，圓角小標籤，適合顯示狀態、分類或可點擊的摘要資訊。
+
+**專案範例：**
+```jsx
+<Chip
+  label={row.affected_summary}
+  onClick={(e) => { ... }}
+/>
+```
+
+**白話解釋：** 外觀是圓角的小膠囊，`label` 是顯示文字，加上 `onClick` 就變成可互動的標籤。
+
+**常見錯誤：**
+- `label` 只接受字串或簡單節點，放複雜的 JSX 結構可能造成排版問題
+
+---
+
+### `<Popover>`
+
+**是什麼：** MUI 的浮動層元件，錨定在某個元素旁邊彈出顯示。
+
+**專案範例：**
+```jsx
+<Popover
+  open={Boolean(popoverAnchor)}
+  anchorEl={popoverAnchor}
+  onClose={() => setPopoverAnchor(null)}
+>
+  {formatDesc(popoverContent)}
+</Popover>
+```
+
+**白話解釋：** `anchorEl` 是「錨點元素」，Popover 會出現在這個元素旁邊。`open={Boolean(popoverAnchor)}` 表示 `popoverAnchor` 有值時顯示、為 null 時關閉。`e.currentTarget`（點擊的元素）存到 state 後傳給 `anchorEl`。
+
+**常見錯誤：**
+- 關閉 Popover 要把 `popoverAnchor` 設回 `null`，忘記呼叫 `onClose` 或忘記清空 state，Popover 不會消失
+
 ---
 
 ## 3.5 開啟事件詳情

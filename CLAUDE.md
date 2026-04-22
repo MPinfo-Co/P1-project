@@ -46,6 +46,7 @@
 
 ###  讀取
 1. `business-logic.md` — 商業邏輯背景（由 SA 填寫）
+2. `Spec/spec-guide.md` — Spec 目錄結構、命名規則、各檔案格式與撰寫規範
 ###  產出
 
 1. **TDD（Technical Design Document）**：包含工作項目與測試案例，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`TDD/issue-{N}.md`) 

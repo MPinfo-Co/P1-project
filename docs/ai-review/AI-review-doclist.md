@@ -13,6 +13,7 @@
 | P1-project | [docs/auto-file-format.md](../auto-file-format.md)                                  | 自動產生 md 文件格式（business-logic、TDD、TestReport、SpecDiff） |
 | P1-project | [docs/project-board-guide.md](../project-board-guide.md)                            | GitHub Projects 看板用法、Views 說明、自動化流程（各角色） |
 | P1-project | [docs/repo-design.md](../repo-design.md)                                            | Repo 結構、Issue 格式、命名規範                    |
+| P1-design  | [spec-guide.md](../../../P1-design/Spec/spec-guide.md)                              | Spec 目錄結構、命名規則、各檔案格式與撰寫規範                |
 | P1-design  | [TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md)       | 技術選型與各層選擇原因                              |
 | P1-design  | [FunctionList.md](https://github.com/MPinfo-Co/P1-design/blob/main/FunctionList.md) | 系統功能清單與完成狀態                              |
 | P1-code    | [SETUP.md](https://github.com/MPinfo-Co/P1-code/blob/main/SETUP.md)                 | 開發環境準備，clone 後第一步                        |

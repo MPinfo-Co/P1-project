@@ -4,17 +4,10 @@ title: '[PM] '
 labels: ['epic']
 body:
   - type: textarea
-    id: feature-description
+    id: requirements
     attributes:
-      label: 功能說明
-      description: 這個功能要解決什麼問題？
-    validations:
-      required: true
-  - type: textarea
-    id: acceptance-criteria
-    attributes:
-      label: 驗收條件
-      description: 完成的定義是什麼？
+      label: 需求說明
+      description: 描述這個功能要做什麼
     validations:
       required: true
   - type: markdown

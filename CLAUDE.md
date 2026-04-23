@@ -49,18 +49,17 @@
 2. `spec-guide.md` — Spec 目錄結構、命名規則、各檔案格式與撰寫規範
 ###  產出
 
-1. **TDD（Technical Design Document）**：包含工作項目與測試案例，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`TDD/issue-{N}.md`) 
-	+ 先填寫「工作項目」表格（類型限定：`Schema`、`API`、`畫面`、`其他`）
-	+ 測試案例以 T1、T2... 編號
-	+ 每個 API：至少 1 個成功案例（2xx）+ 1 個失敗案例（4xx/5xx）
-	+ 每個畫面：至少 1 個主要操作流程的正常案例
-	+ 測試案例總數 ≥ 工作範圍項目數
+1. **TDD（Technical Design Document）**：工作項目清單，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`TDD/issue-{N}.md`)
+	+ 填寫「工作項目」表格（類型限定：`Schema`、`API`、`畫面`、`Test`、`其他`）
 	+ 設計決定只寫結論與理由，不寫曾考慮過的替代方案
 
- 
-
-2. 依TDD 「工作項目」內容調整：`Prototype/`、`Spec/`、`schema/`（如有異動）
+2. 依 TDD「工作項目」內容調整：`Prototype/`、`Spec/`、`schema/`（如有異動）
 	+ **活文件原則：** `Spec/`、`Prototype/`、`schema/` 永遠反映最新狀態，直接修改，不保留舊版。
+
+3. 有 API 新增或修改時，同步更新對應的 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`（活文件）
+	+ 新增 API → 新增測試案例，ID 接續上一筆
+	+ 修改 API 行為 → 更新對應測試案例
+	+ 刪除 API → 移除對應測試案例，ID 不補號
 	
 
 ---
@@ -70,20 +69,21 @@
 ###  讀取
 1. `business-logic.md` — 商業邏輯背景（由 SA 填寫）
 2. `SpecDiff/issue-{N}.md` — 本次 SD 對 Schema / Spec / Prototype 的變更摘要（由 workflow 及 AI 在 SD merge 後自動寫入）
-3. `TDD/issue-{N}.md` — 工作項目與測試案例（由 SD 填寫）
-4. [techStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/techStack.md) — 確認本次相關技術選型
+3. `TDD/issue-{N}.md` — 工作項目清單（由 SD 填寫）
+4. 依 TDD 工作項目，按需讀取對應的 `Spec/`、`schema/` 檔案及 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`（非全讀）
+5. [techStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/techStack.md) — 確認本次相關技術選型
 
 ###  產出
 1. 實作 code
 2. `TestReport/issue-{N}.md` — 填寫測試結果與備註
 
 **pytest 標準：**
-- pytest 數量 ≥ TDD 案例數
-- 每個 test function 標注對應 TDD ID：
+- pytest 數量 ≥ `_test_api.md` 測試案例數
+- 每個 test function 標注對應 TestSpec ID：
 
 ```python
 def test_create_user(client, db_session):
-    """對應 TDD T1"""
+    """對應 T3"""
 ```
 
 - 前端新檔案一律使用 `.tsx`（舊 `.jsx` 漸進式遷移，不強制）

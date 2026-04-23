@@ -30,11 +30,11 @@
 # TDD：[SD] {功能標題}
 
 ## 工作項目
-| # | 類型 | 工作內容 | 細節說明 |
+| # | 類型 | 工作內容 | 參照規格 |
 |---|------|--------|--------|
-| 1 | API  | 實作 fn_xxx_add_api | POST /api/xxx |
-| 2 | 畫面 | 實作 fn_xxx_01_list | 清單畫面 |
-| 3 | Test | 新增 _fn_xxx_test_api.md | 涵蓋 add/query API 測試規格 |
+| 1 | API  | 建立 fn_xxx_add_api | [Spec/fn_xxx/Api/fn_xxx_add_api.md](../Spec/fn_xxx/Api/fn_xxx_add_api.md) |
+| 2 | 畫面 | 建立 fn_xxx_01_list | [Spec/fn_xxx/fn_xxx_01_list.md](../Spec/fn_xxx/fn_xxx_01_list.md) |
+| 3 | Test | 建立 _fn_xxx_test_api.md | [Spec/fn_xxx/Api/_fn_xxx_test_api.md](../Spec/fn_xxx/Api/_fn_xxx_test_api.md) |
 ```
 
 > 類型限定：`Schema`、`API`、`畫面`、`Test`、`其他`

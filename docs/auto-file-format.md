@@ -30,11 +30,14 @@
 # TDD：[SD] {功能標題}
 
 ## 工作項目
+工作內容格式：建立 `{對象}` / 調整 `{對象}：{異動內容}` / 刪除 `{對象}`
+
 | # | 類型 | 工作內容 | 參照規格 |
 |---|------|--------|--------|
 | 1 | API  | 建立 fn_xxx_add_api | [Spec/fn_xxx/Api/fn_xxx_add_api.md](../Spec/fn_xxx/Api/fn_xxx_add_api.md) |
-| 2 | 畫面 | 建立 fn_xxx_01_list | [Spec/fn_xxx/fn_xxx_01_list.md](../Spec/fn_xxx/fn_xxx_01_list.md) |
-| 3 | Test | 建立 _fn_xxx_test_api.md | [Spec/fn_xxx/Api/_fn_xxx_test_api.md](../Spec/fn_xxx/Api/_fn_xxx_test_api.md) |
+| 2 | API  | 調整 fn_xxx_query_api：回傳新增 is_active 欄位 | [Spec/fn_xxx/Api/fn_xxx_query_api.md](../Spec/fn_xxx/Api/fn_xxx_query_api.md) |
+| 3 | 畫面 | 建立 fn_xxx_01_list | [Spec/fn_xxx/fn_xxx_01_list.md](../Spec/fn_xxx/fn_xxx_01_list.md) |
+| 4 | Test | 建立 _fn_xxx_test_api.md | [Spec/fn_xxx/Api/_fn_xxx_test_api.md](../Spec/fn_xxx/Api/_fn_xxx_test_api.md) |
 ```
 
 > 類型限定：`Schema`、`API`、`畫面`、`Test`、`其他`

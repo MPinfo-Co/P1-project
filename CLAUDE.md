@@ -46,7 +46,7 @@
 
 ###  讀取
 1. `business-logic.md` — 商業邏輯背景（由 SA 填寫）
-2. `Spec/spec-guide.md` — Spec 目錄結構、命名規則、各檔案格式與撰寫規範
+2. `spec-guide.md` — Spec 目錄結構、命名規則、各檔案格式與撰寫規範
 ###  產出
 
 1. **TDD（Technical Design Document）**：包含工作項目與測試案例，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`TDD/issue-{N}.md`) 
@@ -71,7 +71,7 @@
 1. `business-logic.md` — 商業邏輯背景（由 SA 填寫）
 2. `SpecDiff/issue-{N}.md` — 本次 SD 對 Schema / Spec / Prototype 的變更摘要（由 workflow 及 AI 在 SD merge 後自動寫入）
 3. `TDD/issue-{N}.md` — 工作項目與測試案例（由 SD 填寫）
-4. [TechStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/TechStack.md) — 確認本次相關技術選型
+4. [techStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/techStack.md) — 確認本次相關技術選型
 
 ###  產出
 1. 實作 code

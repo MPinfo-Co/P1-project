@@ -56,8 +56,8 @@ P1-analysis/
 ```
 P1-design/
 ├── README.md              ← 無內文，透過連結導引到「MP-Box 專案總導覽」
-├── TechStack.md           ← 技術棧選型文件
-├── FunctionList.md        ← 系統功能清單
+├── techStack.md           ← 技術棧選型文件
+├── functionList.md        ← 系統功能清單
 ├── schema/
 │   └── schema.md          ← 資料庫 Schema 全覽（User、Company...，活文件）
 ├── Prototype/             ← 畫面原型（HTML，活文件）

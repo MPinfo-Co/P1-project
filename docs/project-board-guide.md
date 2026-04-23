@@ -58,6 +58,6 @@
 6. Merge
 7. 在**工作規劃(Member)頁籤** 中，透過**點擊**填入實際完成時間 Start / Target date 
 
-> WIP 原則：**同時 In progress 不超過 3 個，控制在2個之內**。
+> WIP 原則：**同時 In progress 不超過 2 個**。
 > **自動化串接流程**與各**角色職責**詳見 [workflow_guide.md](workflow_guide.md)。
 

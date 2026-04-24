@@ -5,7 +5,7 @@
 | 工作類型   | 動作            | Repo       | yml檔案                                                                                                                                                                                                                                                                                                             | 開立後觸發...                           |
 | ------ | ------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | 系統功能修改 | 開立 Epic 表單    | P1-project | [epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)                                                                                                                                                                                                                     | p-workflow.yml<br>**見「Epic自動化流程」** |
-| 行政事務   | 行政 Chore 表單   | ALL        | [a-chore](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-chore-workflow.yml)  <br>[d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-chore-workflow.yml) <br>[c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-chore-workflow.yml) | chore-workflow.yml<br>**開立Branch** |
+| 行政事務   | 行政 Chore 表單   | ALL        | [d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-chore-workflow.yml) <br>[c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-chore-workflow.yml) | chore-workflow.yml<br>**開立Branch** |
 | 其他工作   | 開立Draft Issue | ALL        |                                                                                                                                                                                                                                                                                                                   |                                    |
 
 > 統一透過專案看板[MP-BOX](https://github.com/orgs/MPinfo-Co/projects/4)開立工作
@@ -16,12 +16,12 @@
 ```
 PM 開立 Epic（透過填寫範本）-> 觸發 [p-workflow]
 └─ 建立 SA Issue + SA-Branch + Draft PR
-└─ 產生 P1-analysis:issue-{SA#}/business-logic.md
-  └─ SA merge PR -> 觸發 [a-workflow]
+└─ 產生 P1-design:SA/sa-{SA#}-logic.md
+  └─ SA merge PR -> 觸發 [a-workflow]（在 P1-design）
     └─ 建立 SD Issue + SD-Branch + Draft PR
-    └─ 產生 P1-design:TDD/issue-{SD#}.md
+    └─ 產生 P1-design:SD/sd-{SD#}-TDD.md
       └─ SD merge PR -> 觸發 [d-workflow]
-        └─ 產生 P1-design:SpecDiff/issue-{SD#}.md
+        └─ 產生 P1-design:SD/sd-{SD#}-Diff.md
         └─ 建立 PG Issue + PG-Branch + Draft PR
         └─ 產生 P1-code:TestReport/issue-{SD#}.md
           └─ PG merge PR -> 觸發 [c-workflow]
@@ -31,7 +31,7 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [p-workflow]
 ## 1.2 workflows
 
 - [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml) in P1-project
-- [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml) in P1-analysis
+- [a-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/a-workflow.yml) in P1-design
 - [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml) in P1-design
 - [c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml) in P1-code
 
@@ -54,7 +54,7 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [p-workflow]
 
 ## 2.1 程式審查機制(自動＋人工)
 
-### Repo：P1-analysis / P1-design / P1-code
+### Repo：P1-design / P1-code
 - **PR**：各階段審查人確認品質，需逐行確認細節
 ### Repo：P1-code
 - **Local(commit時)**：pre-commit（ruff）+ husky lint-staged（ESLint、Prettier）+ commitlint

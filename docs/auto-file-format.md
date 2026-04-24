@@ -6,7 +6,7 @@
 
 ---
 
-## business-logic.md
+## sa-{N}-logic.md（位於 SA/sa-{N}-logic.md）
 
 由 [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml) 產生，SA 人工填寫。
 
@@ -22,9 +22,9 @@
 
 ---
 
-## TDD/issue-{N}.md
+## SD/sd-{N}-TDD.md
 
-由 [a-workflow.yml](https://github.com/MPinfo-Co/P1-analysis/blob/main/.github/workflows/a-workflow.yml) 產生，SD 人工填寫。
+由 [a-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/a-workflow.yml) 產生，SD 人工填寫。
 
 ```markdown
 # TDD：[SD] {功能標題}
@@ -86,7 +86,7 @@
 
 ---
 
-## SpecDiff/issue-{N}.md
+## SD/sd-{N}-Diff.md
 
 由 [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml) 產生，勿手動編輯。
 
@@ -101,7 +101,7 @@
 
 ## 關聯項目
 - Epic：MPinfo-Co/P1-project#1
-- SA Issue：MPinfo-Co/P1-analysis#4
+- SA Issue：MPinfo-Co/P1-design#4
 - SD Issue：P1-design #5
 - 上一個 commit：{前一個 commit hash}
 - 本次 commit：{本次 commit hash}

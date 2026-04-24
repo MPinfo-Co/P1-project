@@ -32,7 +32,7 @@ jobs:
             const epicNumber = epicIssue.number;
             const epicTitle = epicIssue.title.replace(/^\[PM\]\s*/i, '');
             const org = 'MPinfo-Co';
-            const analysisRepo = 'P1-analysis';
+            const analysisRepo = 'P1-design';
 
             const slug = epicTitle
               .toLowerCase()
@@ -42,7 +42,7 @@ jobs:
               .replace(/^-+|-+$/g, '')
               .slice(0, 50) || 'issue';
 
-            // 1. 在 P1-analysis 建立 SA Issue
+            // 1. 在 P1-design 建立 SA Issue
             const saIssue = await github.rest.issues.create({
               owner: org,
               repo: analysisRepo,
@@ -66,7 +66,7 @@ jobs:
             });
 
             const saNumber = saIssue.data.number;
-            const branchName = `issue-${saNumber}-${slug}`;
+            const branchName = `sa-${saNumber}-${slug}`;
 
             // ← backfill 移到 Draft PR 建立後，見下方
 
@@ -82,7 +82,7 @@ jobs:
               console.log(`Sub-issue 關聯建立失敗（非阻斷性）：${e.message}`);
             }
 
-            // 3. 取得 P1-analysis main 的 SHA
+            // 3. 取得 P1-design main 的 SHA
             const mainRef = await github.rest.git.getRef({
               owner: org,
               repo: analysisRepo,
@@ -119,7 +119,7 @@ jobs:
               base_tree: mainRef.data.object.sha,
               tree: [
                 {
-                  path: `issue-${saNumber}/business-logic.md`,
+                  path: `SA/sa-${saNumber}-logic.md`,
                   mode: '100644',
                   type: 'blob',
                   content: businessLogicContent,
@@ -130,7 +130,7 @@ jobs:
             const scaffoldCommit = await github.rest.git.createCommit({
               owner: org,
               repo: analysisRepo,
-              message: `chore(issue-${saNumber}): scaffold SA 分析文件`,
+              message: `chore(sa-${saNumber}): scaffold SA 分析文件`,
               tree: scaffoldTree.data.sha,
               parents: [mainRef.data.object.sha],
             });
@@ -170,7 +170,7 @@ jobs:
                 .replace('SA Issue：#（本 Issue）', `SA Issue：#${saNumber}`)
                 .replace('分支：（待填入）', `分支：[${branchName}](https://github.com/${org}/${analysisRepo}/tree/${branchName})`)
                 .replace('Draft PR：（待建立）', saPrUrl ? `Draft PR：[#${saPrNumber}](${saPrUrl})` : 'Draft PR：（未建立）')
-                .replace('business-logic.md：（待填入）', `business-logic.md：[issue-${saNumber}/business-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/issue-${saNumber}/business-logic.md)`),
+                .replace('business-logic.md：（待填入）', `sa-${saNumber}-logic.md：[SA/sa-${saNumber}-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/SA/sa-${saNumber}-logic.md)`),
             });
 
             // 6. 在 Epic Issue 留言
@@ -180,9 +180,9 @@ jobs:
               issue_number: epicNumber,
               body: [
                 `✅ **SA Issue 已自動建立**`,
-                `- Issue：[P1-analysis #${saNumber}](https://github.com/${org}/${analysisRepo}/issues/${saNumber})`,
+                `- Issue：[P1-design #${saNumber}](https://github.com/${org}/${analysisRepo}/issues/${saNumber})`,
                 `- 分支：\`${branchName}\``,
                 ``,
-                `SA 請至 P1-analysis 開始系統分析。`,
+                `SA 請至 P1-design 開始系統分析。`,
               ].join('\n'),
             });

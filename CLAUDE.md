@@ -5,8 +5,7 @@
 | Repo            | 職責                                   | 角色 | Merge 方式          |
 | --------------- | ------------------------------------ | -- | ----------------- |
 | **P1-project**  | Epic、規範文件                            | PM | 直接 push to main   |
-| **P1-analysis** | 商業邏輯分析                                | SA | 直接 merge（無需 PR）   |
-| **P1-design**   | Prototype、API Spec、Schema、TDD        | SD | PR + SA/PM Review |
+| **P1-design**   | SA 分析 + SD 設計（含 Prototype）           | SA / SD | PR + Review |
 | **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG | PR + SA/PM Review |
 
 > 「Repo 結構細節」，請參考：[repo-design.md](docs/repo-design.md)
@@ -35,21 +34,21 @@
 ## SA 流程
 
 ###  讀取
-1. `business-logic.md` 的 `需求說明` — 預設值為 PM 填寫的需求描述
+1. `SA/sa-{N}-logic.md` 的 `需求說明` — 預設值為 PM 填寫的需求描述
 
 ###  產出
-1. `business-logic.md` — 需求說明、商業邏輯、資料模型示意、SD 注意事項、畫面示意
+1. `SA/sa-{N}-logic.md` — 需求說明、商業邏輯、資料模型示意、SD 注意事項、畫面示意
 
 ---
 
 ## SD 流程
 
 ###  讀取
-1. `business-logic.md` — 商業邏輯背景（由 SA 填寫）
+1. `SA/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
 2. `spec-guide.md` — Spec 目錄結構、命名規則、各檔案格式與撰寫規範
 ###  產出
 
-1. **TDD（Technical Design Document）**：工作項目清單，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`TDD/issue-{N}.md`)
+1. **TDD（Technical Design Document）**：工作項目清單，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`SD/sd-{N}-TDD.md`)
 	+ 填寫「工作項目」表格，欄位：`| # | 類型 | 工作內容 | 參照規格 |`（類型限定：`Schema`、`API`、`畫面`、`Test`、`其他`）
 	+ 工作內容格式：建立 `{對象}` / 調整 `{對象}：{異動內容}` / 刪除 `{對象}`
 	+ 設計決定只寫結論與理由，不寫曾考慮過的替代方案
@@ -68,9 +67,9 @@
 ## PG 流程
 
 ###  讀取
-1. `business-logic.md` — 商業邏輯背景（由 SA 填寫）
-2. `SpecDiff/issue-{N}.md` — 本次 SD 對 Schema / Spec / Prototype 的變更摘要（由 workflow 及 AI 在 SD merge 後自動寫入）
-3. `TDD/issue-{N}.md` — 工作項目清單（由 SD 填寫）
+1. `SA/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
+2. `SD/sd-{N}-Diff.md` — 本次 SD 對 Schema / Spec / Prototype 的變更摘要（由 workflow 及 AI 在 SD merge 後自動寫入）
+3. `SD/sd-{N}-TDD.md` — 工作項目清單（由 SD 填寫）
 4. 依 TDD 工作項目，按需讀取對應的 `Spec/`、`schema/` 檔案及 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`（非全讀）
 5. [techStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/techStack.md) — 確認本次相關技術選型
 

@@ -11,11 +11,9 @@
 由 [epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml) 規範（PM 手動填寫）
 
 ```Markdown
-## 功能說明
-<!-- 這個功能要解決什麼問題？ -->
+### 需求說明
 
-## 驗收條件
-<!-- 完成的定義是什麼？ -->
+（PM 填寫的功能需求描述）
 ```
 
 ---

@@ -11,7 +11,6 @@
 | P1-project | [docs/workflow_guide.md](../workflow_guide.md)                                      | 設計理念、整體流程、關鍵機制                           |
 | P1-project | [docs/issue-body-spec.md](../issue-body-spec.md)                                    | 各階段 Issue body 格式（SA/SD/PG）                |
 | P1-project | [docs/auto-file-format.md](../auto-file-format.md)                                  | 自動產生 md 文件格式（business-logic、TDD、TestReport、SpecDiff） |
-| P1-project | [docs/project-board-guide.md](../project-board-guide.md)                            | GitHub Projects 看板用法、Views 說明、自動化流程（各角色） |
 | P1-project | [docs/repo-design.md](../repo-design.md)                                            | Repo 結構、Issue 格式、命名規範                    |
 | P1-design  | [spec-guide.md](../../../P1-design/spec-guide.md)                                   | Spec 目錄結構、命名規則、各檔案格式與撰寫規範                |
 | P1-design  | [techStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/techStack.md)       | 技術選型與各層選擇原因                              |

@@ -24,7 +24,6 @@ P1-project/
     ├── workflow_guide.md  ← 工作流程
     ├── issue-body-spec.md ← Issue body 內文格式規範
     ├── auto-file-format.md ← 系統自動產生檔案格式說明
-    ├── project-board-guide.md ← GitHub Projects 看板用法
     └── ai-review/         ← AI 文件審查相關檔案
         ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
         ├── AI-review-doclist.md ← AI 文件審查範圍清單

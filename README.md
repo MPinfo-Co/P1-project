@@ -12,7 +12,6 @@ MP-BOX 是一套面向企業用戶的 AI 應用平台，協助企業解決資安
 | Repo | 路徑/文件 | 用途 |
 |------|----------|------|
 | P1-project | [CLAUDE.md](CLAUDE.md) | AI agent 工作指引 |
-| P1-project | [docs/project-board-guide.md](docs/project-board-guide.md) | GitHub Projects 看板用法、Views 說明、自動化流程（各角色）|
 | P1-project | [docs/workflow_guide.md](docs/workflow_guide.md) | 設計理念、整體流程、關鍵機制 |
 | P1-project | [docs/issue-body-spec.md](docs/issue-body-spec.md) | 各階段 Issue body 格式（SA/SD/PG） |
 | P1-project | [docs/auto-file-format.md](docs/auto-file-format.md) | 自動產生 md 文件格式（business-logic、TDD、TestReport、SpecDiff） |

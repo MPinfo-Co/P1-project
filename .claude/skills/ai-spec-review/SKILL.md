@@ -1,5 +1,5 @@
 ---
-name: ai-work-review
+name: ai-spec-review
 description: Use when user wants to review SA/SD/PG work output - auto-detects context from git branch name or files and dispatches the correct reviewer agent (sa-reviewer, sd-reviewer, or pg-reviewer)
 ---
 

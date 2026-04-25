@@ -1,6 +1,7 @@
 ---
 name: ai-spec-review
 description: Use when user wants to review SA/SD/PG work output - auto-detects context from git branch name or files and dispatches the correct reviewer agent (sa-reviewer, sd-reviewer, or pg-reviewer)
+sync: 此檔案與 P1-project/.claude/skills/ai-spec-review/SKILL.md 保持同步，修改後須同步更新並 push P1-project
 ---
 
 # AI Work Review

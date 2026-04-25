@@ -4,8 +4,8 @@
 
 | 工作類型   | 動作            | Repo       | yml檔案                                                                                                                                                                                                                                                                                                             | 開立後觸發...                           |
 | ------ | ------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| 系統功能修改 | 開立 Epic 表單    | P1-project | [epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)                                                                                                                                                                                                                     | p-workflow.yml<br>**見「Epic自動化流程」** |
-| 行政事務   | 行政 Chore 表單   | ALL        | [d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-chore-workflow.yml) <br>[c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-chore-workflow.yml) | chore-workflow.yml<br>**開立Branch** |
+| 系統功能修改 | 開立 Epic 表單    | P1-project | [epic.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/ISSUE_TEMPLATE/epic.yml)                                                                                                                                                                                                                     | wf_epic_to_sa.yml<br>**見「Epic自動化流程」** |
+| 行政事務   | 行政 Chore 表單   | ALL        | [d-chore](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_chore_branch.yml) <br>[c-chore](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_chore_branch.yml) | wf_chore_branch.yml<br>**開立Branch** |
 | 其他工作   | 開立Draft Issue | ALL        |                                                                                                                                                                                                                                                                                                                   |                                    |
 
 > 統一透過專案看板[MP-BOX](https://github.com/orgs/MPinfo-Co/projects/4)開立工作
@@ -14,26 +14,30 @@
 ##  1.1 Epic自動化流程
 
 ```
-PM 開立 Epic（透過填寫範本）-> 觸發 [p-workflow]
+PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 └─ 建立 SA Issue + SA-Branch + Draft PR
-└─ 產生 P1-design:SA/sa-{SA#}-logic.md
-  └─ SA merge PR -> 觸發 [a-workflow]（在 P1-design）
+└─ 產生 P1-design:SA/sa-{SA#}-logic.md（[wf_sa_agent] 自動產出）
+  └─ SA merge PR -> 觸發 [wf_sa_to_sd]（在 P1-design）
     └─ 建立 SD Issue + SD-Branch + Draft PR
-    └─ 產生 P1-design:SD/sd-{SD#}-TDD.md
-      └─ SD merge PR -> 觸發 [d-workflow]
+    └─ 產生 P1-design:SD/sd-{SD#}-TDD.md（[wf_sd_agent] 自動產出）
+      └─ SD merge PR -> 觸發 [wf_sd_to_pg]
         └─ 產生 P1-design:SD/sd-{SD#}-Diff.md
         └─ 建立 PG Issue + PG-Branch + Draft PR
         └─ 產生 P1-code:TestReport/issue-{SD#}.md
-          └─ PG merge PR -> 觸發 [c-workflow]
+          └─ PG merge PR -> 觸發 [wf_pg_close]
             └─ 關閉 Epic、PG Issue
 ```
 
 ## 1.2 workflows
 
-- [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml) in P1-project
-- [a-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/a-workflow.yml) in P1-design
-- [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml) in P1-design
-- [c-workflow.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/c-workflow.yml) in P1-code
+- [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) in P1-project
+- [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) in P1-design
+- [wf_sa_agent.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_agent.yml) in P1-design
+- [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) in P1-design
+- [wf_sd_agent.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_agent.yml) in P1-design
+- [wf_pg_close.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_pg_close.yml) in P1-code
+- [wf_chore_branch.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_chore_branch.yml) in P1-design
+- [wf_chore_branch.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_chore_branch.yml) in P1-code
 
 > 如需了解 workflow 細節，直接向AI詢問指定文件內涵即可。
 

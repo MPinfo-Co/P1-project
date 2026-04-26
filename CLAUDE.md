@@ -45,7 +45,7 @@
 
 ###  讀取
 1. `SA/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
-2. `spec-guide.md` — Spec 目錄結構、命名規則、各檔案格式與撰寫規範
+2. `docs/spec-guide.md`（P1-project）— Spec 目錄結構、命名規則、各檔案格式與撰寫規範
 ###  產出
 
 1. **TDD（Technical Design Document）**：工作項目清單，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`SD/sd-{N}-TDD.md`)

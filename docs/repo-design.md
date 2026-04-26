@@ -24,6 +24,7 @@ P1-project/
     ├── workflow_guide.md  ← 工作流程
     ├── issue-body-spec.md ← Issue body 內文格式規範
     ├── auto-file-format.md ← 系統自動產生檔案格式說明
+    ├── spec-guide.md      ← Spec 目錄結構、命名規則、各檔案格式與撰寫規範
     └── ai-review/         ← AI 文件審查相關檔案
         ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
         ├── AI-review-doclist.md ← AI 文件審查範圍清單
@@ -41,7 +42,6 @@ P1-design/
 ├── README.md              ← 無內文，透過連結導引到「MP-Box 專案總導覽」
 ├── techStack.md           ← 技術棧選型文件
 ├── functionList.md        ← 系統功能清單
-├── spec-guide.md
 ├── SA/                         ← SA 分析產出
 │   └── sa-{N}-logic.md         ← 原 business-logic.md
 ├── Prototype/                  ← SA 主責，SD 可微調

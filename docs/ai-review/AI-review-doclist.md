@@ -19,3 +19,4 @@
 | P1-project | [docs/ai-review/AI-review-prompt.md](AI-review-prompt.md)                           | AI 文件審查任務 Prompt                         |
 | P1-project | [docs/ai-review/AI-review-doclist.md](AI-review-doclist.md)                         | AI 文件審查範圍清單（本文件）                         |
 | P1-project | [docs/coding-rule-backend.md](../coding-rule-backend.md)              | 後端程式規範（命名、架構、禁用模式、測試慣例）                  |
+| P1-project | [docs/coding-rule-frontend.md](../coding-rule-frontend.md)            | 前端程式規範（命名、架構、禁用模式）                          |

@@ -212,8 +212,8 @@ const [isFormOpen, setIsFormOpen] = useState(false)
 ### ✗ 8 將 Dialog 表單內嵌在 List 元件中
 
 ```tsx
-// ✗ FnUserList.tsx 直接內嵌 Dialog JSX
-export default function FnUserList() {
+// ✗ FnXxxList.tsx 直接內嵌 Dialog JSX
+export default function FnXxxList() {
   return (
     <>
       <DataGrid ... />
@@ -222,19 +222,19 @@ export default function FnUserList() {
   )
 }
 
-// ✓ 獨立 FnUserForm.tsx，在 FnUserList.tsx 中 import
-// FnUserForm.tsx
-export default function FnUserForm({ open, user, onClose, onSuccess }: Props) {
+// ✓ 獨立 FnXxxForm.tsx，在 FnXxxList.tsx 中 import
+// FnXxxForm.tsx
+export default function FnXxxForm({ open, row, onClose, onSuccess }: Props) {
   return <Dialog open={open}>...</Dialog>
 }
 
-// FnUserList.tsx
-import FnUserForm from './FnUserForm'
-export default function FnUserList() {
+// FnXxxList.tsx
+import FnXxxForm from './FnXxxForm'
+export default function FnXxxList() {
   return (
     <>
       <DataGrid ... />
-      <FnUserForm open={isFormOpen} user={editingUser} onClose={...} onSuccess={...} />
+      <FnXxxForm open={isFormOpen} row={editingRow} onClose={...} onSuccess={...} />
     </>
   )
 }

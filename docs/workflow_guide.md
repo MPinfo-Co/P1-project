@@ -97,14 +97,10 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 | 指令 | 說明 |
 |------|------|
 | `/ai-docs-review` | 執行 P1 四個 Repo 文件審查 |
-| `/ai-spec-review` | 審查當前 SA / SD / PG 工作產出 |
 
 ### 使用效果
 
 **`/ai-docs-review`**
 依 `docs/ai-review/` 的審查指令與清單，逐一分析四個 Repo 文件狀況，輸出結構化建議報告。
-
-**`/ai-spec-review`**
-自動偵測當前 branch 名稱（`sa/`、`sd/`、`pg/`），派遣對應的 reviewer agent 審查工作產出，輸出審查結果。
 
 ---

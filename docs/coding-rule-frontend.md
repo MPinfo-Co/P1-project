@@ -104,6 +104,8 @@ React Query 自動更新 cache → 元件自動重新 render
 | 查詢清單 | MUI DataGrid |
 | 新增 / 修改表單 | MUI Dialog（含 DialogTitle / DialogContent / DialogActions）|
 
+Dialog 型畫面規格（無路由路徑）仍獨立為 `FnXxxForm.tsx`，在 `FnXxxList.tsx` 中 import 並傳入 `open / user / onClose / onSuccess` props，不內嵌。TDD 每個「畫面」工作項目對應一個 .tsx 檔案。
+
 ### 2-6 QueryClient 設定
 
 `QueryClient` 在 `src/main.jsx` 建立，以 `QueryClientProvider` 包住整個 App，全域共用同一個 client instance。各 query hook 不自行建立 `QueryClient`。
@@ -205,4 +207,35 @@ const [formOpen, setFormOpen] = useState(false)
 // ✓
 const [isLoading, setIsLoading] = useState(false)
 const [isFormOpen, setIsFormOpen] = useState(false)
+```
+
+### ✗ 8 將 Dialog 表單內嵌在 List 元件中
+
+```tsx
+// ✗ FnUserList.tsx 直接內嵌 Dialog JSX
+export default function FnUserList() {
+  return (
+    <>
+      <DataGrid ... />
+      <Dialog open={isFormOpen}>...</Dialog>  {/* 不應內嵌 */}
+    </>
+  )
+}
+
+// ✓ 獨立 FnUserForm.tsx，在 FnUserList.tsx 中 import
+// FnUserForm.tsx
+export default function FnUserForm({ open, user, onClose, onSuccess }: Props) {
+  return <Dialog open={open}>...</Dialog>
+}
+
+// FnUserList.tsx
+import FnUserForm from './FnUserForm'
+export default function FnUserList() {
+  return (
+    <>
+      <DataGrid ... />
+      <FnUserForm open={isFormOpen} user={editingUser} onClose={...} onSuccess={...} />
+    </>
+  )
+}
 ```

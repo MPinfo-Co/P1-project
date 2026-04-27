@@ -97,6 +97,13 @@ queries/use{Domain}Query.ts（mutation 打 API）
 React Query 自動更新 cache → 元件自動重新 render
 ```
 
+### 2-5 UI 元件規範
+
+| 畫面類型 | 元件 |
+|---------|------|
+| 查詢清單 | MUI DataGrid |
+| 新增 / 修改表單 | MUI Dialog（含 DialogTitle / DialogContent / DialogActions）|
+
 ### 2-4 Token 取得方式
 
 query hook 內部統一從 `authStore` 取，不讀 localStorage：

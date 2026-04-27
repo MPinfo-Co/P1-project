@@ -178,6 +178,17 @@ def create_user(data: dict): ...
 def create_user(data: UserCreate): ...
 ```
 
+### ✗ 8 明碼儲存密碼
+
+```python
+# ✗
+user.hashed_password = data.password
+
+# ✓ 統一從 app/core/security.py 取 hash 工具
+from app.core.security import get_password_hash
+user.hashed_password = get_password_hash(data.password)
+```
+
 ---
 
 ## 四、測試慣例

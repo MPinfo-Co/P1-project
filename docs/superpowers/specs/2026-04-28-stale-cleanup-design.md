@@ -105,13 +105,13 @@ startsWith(github.event.pull_request.head.ref, 'pg-')
 
 ## 邊界條件
 
-| 情境 | 處理方式 |
-|------|---------|
-| Issue 有 `no-stale` label | 永遠跳過，不標記、不關閉 |
-| Issue 是 PR（`pull_request` 欄位非空） | 跳過 |
-| Issue body 找不到分支資訊 | 跳過刪 branch，只關閉 issue |
-| Branch 已不存在 | 靜默略過，繼續關閉 issue |
-| Branch 刪除 API 失敗 | 記錄 log，不中斷整個 job |
+| 情境                              | 處理方式                 |
+| ------------------------------- | -------------------- |
+| Issue 有 `no-stale` label        | 永遠跳過，不標記、不關閉         |
+| Issue 是 PR（`pull_request` 欄位非空） | 跳過                   |
+| Issue body 找不到分支資訊              | 跳過刪 branch，只關閉 issue |
+| Branch 已不存在                     | 靜默略過，繼續關閉 issue      |
+| Branch 刪除 API 失敗                | 記錄 log，不中斷整個 job     |
 
 ---
 

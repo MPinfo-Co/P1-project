@@ -21,27 +21,16 @@ jobs:
           script: |
             const result = await github.graphql(`
               query {
-                viewer {
-                  login
-                  projectsV2(first: 10) {
-                    nodes { number title }
-                  }
-                  organizations(first: 10) {
-                    nodes {
-                      login
-                      projectsV2(first: 10) {
-                        nodes { number title }
-                      }
-                    }
+                viewer { login }
+                organization(login: "MPinfo-Co") {
+                  projectsV2(first: 20) {
+                    nodes { number title id }
                   }
                 }
               }
             `);
-            console.log('viewer:', result.viewer.login);
-            console.log('viewer projects:', JSON.stringify(result.viewer.projectsV2.nodes));
-            for (const org of result.viewer.organizations.nodes) {
-              console.log(`org ${org.login} projects:`, JSON.stringify(org.projectsV2.nodes));
-            }
+            console.log('viewer login:', result.viewer.login);
+            console.log('org projects:', JSON.stringify(result.organization.projectsV2.nodes, null, 2));
 
       - name: Archive done items older than 2 weeks
         uses: actions/github-script@v8

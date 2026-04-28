@@ -15,7 +15,7 @@
 | P1-project | [docs/spec-guide.md](../spec-guide.md)                                              | Spec 目錄結構、命名規則、各檔案格式與撰寫規範                |
 | P1-design  | [techStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/techStack.md)       | 技術選型與各層選擇原因                              |
 | P1-design  | [functionList.md](https://github.com/MPinfo-Co/P1-design/blob/main/functionList.md) | 系統功能清單與完成狀態                              |
-| P1-code    | [SETUP.md](https://github.com/MPinfo-Co/P1-code/blob/main/SETUP.md)                 | 開發環境準備，clone 後第一步                        |
+| P1-project | [docs/setup.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/setup.md)   | 開發環境準備，clone 後第一步                        |
 | P1-project | [docs/ai-review/AI-review-prompt.md](AI-review-prompt.md)                           | AI 文件審查任務 Prompt                         |
 | P1-project | [docs/ai-review/AI-review-doclist.md](AI-review-doclist.md)                         | AI 文件審查範圍清單（本文件）                         |
 | P1-project | [docs/coding-rule-backend.md](../coding-rule-backend.md)              | 後端程式規範（命名、架構、禁用模式、測試慣例）                  |

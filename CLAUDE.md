@@ -1,6 +1,6 @@
 # 專案Repo 設計
 
-專案由四個 Repo 組成，對應四個開發階段
+專案由三個 Repo 組成，對應三個開發階段
 
 | Repo            | 職責                                   | 角色 | Merge 方式          |
 | --------------- | ------------------------------------ | -- | ----------------- |
@@ -92,4 +92,4 @@ def test_create_user(client, db_session):
 
 > **維護說明：** 正式來源為 `MPinfo-Co/P1-project` 根目錄的 `CLAUDE.md`。
 > 各開發者將此內容複製到本機 P1 工作目錄。內容有更動時，兩處同步更新。
-> P1-analysis、P1-design、P1-code 不再各自維護 CLAUDE.md。
+> P1-design、P1-code 不再各自維護 CLAUDE.md。

@@ -72,7 +72,7 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 
 | 任務名稱              | 說明                                                     |
 | ----------------- | ------------------------------------------------------ |
-| Daily Docs Review | 讀取 `docs/ai-review/AI-review-prompt.md`，審查四個 Repo 文件狀況 |
+| Daily Docs Review | 讀取 `docs/ai-review/AI-review-prompt.md`，審查三個 Repo 文件狀況 |
 
 管理介面：https://claude.ai/code/scheduled
 
@@ -96,11 +96,11 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 
 | 指令 | 說明 |
 |------|------|
-| `/ai-docs-review` | 執行 P1 四個 Repo 文件審查 |
+| `/ai-docs-review` | 執行 P1 三個 Repo 文件審查 |
 
 ### 使用效果
 
 **`/ai-docs-review`**
-依 `docs/ai-review/` 的審查指令與清單，逐一分析四個 Repo 文件狀況，輸出結構化建議報告。
+依 `docs/ai-review/` 的審查指令與清單，逐一分析三個 Repo 文件狀況，輸出結構化建議報告。
 
 ---

@@ -65,7 +65,6 @@ P1-design/
 ```
 P1-code/
 ├── README.md              ← 無內文，透過連結導引到「MP-Box 專案總導覽」
-├── SETUP.md               ← 本地環境建置說明
 ├── docker-compose.yml     ← 本地開發容器設定
 ├── frontend/              ← React + TypeScript
 ├── backend/               ← Python + FastAPI

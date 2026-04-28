@@ -81,7 +81,7 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 
 ---
 
-## 2.3 AI Skills（手動觸發）
+# 三.品質把關AI Skills（手動觸發）
 
 詳見 [claude_skill_spec.md](claude_skill_spec.md)。
 

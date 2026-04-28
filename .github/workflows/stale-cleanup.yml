@@ -51,21 +51,25 @@ jobs:
                 const daysSince = (now - new Date(issue.updated_at)) / (1000 * 60 * 60 * 24);
                 if (daysSince <= STALE_DAYS) continue;
 
-                await github.rest.issues.addLabels({
-                  owner: org,
-                  repo,
-                  issue_number: issue.number,
-                  labels: ['stale'],
-                });
+                try {
+                  await github.rest.issues.addLabels({
+                    owner: org,
+                    repo,
+                    issue_number: issue.number,
+                    labels: ['stale'],
+                  });
 
-                await github.rest.issues.createComment({
-                  owner: org,
-                  repo,
-                  issue_number: issue.number,
-                  body: '此 Issue 已超過 30 天沒有活動，將在 7 天後自動關閉。如仍在進行中，請留言或移除 stale label。',
-                });
+                  await github.rest.issues.createComment({
+                    owner: org,
+                    repo,
+                    issue_number: issue.number,
+                    body: '此 Issue 已超過 30 天沒有活動，將在 7 天後自動關閉。如仍在進行中，請留言或移除 stale label。',
+                  });
 
-                marked.push(`#${issue.number}`);
+                  marked.push(`#${issue.number}`);
+                } catch (e) {
+                  console.log(`[${repo}] #${issue.number} 標記失敗：${e.message}`);
+                }
               }
 
               console.log(`[${repo}] marked stale: ${marked.length > 0 ? marked.join(', ') : 'none'}`);

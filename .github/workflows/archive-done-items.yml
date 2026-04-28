@@ -14,6 +14,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug - list accessible projects
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.PROJECT_TOKEN }}
+          script: |
+            const result = await github.graphql(`
+              query {
+                viewer {
+                  login
+                  projectsV2(first: 10) {
+                    nodes { number title }
+                  }
+                  organizations(first: 10) {
+                    nodes {
+                      login
+                      projectsV2(first: 10) {
+                        nodes { number title }
+                      }
+                    }
+                  }
+                }
+              }
+            `);
+            console.log('viewer:', result.viewer.login);
+            console.log('viewer projects:', JSON.stringify(result.viewer.projectsV2.nodes));
+            for (const org of result.viewer.organizations.nodes) {
+              console.log(`org ${org.login} projects:`, JSON.stringify(org.projectsV2.nodes));
+            }
+
       - name: Archive done items older than 2 weeks
         uses: actions/github-script@v8
         with:

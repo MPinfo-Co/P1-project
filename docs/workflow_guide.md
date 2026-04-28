@@ -83,27 +83,6 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 
 ## 2.3 AI Skills（手動觸發）
 
-兩個 skill 存放於 `P1-project/.claude/skills/`，供同仁在 Claude Code 中手動執行。
-
-### 佈署方式
-
-**工作目錄為 `P1-project/`**（直接 clone 使用）
-→ Clone P1-project 後即可使用，無需額外設定。
-
-**工作目錄為上層 workspace（如 `P1/`）**
-→ 需將 `.claude/skills/` 整個資料夾複製到 workspace 根目錄的 `.claude/skills/` 下。
-
-### 使用方式
-
-在 Claude Code 對話框輸入：
-
-| 指令 | 說明 |
-|------|------|
-| `/ai-docs-review` | 執行 P1 三個 Repo 文件審查 |
-
-### 使用效果
-
-**`/ai-docs-review`**
-依 `docs/ai-review/` 的審查指令與清單，逐一分析三個 Repo 文件狀況，輸出結構化建議報告。
+詳見 [claude_skill_spec.md](claude_skill_spec.md)。
 
 ---

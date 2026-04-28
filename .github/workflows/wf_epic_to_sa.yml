@@ -1,4 +1,4 @@
-name: P-workflow
+name: Epic to SA
 
 on:
   issues:

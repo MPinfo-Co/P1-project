@@ -28,7 +28,7 @@ jobs:
           github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const org = 'MPinfo-Co';
-            const repos = ['P1-analysis', 'P1-design', 'P1-code'];
+            const repos = ['P1-design', 'P1-code'];
             const STALE_DAYS = 30;
             const now = new Date();
 
@@ -90,7 +90,7 @@ jobs:
           github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const org = 'MPinfo-Co';
-            const repos = ['P1-analysis', 'P1-design', 'P1-code'];
+            const repos = ['P1-design', 'P1-code'];
             const WARN_DAYS = 7;
             const now = new Date();
 

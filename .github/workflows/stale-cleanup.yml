@@ -124,32 +124,36 @@ jobs:
                 const daysSinceLabel = (now - new Date(staleLabelEvent.created_at)) / (1000 * 60 * 60 * 24);
                 if (daysSinceLabel <= WARN_DAYS) continue;
 
-                const branchMatch = (issue.body || '').match(/分支：\[([^\]]+)\]/);
-                const branchName = branchMatch ? branchMatch[1] : null;
+                try {
+                  const branchMatch = (issue.body || '').match(/分支：\[([^\]]+)\]/);
+                  const branchName = branchMatch ? branchMatch[1] : null;
 
-                await github.rest.issues.update({
-                  owner: org,
-                  repo,
-                  issue_number: issue.number,
-                  state: 'closed',
-                  state_reason: 'not_planned',
-                });
+                  await github.rest.issues.update({
+                    owner: org,
+                    repo,
+                    issue_number: issue.number,
+                    state: 'closed',
+                    state_reason: 'not_planned',
+                  });
 
-                let branchStatus = '（無 branch 資訊）';
-                if (branchName) {
-                  try {
-                    await github.rest.git.deleteRef({
-                      owner: org,
-                      repo,
-                      ref: `heads/${branchName}`,
-                    });
-                    branchStatus = `branch ${branchName} deleted`;
-                  } catch (e) {
-                    branchStatus = `branch ${branchName} not found`;
+                  let branchStatus = '（無 branch 資訊）';
+                  if (branchName) {
+                    try {
+                      await github.rest.git.deleteRef({
+                        owner: org,
+                        repo,
+                        ref: `heads/${branchName}`,
+                      });
+                      branchStatus = `branch ${branchName} deleted`;
+                    } catch (e) {
+                      branchStatus = `branch ${branchName} delete failed: ${e.status ?? e.message}`;
+                    }
                   }
-                }
 
-                closed.push(`#${issue.number} (${branchStatus})`);
+                  closed.push(`#${issue.number} (${branchStatus})`);
+                } catch (e) {
+                  console.log(`[${repo}] #${issue.number} 處理失敗：${e.message}`);
+                }
               }
 
               console.log(`[${repo}] closed: ${closed.length > 0 ? closed.join(', ') : 'none'}`);

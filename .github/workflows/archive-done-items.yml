@@ -1,0 +1,127 @@
+name: Archive Done Items
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  archive-done-items:
+    name: Archive Done Project Items
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Archive done items older than 2 weeks
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const org = 'MPinfo-Co';
+            const projectNumber = 4;
+            const ARCHIVE_DAYS = 14;
+            const now = new Date();
+
+            function parseCycleDate(cycle) {
+              const match = cycle.match(/^(\d{1,2})\/(\d{1,2})$/);
+              if (!match) return null;
+              const month = parseInt(match[1]) - 1;
+              const day = parseInt(match[2]);
+              let date = new Date(now.getFullYear(), month, day);
+              if (date > now) date = new Date(now.getFullYear() - 1, month, day);
+              return date;
+            }
+
+            // 取得 project node ID
+            const projectResult = await github.graphql(`
+              query($org: String!, $num: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $num) { id }
+                }
+              }
+            `, { org, num: projectNumber });
+
+            const projectId = projectResult.organization.projectV2.id;
+
+            // 分頁取得所有 items
+            const itemsQuery = `
+              query($org: String!, $num: Int!, $cursor: String) {
+                organization(login: $org) {
+                  projectV2(number: $num) {
+                    items(first: 100, after: $cursor) {
+                      pageInfo { hasNextPage endCursor }
+                      nodes {
+                        id
+                        fieldValues(first: 20) {
+                          nodes {
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                              name
+                              field { ... on ProjectV2SingleSelectField { name } }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            let items = [];
+            let cursor = null;
+            let hasNextPage = true;
+
+            while (hasNextPage) {
+              const result = await github.graphql(itemsQuery, { org, num: projectNumber, cursor });
+              const page = result.organization.projectV2.items;
+              items = items.concat(page.nodes);
+              hasNextPage = page.pageInfo.hasNextPage;
+              cursor = page.pageInfo.endCursor;
+            }
+
+            // 篩選並 archive
+            let archived = 0;
+            let skipped = 0;
+
+            for (const item of items) {
+              const fields = item.fieldValues.nodes;
+
+              const status = fields.find(f => f.field?.name === 'Status');
+              const cycle = fields.find(f => f.field?.name === '週期');
+
+              if (!status || status.name !== 'Done') { skipped++; continue; }
+              if (!cycle) { skipped++; continue; }
+
+              const cycleDate = parseCycleDate(cycle.name);
+              if (!cycleDate) { skipped++; continue; }
+
+              const daysSince = (now - cycleDate) / (1000 * 60 * 60 * 24);
+              if (daysSince < ARCHIVE_DAYS) { skipped++; continue; }
+
+              try {
+                await github.graphql(`
+                  mutation($projectId: ID!, $itemId: ID!) {
+                    archiveProjectV2Item(input: { projectId: $projectId, itemId: $itemId }) {
+                      item { id }
+                    }
+                  }
+                `, { projectId, itemId: item.id });
+
+                console.log(`archived: ${item.id} (週期: ${cycle.name}, ${Math.floor(daysSince)}d ago)`);
+                archived++;
+              } catch (e) {
+                console.log(`archive failed: ${item.id} — ${e.message}`);
+                skipped++;
+              }
+            }
+
+            console.log(`total: ${archived} archived, ${skipped} skipped`);

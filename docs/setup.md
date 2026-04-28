@@ -152,23 +152,12 @@ git -C P1-code reset HEAD~1
 
 Skills 的正式來源為 `P1-project/.claude/skills/`，需手動複製到 P1 根目錄供 Claude Code 使用。
 
-**首次設定：**
-
 ```bash
-mkdir -p .claude/skills
 cp -r P1-project/.claude/skills/. .claude/skills/
 ```
 
-**後續更新（P1-project 有新版時）：**
 
-```bash
-git -C P1-project pull
-cp -r P1-project/.claude/skills/. .claude/skills/
-```
-
-從 `P1/` 根目錄啟動 Claude Code，skills 會自動載入。
-
-### `/pg-orchestrator`
+### `/pg-orchestrator` 使用方法
 
 執行 PG issue 實作。自動偵測 TDD 範圍，依需要派遣 backend / frontend agent。
 
@@ -182,7 +171,7 @@ cp -r P1-project/.claude/skills/. .claude/skills/
 
 > 參數：issue 編號（必填）、backend branch（選填）、frontend branch（選填）
 
-### `/ai-docs-review`
+### `/ai-docs-review`使用方法
 
 審查 P1 三個 Repo 的文件狀況，依 `docs/ai-review/AI-review-prompt.md` 的 Phase 1–4 順序執行，輸出結構化建議報告。
 

@@ -6,7 +6,7 @@ on:
 
 permissions:
   issues: write
-  contents: read
+  contents: write
   pull-requests: write
 
 jobs:
@@ -23,6 +23,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Create SA Issue + A-Branch, update Epic
+        id: create-sa
         uses: actions/github-script@v8
         with:
           github-token: ${{ steps.app-token.outputs.token }}
@@ -183,5 +184,77 @@ jobs:
                 `- 分支：\`${branchName}\``,
                 ``,
                 `SA 請至 P1-design 開始系統分析。`,
+              ].join('\n'),
+            });
+
+            core.setOutput('sa_number', String(saNumber));
+            core.setOutput('branch', branchName);
+
+      - name: Checkout P1-design SA branch
+        uses: actions/checkout@v4
+        with:
+          repository: MPinfo-Co/P1-design
+          ref: ${{ steps.create-sa.outputs.branch }}
+          path: P1-design
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code@latest
+
+      - name: Build SA prompt
+        run: |
+          SA_NUMBER="${{ steps.create-sa.outputs.sa_number }}"
+          sed "s/ISSUE_NUMBER/${SA_NUMBER}/g" P1-design/prompts/sa-writer-prompt.md > /tmp/sa-prompt.txt
+          echo "Prompt built for SA #$SA_NUMBER"
+
+      - name: Run SA Worker Agent
+        timeout-minutes: 10
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        working-directory: P1-design
+        run: claude --dangerously-skip-permissions --print < /tmp/sa-prompt.txt
+
+      - name: Commit SA 分析文件
+        working-directory: P1-design
+        run: |
+          SA_NUMBER="${{ steps.create-sa.outputs.sa_number }}"
+          BRANCH="${{ steps.create-sa.outputs.branch }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add "SA/sa-${SA_NUMBER}-logic.md"
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "docs(sa-${SA_NUMBER}): SA 產出 SA 分析文件"
+          git push origin "$BRANCH"
+
+      - name: Post comment to SA issue
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const issueNumber = parseInt('${{ steps.create-sa.outputs.sa_number }}');
+            const branch = '${{ steps.create-sa.outputs.branch }}';
+
+            await github.rest.issues.createComment({
+              owner: 'MPinfo-Co',
+              repo: 'P1-design',
+              issue_number: issueNumber,
+              body: [
+                '🤖 SA 分析文件已自動產出，請至 branch 確認：',
+                `- 檔案：\`SA/sa-${issueNumber}-logic.md\``,
+                `- Branch：\`${branch}\``,
+                '',
+                '確認無誤後請 merge。',
               ].join('\n'),
             });

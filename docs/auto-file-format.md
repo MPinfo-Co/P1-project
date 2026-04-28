@@ -8,7 +8,7 @@
 
 ## sa-{N}-logic.md（位於 SA/sa-{N}-logic.md）
 
-由 [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml) 產生，SA 人工填寫。
+由 [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) 產生，SA 人工填寫。
 
 ```markdown
 # 業務邏輯分析：{功能標題}
@@ -24,7 +24,7 @@
 
 ## SD/sd-{N}-TDD.md
 
-由 [a-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/a-workflow.yml) 產生，SD 人工填寫。
+由 [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) 產生，SD 人工填寫。
 
 ```markdown
 # TDD：[SD] {功能標題}
@@ -46,7 +46,7 @@
 
 ## TestReport/issue-{N}.md
 
-由 [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml) 產生，PG 人工填寫。
+由 [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) 產生，PG 人工填寫。
 
 ```markdown
 # TestReport：[SD] {功能標題}
@@ -88,7 +88,7 @@
 
 ## SD/sd-{N}-Diff.md
 
-由 [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml) 產生，勿手動編輯。
+由 [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) 產生，勿手動編輯。
 
 ```markdown
 # SpecDiff：Issue #N 標題

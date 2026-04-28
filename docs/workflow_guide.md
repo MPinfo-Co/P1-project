@@ -16,10 +16,10 @@
 ```
 PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 └─ 建立 SA Issue + SA-Branch + Draft PR
-└─ 產生 P1-design:SA/sa-{SA#}-logic.md（[wf_sa_agent] 自動產出）
-  └─ SA merge PR -> 觸發 [wf_sa_to_sd]（在 P1-design）
+└─ 產生 P1-design:SA/sa-{SA#}-logic.md
+  └─ SA merge PR -> 觸發 [wf_sa_to_sd]
     └─ 建立 SD Issue + SD-Branch + Draft PR
-    └─ 產生 P1-design:SD/sd-{SD#}-TDD.md（[wf_sd_agent] 自動產出）
+    └─ 產生 P1-design:SD/sd-{SD#}-TDD.md
       └─ SD merge PR -> 觸發 [wf_sd_to_pg]
         └─ 產生 P1-design:SD/sd-{SD#}-Diff.md
         └─ 建立 PG Issue + PG-Branch + Draft PR
@@ -30,14 +30,17 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 
 ## 1.2 workflows
 
-- [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) in P1-project
-- [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) in P1-design
-- [wf_sa_agent.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_agent.yml) in P1-design
-- [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) in P1-design
-- [wf_sd_agent.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_agent.yml) in P1-design
-- [wf_pg_close.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_pg_close.yml) in P1-code
-- [wf_chore_branch.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_chore_branch.yml) in P1-design
-- [wf_chore_branch.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_chore_branch.yml) in P1-code
+| # | Repo | 檔名 | 觸發時點 | 執行內容 |
+|---|------|------|---------|---------|
+| 1 | P1-project | [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) | Issue 加上 `epic` label | 建立 SA Issue + SA Branch + Draft PR → SA agent 產出 logic.md |
+| 2 | P1-design | [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) | SA PR merged to main | 建立 SD Issue + SD Branch + Draft PR → SD agent 產出 TDD.md |
+| 3 | P1-design | [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) | SD PR merged to main | 產生 Diff.md + 建立 PG Issue + PG Branch + Draft PR → PG agent 產出 code + TestReport |
+| 4 | P1-code | [wf_pg_ci.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_pg_ci.yml) | push 到 `pg-*` branch | Backend CI（Ruff + Pytest）+ Frontend CI（ESLint + Prettier） |
+| 5 | P1-code | [wf_pg_close.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_pg_close.yml) | PG PR merged to main | 關閉 PG Issue + Epic Issue |
+| — | P1-design | [wf_chore_branch.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_chore_branch.yml) | Issue 加上 `chore` label | 建立 chore branch |
+| — | P1-code | [wf_chore_branch.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_chore_branch.yml) | Issue 加上 `chore` label | 建立 chore branch |
+| — | P1-project | [archive-done-items.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/archive-done-items.yml) | 每週一 03:00 UTC + 手動 | 封存看板上 2 週以上的 Done 項目 |
+| — | P1-project | [stale-cleanup.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/stale-cleanup.yml) | 每週一 02:00 UTC + 手動 | 標記並關閉過期 issue（跨三 repo） |
 
 > 如需了解 workflow 細節，直接向AI詢問指定文件內涵即可。
 

@@ -214,7 +214,7 @@ jobs:
           echo "Prompt built for SA #$SA_NUMBER"
 
       - name: Run SA Worker Agent
-        timeout-minutes: 10
+        timeout-minutes: 20
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         working-directory: P1-design

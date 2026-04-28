@@ -21,6 +21,7 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: MPinfo-Co
 
       - name: Create SA Issue + A-Branch, update Epic
         id: create-sa

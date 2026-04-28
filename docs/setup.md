@@ -41,13 +41,21 @@ P1/
 
 ## 2. 同步 Skills
 
-從 P1-project 複製 skills 到 P1 根目錄：
+Skills 的正式來源為 `P1-project/.claude/skills/`，需手動複製到 P1 根目錄供 Claude Code 使用。
+
+**首次設定：**
 
 ```bash
+mkdir -p .claude/skills
 cp -r P1-project/.claude/skills/. .claude/skills/
 ```
 
-> 每次 P1-project 有更新 skills 時，重新執行一次即可。
+**後續更新（P1-project 有新版時）：**
+
+```bash
+git -C P1-project pull
+cp -r P1-project/.claude/skills/. .claude/skills/
+```
 
 ---
 

@@ -39,7 +39,7 @@ P1/
 
 ---
 
-## 2. 同步 Skills
+## 2. Skills 設定與使用
 
 Skills 的正式來源為 `P1-project/.claude/skills/`，需手動複製到 P1 根目錄供 Claude Code 使用。
 
@@ -55,6 +55,30 @@ cp -r P1-project/.claude/skills/. .claude/skills/
 ```bash
 git -C P1-project pull
 cp -r P1-project/.claude/skills/. .claude/skills/
+```
+
+從 `P1/` 根目錄啟動 Claude Code，skills 會自動載入。
+
+### `/pg-orchestrator`
+
+執行 PG issue 實作。自動偵測 TDD 範圍，依需要派遣 backend / frontend agent。
+
+```
+/pg-orchestrator 66
+```
+
+```
+/pg-orchestrator 66 pg/issue-66-backend pg/issue-66-frontend
+```
+
+> 參數：issue 編號（必填）、backend branch（選填）、frontend branch（選填）
+
+### `/ai-docs-review`
+
+審查 P1 三個 Repo 的文件狀況，依 `docs/ai-review/AI-review-prompt.md` 的 Phase 1–4 順序執行，輸出結構化建議報告。
+
+```
+/ai-docs-review
 ```
 
 ---
@@ -166,30 +190,3 @@ git -C P1-code reset HEAD~1
 | 前端 lint | ESLint |
 | 前端格式 | Prettier |
 
----
-
-## 10. Skills 使用
-
-從 `P1/` 根目錄啟動 Claude Code，skills 會自動載入。
-
-### `/pg-orchestrator`
-
-執行 PG issue 實作。自動偵測 TDD 範圍，依需要派遣 backend / frontend agent。
-
-```
-/pg-orchestrator 66
-```
-
-```
-/pg-orchestrator 66 pg/issue-66-backend pg/issue-66-frontend
-```
-
-> 參數：issue 編號（必填）、backend branch（選填）、frontend branch（選填）
-
-### `/ai-docs-review`
-
-審查 P1 三個 Repo 的文件狀況，依 `docs/ai-review/AI-review-prompt.md` 的 Phase 1–4 順序執行，輸出結構化建議報告。
-
-```
-/ai-docs-review
-```

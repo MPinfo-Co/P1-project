@@ -210,7 +210,7 @@ jobs:
       - name: Build SA prompt
         run: |
           SA_NUMBER="${{ steps.create-sa.outputs.sa_number }}"
-          sed "s/ISSUE_NUMBER/${SA_NUMBER}/g" P1-design/prompts/sa-writer-prompt.md > /tmp/sa-prompt.txt
+          sed "s/{ISSUE_N}/${SA_NUMBER}/g" P1-design/prompts/sa-orchestrator.md > /tmp/sa-prompt.txt
           echo "Prompt built for SA #$SA_NUMBER"
 
       - name: Run SA Worker Agent

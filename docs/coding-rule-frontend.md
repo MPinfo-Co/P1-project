@@ -242,84 +242,43 @@ export default function FnXxxList() {
 
 ---
 
-## 四、視覺規範（MUI 元件尺寸與樣式）
+## 四、視覺規範（尺寸與顏色常數）
 
-> 所有頁面共用同一套尺寸常數，確保視覺一致性。
+> 所有頁面共用同一套常數，確保視覺一致性。
 
-### 4-1 全域 Layout 尺寸
+### 4-1 全域 Layout
 
-| 區域 | 規格 |
+| 區域 | 數值 |
 |------|------|
-| AppBar / Toolbar 高度 | `minHeight: '40px !important'` |
-| Sidebar brand（MP-Box）高度 | `height: 40, display: 'flex', alignItems: 'center'` |
-| 主內容區 padding | `p: '14px 20px'` |
-| 主內容區背景色 | `bgcolor: '#f0f4f8'` |
+| AppBar / Toolbar 高度 | 40px |
+| Sidebar brand 高度 | 40px（與 AppBar 等高） |
+| 主內容區 padding | 上下 14px、左右 20px |
+| 主內容區背景色 | `#f0f4f8` |
 
 ### 4-2 篩選列（Filter Bar）
 
-篩選列緊接在主內容區頂部，與表格標題列等高、同底色。
+篩選列緊貼主內容區頂部，高度與表格標題列視覺等高，底色相同。
 
-```tsx
-// 篩選列容器
-<Box sx={{
-  bgcolor: '#f1f5f9',
-  borderRadius: '4px',
-  padding: '3px 12px',
-  mb: '5px',
-  display: 'flex',
-  gap: 2,
-  flexWrap: 'nowrap',
-  alignItems: 'center',
-}}>
+| 屬性 | 數值 |
+|------|------|
+| 背景色 | `#f1f5f9`（與 DataGrid 標題列相同） |
+| 上下 padding | 3px |
+| 左右 padding | 12px |
+| 與表格間距（mb） | 5px |
+| 標籤文字 | fontSize 13、fontWeight 700、color `#1e293b` |
+| 輸入框 / Select 高度 | 24px |
+| 按鈕高度 | 24px、fontSize 12、borderRadius 3px |
+| 新增按鈕位置 | 靠右（`ml: 'auto'`） |
 
-  {/* 標籤：外部 Typography，不用 InputLabel */}
-  <Typography sx={{ fontSize: 13, color: '#1e293b', fontWeight: 700, whiteSpace: 'nowrap' }}>
-    欄位名稱:
-  </Typography>
+### 4-3 DataGrid
 
-  {/* Select */}
-  <Select size="small" displayEmpty
-    sx={{ height: 24, fontSize: 13, '& .MuiSelect-select': { py: '2px' } }}
-  />
-
-  {/* TextField */}
-  <TextField size="small"
-    sx={{ width: 200, '& .MuiInputBase-root': { height: 24 }, '& .MuiInputBase-input': { py: '2px', fontSize: 13 } }}
-  />
-
-  {/* 操作按鈕 */}
-  <Button variant="outlined" size="small"
-    sx={{ height: 24, fontSize: 12, borderRadius: '3px' }}
-  />
-
-  {/* 新增按鈕：靠右 */}
-  <Button variant="contained" size="small"
-    sx={{ ml: 'auto', height: 24, fontSize: 12, borderRadius: '3px' }}
-  />
-</Box>
-```
-
-### 4-3 DataGrid 緊湊設定
-
-```tsx
-<DataGrid
-  rowHeight={36}
-  columnHeaderHeight={36}
-  sx={{
-    border: 'none',
-    '& .MuiDataGrid-columnHeaders': { bgcolor: '#f1f5f9' },
-    '& .MuiDataGrid-cell': { display: 'flex', alignItems: 'center' },
-    '& .MuiDataGrid-footerContainer': { minHeight: 36, height: 36, overflow: 'hidden' },
-    '& .MuiTablePagination-toolbar': { minHeight: 36, height: 36, padding: '0 8px' },
-  }}
-/>
-```
-
-DataGrid 容器（外層 Box）：
-
-```tsx
-<Box sx={{ bgcolor: 'white', borderRadius: '4px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-```
+| 屬性 | 數值 |
+|------|------|
+| 資料列高度（`rowHeight` prop） | 36px |
+| 標題列高度（`columnHeaderHeight` prop） | 36px |
+| 標題列背景色 | `#f1f5f9` |
+| footer / pagination 高度 | 36px |
+| 外框 | 無（`border: 'none'`），由容器 Box 提供 `1px solid #e2e8f0` |
 
 ---
 
@@ -327,26 +286,28 @@ DataGrid 容器（外層 Box）：
 
 ### ✗ 9 篩選列使用 MUI InputLabel（浮動 label）
 
-MUI `InputLabel` 在篩選列會佔用額外高度，導致整列過高。
+**原因**：MUI `InputLabel` 是為「欄位在表單中」設計的浮動標籤，元件本身會為 label 預留頂部空間，即使設了 `size="small"` 也會讓整列高度膨脹到 40px 以上，無法壓縮至 24px。
 
 ```tsx
-// ✗ 不使用 FormControl + InputLabel
+// ✗ FormControl + InputLabel 會讓篩選列過高
 <FormControl size="small">
   <InputLabel>角色職位</InputLabel>
   <Select label="角色職位">...</Select>
 </FormControl>
 
-// ✓ 改用外部 Typography 標籤
+// ✓ 外部 Typography 標籤 + 無 label 的 Select
 <Typography sx={{ fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap' }}>角色職位:</Typography>
 <Select size="small" displayEmpty sx={{ height: 24, ... }}>...</Select>
 ```
 
-### ✗ 10 DataGrid 行高用 CSS padding 控制
+### ✗ 10 用 CSS padding 控制 DataGrid 行高
+
+**原因**：DataGrid 的行高由內部虛擬化引擎（virtualization）在 JS 層計算，CSS padding 只影響視覺呈現而不影響引擎計算的高度，結果是 cell 內容錯位或捲動異常。正確做法是透過 `rowHeight` / `columnHeaderHeight` prop 告訴引擎實際高度。
 
 ```tsx
-// ✗ 用 sx 的 padding 無法正確縮小行高
+// ✗ CSS padding 對 DataGrid 行高無效
 <DataGrid sx={{ '& .MuiDataGrid-cell': { py: '6px' } }} />
 
-// ✓ 用 DataGrid 的 prop 直接控制
+// ✓ 直接透過 prop 控制
 <DataGrid rowHeight={36} columnHeaderHeight={36} />
 ```

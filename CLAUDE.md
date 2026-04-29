@@ -46,6 +46,9 @@
 ###  讀取
 1. `SA/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
 2. `docs/spec-guide.md`（P1-project）— Spec 目錄結構、命名規則、各檔案格式與撰寫規範
+3. 依 `SA/sa-{N}-logic.md` 指出的範圍，按需讀取對應的現有 `Spec/`、`schema/`、`Prototype/` 檔案（修改前先讀，非全讀）
+4. 若本次涉及修改既有 API 行為，按需讀取對應的 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`
+
 ###  產出
 
 1. **TDD（Technical Design Document）**：工作項目清單，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`SD/sd-{N}-TDD.md`)
@@ -60,6 +63,7 @@
 	+ 新增 API → 新增測試案例，ID 接續上一筆
 	+ 修改 API 行為 → 更新對應測試案例
 	+ 刪除 API → 移除對應測試案例，ID 不補號
+	+ 若修改影響其他功能的 API（如跨功能改了權限機制），一併更新那些功能的 `_test_api.md`
 	
 
 ---

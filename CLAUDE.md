@@ -5,7 +5,7 @@
 | Repo            | 職責                                   | 角色 | Merge 方式          |
 | --------------- | ------------------------------------ | -- | ----------------- |
 | **P1-project**  | Epic、規範文件                            | PM | 直接 push to main   |
-| **P1-design**   | SA 分析 + SD 設計（含 Prototype）           | SA / SD | PR + Review |
+| **P1-design**   | SA 分析 + SD 設計（含 sdPrototype）         | SA / SD | PR + Review |
 | **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG | PR + SA/PM Review |
 
 > 「Repo 結構細節」，請參考：[repo-design.md](docs/repo-design.md)
@@ -46,7 +46,7 @@
 ###  讀取
 1. `SA/saLogic/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
 2. `docs/spec-guide.md`（P1-project）— Spec 目錄結構、命名規則、各檔案格式與撰寫規範
-3. 依 `SA/saLogic/sa-{N}-logic.md` 指出的範圍，按需讀取對應的現有 `Spec/`、`SD/schema.md`、`Prototype/` 檔案（修改前先讀，非全讀）
+3. 依 `SA/saLogic/sa-{N}-logic.md` 指出的範圍，按需讀取對應的現有 `Spec/`、`SD/schema.md`、`SD/sdPrototype/` 檔案（修改前先讀，非全讀）
 4. 若本次涉及修改既有 API 行為，按需讀取對應的 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`
 
 ###  產出
@@ -56,8 +56,8 @@
 	+ 工作內容格式：建立 `{對象}` / 調整 `{對象}：{異動內容}` / 刪除 `{對象}`
 	+ 設計決定只寫結論與理由，不寫曾考慮過的替代方案
 
-2. 依 TDD「工作項目」內容調整：`Prototype/`、`Spec/`、`SD/schema.md`（如有異動）
-	+ **活文件原則：** `Spec/`、`Prototype/`、`SD/schema.md` 永遠反映最新狀態，直接修改，不保留舊版。
+2. 依 TDD「工作項目」內容調整：`SD/sdPrototype/`、`Spec/`、`SD/schema.md`（如有異動）
+	+ **活文件原則：** `Spec/`、`SD/sdPrototype/`、`SD/schema.md` 永遠反映最新狀態，直接修改，不保留舊版。
 
 3. 有 API 新增或修改時，同步更新對應的 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`（活文件）
 	+ 新增 API → 新增測試案例，ID 接續上一筆

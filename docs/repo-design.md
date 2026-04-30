@@ -7,7 +7,7 @@
 | Repo            | 職責                                   | 角色 | Merge 方式          |
 | --------------- | ------------------------------------ | -- | ----------------- |
 | **P1-project**  | Epic、規範文件                            | PM | 直接 push to main   |
-| **P1-design**   | SA 分析 + SD 設計（含 Prototype）           | SA / SD | PR + Review |
+| **P1-design**   | SA 分析 + SD 設計（含 sdPrototype）         | SA / SD | PR + Review |
 | **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG | PR + SA/PM Review |
 
 ---
@@ -44,7 +44,6 @@ P1-design/
 ├── SA/                         ← SA 分析產出
 │   └── saLogic/
 │       └── sa-{N}-logic.md     ← 原 business-logic.md
-├── Prototype/                  ← SA 主責，SD 可微調
 ├── Spec/                  ← API 規格文件（活文件）
 │   ├── xxx.md
 │   └── ...
@@ -53,8 +52,9 @@ P1-design/
     ├── schema.md          ← 資料庫 Schema 全覽（User、Company...，活文件）
     ├── TDD/
     │   └── sd-{N}-TDD.md       ← 原 TDD/issue-{N}.md
-    └── sdDiff/
-        └── sd-{N}-Diff.md      ← 原 SpecDiff/issue-{N}.md
+    ├── sdDiff/
+    │   └── sd-{N}-Diff.md      ← 原 SpecDiff/issue-{N}.md
+    └── sdPrototype/            ← 原 Prototype/（SA 主責，SD 可微調）
 ```
 
 

@@ -96,7 +96,7 @@
 ## 修改項目及內容
 - **Spec/02HomeAPI.md**（added，+20 -0）
   {diff 內容}
-- **Prototype/03B.html**（modified，+5 -2）
+- **SD/sdPrototype/03B.html**（modified，+5 -2）
   {diff 內容}
 
 ## 關聯項目

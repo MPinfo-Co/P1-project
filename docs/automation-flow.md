@@ -17,7 +17,7 @@ PM 開立 Epic Issue
 │       ├─ 不通過 → 打回 SA Agent（retry，超過次數升級人工）
 │       └─ 通過 → P1 審查優化 + 開 PR → P2 Approve + Merge
 │
-├─ SD Agent 撰寫 TDD + 更新 Spec/Prototype/Schema
+├─ SD Agent 撰寫 TDD + 更新 Spec/sdPrototype/Schema
 │   └─ SD Review Agent 審查（加 review comment）
 │       ├─ 不通過 → 打回 SD Agent（retry，超過次數升級人工）
 │       └─ 通過 → P1 審查優化 + 開 PR → P2 Approve + Merge
@@ -47,7 +47,7 @@ PM 開立 Epic Issue
 
 | Agent | 職責 |
 |---|---|
-| **SD Agent** | 依 `business-logic.md` 撰寫 TDD，並同步更新 `Spec/`、`Prototype/`、`schema/` |
+| **SD Agent** | 依 `business-logic.md` 撰寫 TDD，並同步更新 `Spec/`、`SD/sdPrototype/`、`schema/` |
 | **SD Review Agent** | 審查 TDD 完整性（工作項目、測試案例覆蓋率等），以 review comment 形式回饋；不通過則打回 SD Agent 修改 |
 
 ### PG 階段

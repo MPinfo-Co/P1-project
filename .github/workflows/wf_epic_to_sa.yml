@@ -120,7 +120,7 @@ jobs:
               base_tree: mainRef.data.object.sha,
               tree: [
                 {
-                  path: `SA/sa-${saNumber}-logic.md`,
+                  path: `SA/saLogic/sa-${saNumber}-logic.md`,
                   mode: '100644',
                   type: 'blob',
                   content: businessLogicContent,
@@ -171,7 +171,7 @@ jobs:
                 .replace('SA Issue：#（本 Issue）', `SA Issue：#${saNumber}`)
                 .replace('分支：（待填入）', `分支：[${branchName}](https://github.com/${org}/${analysisRepo}/tree/${branchName})`)
                 .replace('Draft PR：（待建立）', saPrUrl ? `Draft PR：[#${saPrNumber}](${saPrUrl})` : 'Draft PR：（未建立）')
-                .replace('business-logic.md：（待填入）', `sa-${saNumber}-logic.md：[SA/sa-${saNumber}-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/SA/sa-${saNumber}-logic.md)`),
+                .replace('business-logic.md：（待填入）', `sa-${saNumber}-logic.md：[SA/saLogic/sa-${saNumber}-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/SA/saLogic/sa-${saNumber}-logic.md)`),
             });
 
             // 6. 在 Epic Issue 留言
@@ -229,7 +229,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add "SA/sa-${SA_NUMBER}-logic.md"
+          git add "SA/saLogic/sa-${SA_NUMBER}-logic.md"
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
@@ -253,7 +253,7 @@ jobs:
               issue_number: issueNumber,
               body: [
                 '🤖 SA 分析文件已自動產出，請至 branch 確認：',
-                `- 檔案：\`SA/sa-${issueNumber}-logic.md\``,
+                `- 檔案：\`SA/saLogic/sa-${issueNumber}-logic.md\``,
                 `- Branch：\`${branch}\``,
                 '',
                 '確認無誤後請 merge。',

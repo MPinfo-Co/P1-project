@@ -75,7 +75,7 @@
 2. `SD/sd-{N}-Diff.md` — 本次 SD 對 Schema / Spec / Prototype 的變更摘要（由 workflow 及 AI 在 SD merge 後自動寫入）
 3. `SD/sd-{N}-TDD.md` — 工作項目清單（由 SD 填寫）
 4. 依 TDD 工作項目，按需讀取對應的 `Spec/`、`schema/` 檔案及 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`（非全讀）
-5. [techStack.md](https://github.com/MPinfo-Co/P1-design/blob/main/techStack.md) — 確認本次相關技術選型
+5. [techStack.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/techStack.md) — 確認本次相關技術選型
 
 ###  產出
 1. 實作 code

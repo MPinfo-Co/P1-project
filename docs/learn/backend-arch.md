@@ -2,11 +2,12 @@
 
 ## 系統是做什麼的？
 
-這個後端是一套「**資安事件自動偵測平台**」。它會：
-1. 接收來自外部的 syslog 資料（防火牆 FortiGate、Windows 事件日誌）
-2. 用 AI（Claude Haiku）把 log 分析成「資安事件」
-3. 每天凌晨用另一個 AI（Claude Sonnet）做最終彙整、去重
-4. 把結果存進資料庫，提供前端查詢
+這個後端是一套「**資安事件管理平台**」的 API 服務。它提供：
+- 帳號登入 / 登出（JWT 驗證）
+- 使用者與角色管理
+- 資安事件查詢與處理
+- 系統公告管理
+- Log 資料接收（ingest）
 
 ---
 
@@ -15,11 +16,11 @@
 | 元件 | 用途 | 選型 |
 |------|------|------|
 | Web API | 接收 HTTP 請求 | FastAPI (Python) |
-| 資料庫 | 儲存資料 | PostgreSQL 15 |
-| 訊息佇列 | 工作排程 | Redis 7 |
-| 背景任務 | 定時執行 AI 分析 | Celery |
-| AI 快速分析 | 分析原始 log | Claude Haiku |
-| AI 深度彙整 | 每日最終事件 | Claude Sonnet |
+| 資料庫 | 儲存資料 | PostgreSQL |
+| ORM | Python ↔ 資料庫 | SQLAlchemy |
+| Migration | 資料庫版本管理 | Alembic（bpBoxAlembic） |
+| 環境變數 | 設定管理 | pydantic-settings |
+| JWT | 身份驗證 | python-jose |
 
 ---
 
@@ -28,36 +29,42 @@
 ```
 backend/
 ├── app/
-│   ├── main.py            # 程式入口，組裝所有 API
-│   ├── api/               # 對外的 HTTP 端點
-│   │   ├── auth.py        # 登入 / 登出
-│   │   ├── users.py       # 使用者管理
-│   │   ├── roles.py       # 角色管理
-│   │   ├── events.py      # 查詢資安事件
-│   │   ├── ingest.py      # 接收外部 log 資料
-│   │   ├── functions.py   # 功能權限管理
-│   │   └── health.py      # 健康檢查
-│   ├── core/              # 核心設定
-│   │   ├── config.py      # 從 .env 讀取設定值
-│   │   ├── security.py    # 密碼加密、JWT Token 產生/驗證
-│   │   └── deps.py        # 「誰在呼叫？」依賴注入
-│   ├── db/                # 資料庫層
-│   │   ├── session.py     # 建立資料庫連線
-│   │   └── models/        # 資料表定義
-│   │       ├── user.py    # User, Role, UserRole, Function, RoleFunction
-│   │       ├── security_event.py  # LogBatch, FlashResult, SecurityEvent, 等
-│   │       └── token_blacklist.py # 登出的 Token 黑名單
-│   ├── schemas/           # 資料格式驗證（輸入/輸出的形狀）
-│   ├── services/          # 呼叫 AI 的邏輯
-│   │   ├── claude_flash.py  # 呼叫 Haiku 分析 log
-│   │   └── claude_pro.py    # 呼叫 Sonnet 做每日彙整
-│   ├── tasks/             # 背景工作
-│   │   ├── flash_task.py  # 接到 log → 切 chunk → 送 Haiku
-│   │   └── pro_task.py    # 每天凌晨的 Sonnet 任務
-│   ├── worker.py          # Celery App 設定（定時排程在這裡）
-│   └── logger_utils/      # 日誌系統（system / user / service 三種頻道）
-├── alembic/               # 資料庫版本管理（Schema 異動歷史）
-└── tests/                 # 自動化測試
+│   ├── main.py                        # 程式入口，組裝 app + middleware + routers
+│   ├── api/                           # 對外的 HTTP 端點
+│   │   ├── auth.py                    # 登入 / 登出
+│   │   ├── user.py                    # 使用者管理（CRUD）
+│   │   ├── events.py                  # 資安事件查詢與處理
+│   │   ├── notice.py                  # 系統公告
+│   │   ├── ingest.py                  # 接收外部 log（目前 stub）
+│   │   ├── health.py                  # 健康檢查
+│   │   └── schema/                    # Pydantic 資料格式定義（與路由並排）
+│   │       ├── auth.py
+│   │       ├── user.py
+│   │       ├── events.py
+│   │       ├── notice.py
+│   │       └── ingest.py
+│   ├── config/
+│   │   └── settings.py                # 從 .env 讀取設定值
+│   ├── db/
+│   │   ├── connector.py               # 資料庫連線與 get_db 依賴
+│   │   └── models/
+│   │       ├── base.py                # SQLAlchemy DeclarativeBase
+│   │       ├── fn_user_role.py        # User, Role, UserRole, TokenBlacklist
+│   │       ├── fn_expert_security_event.py  # SecurityEvent, EventHistory
+│   │       ├── fn_expert_ssb_pipeline.py    # LogBatch, FlashResult 等
+│   │       ├── fn_notice.py           # Notice
+│   │       ├── fn_km.py               # 知識庫相關
+│   │       └── fn_partner.py          # AI 夥伴相關
+│   ├── utils/
+│   │   └── util_store.py              # JWT 產生/驗證、密碼、authenticate()
+│   ├── middlewares/
+│   │   └── request_response_handler.py  # 請求/回應 log + 4xx 正規化
+│   └── logger_utils/                  # 日誌系統（system / user / error 頻道）
+├── bpBoxAlembic/                      # 資料庫版本管理
+│   └── versions/
+│       └── 31cf8ba73762_recreate_tables.py
+├── tests/                             # 自動化測試
+└── requirements.txt
 ```
 
 ---
@@ -68,16 +75,18 @@ backend/
 HTTP 請求
     │
     ▼
-[api/]          ← 接收請求、驗證身份、呼叫下一層
+[middlewares/]      ← 每個請求都先過這裡：記 log、驗身份、正規化 4xx
     │
     ▼
-[tasks/]        ← 處理複雜邏輯（切 chunk、合併事件）
+[api/]              ← 接收請求、呼叫 authenticate()、執行業務邏輯
     │
-    ▼
-[services/]     ← 呼叫外部 AI API（Anthropic）
+    ├── [api/schema/]   ← 驗證輸入格式、定義回應格式
     │
-    ▼
-[db/]           ← 讀寫 PostgreSQL
+    ├── [utils/]        ← JWT 驗證、密碼比對（authenticate 在這裡）
+    │
+    └── [db/]           ← 讀寫 PostgreSQL
+         ├── connector.py   ← 連線管理
+         └── models/        ← 資料表定義
 ```
 
 ---
@@ -87,112 +96,92 @@ HTTP 請求
 ### 使用者 & 權限系統
 
 ```
-users ──┬──< user_roles >──── roles ──< role_functions >── functions
-        │
-        └── token_blacklist（登出的 token 記錄）
+tb_users ──< tb_user_roles >── tb_roles
+tb_users ──< tb_token_blacklist（登出記錄，存 jti）
 ```
 
-- 一個 user 可以有多個 role（角色）
-- 一個 role 可以有多個 function（功能權限）
-- 功能權限名稱範例：`fn_user`（管理使用者）、`fn_role`（管理角色）
+**權限設計（boolean flag 模式）：**  
+角色本身帶有功能旗標，不需要額外的 functions / role_functions 表。
 
-### 資安事件流水線
+| tb_roles 欄位 | 說明 |
+|---|---|
+| `can_access_ai` | 可使用 AI 功能 |
+| `can_use_kb` | 可使用知識庫 |
+| `can_manage_accounts` | 可管理使用者帳號 |
+| `can_manage_roles` | 可管理角色 |
+| `can_edit_ai` | 可編輯 AI 設定 |
+| `can_manage_kb` | 可管理知識庫 |
+| `can_manage_notices` | 可發布系統公告 |
 
-```
-LogBatch（一次 ingest 為一個 batch）
-    └──< FlashResult（每個 chunk 的 Haiku 分析結果）
-            │  chunk_index = -1 → 當天累計匯總
-            │  chunk_index = 999 → 一個 batch 的合併結果
-            └── events（JSONB 欄位，存 AI 輸出的事件陣列）
-
-SecurityEvent（最終確認的資安事件）
-    └──< EventHistory（每次狀態變更 / 備註記錄）
-DailyAnalysis（每日 Pro Task 執行紀錄）
-```
-
----
-
-## 核心流程：Log 進來到事件產生
+### 資安事件
 
 ```
-外部 adapter
-    │  POST /api/ingest（帶 X-Ingest-Key 驗證）
-    ▼
-ingest.py
-    │
-    ▼
-flash_task._process_ingest()
-    ├── 建立 LogBatch 記錄
-    ├── 依 analysis_mode 切 chunk（每批最多 300 筆）
-    │       ├── full 模式：FortiGate 彙總摘要 + Windows log
-    │       └── windows_only 模式：只有 Windows，不切 chunk
-    ├── 每個 chunk → _process_chunk()
-    │       ├── 建 FlashResult（status=pending）
-    │       ├── 呼叫 claude_flash.analyze_chunk()（Haiku 分析）
-    │       ├── _override_match_keys()（程式產的 match_key 覆蓋 AI 的）
-    │       └── _attach_raw_logs()（帶原始 log 溯源）
-    ├── _merge_events()（同 match_key 的事件合併）
-    └── _update_daily_accumulator()（更新當天累計 FlashResult）
+tb_security_events（最終事件）
+    └──< tb_event_history（每次狀態變更記錄）
 
-每天凌晨 02:00（Celery beat 觸發）
-    │
-    ▼
-pro_task.run_pro_task()
-    ├── 讀取當天 chunk_index=-1 的累計 FlashResult
-    ├── 呼叫 claude_pro.aggregate_daily()（Sonnet 最終彙整）
-    └── 寫入 security_events 資料表
-            ├── 同 match_key 且未結案 → UPDATE（延續事件）
-            └── 否則 → INSERT（新事件）
+tb_log_batches（一次 ingest 批次）
+    └──< tb_flash_results（每個 chunk 的 AI 分析結果）
 ```
 
 ---
 
-## 身份驗證機制
+## 核心機制：身份驗證
 
 ```
-登入 POST /api/auth/login
-    → 驗證 email + password（bcrypt）
-    → 產生 JWT Token（有效期 60 分鐘，預設）
-    → 回傳 { access_token: "..." }
+登入 POST /auth/login
+    → 驗證 email + password（SHA-256）
+    → 產生 JWT（含 sub=user_id、jti=唯一識別碼）
+    → 回傳 access_token
 
-後續每個需要登入的請求
+每個需要登入的 API
     → Header: Authorization: Bearer <token>
-    → deps.get_current_user()
-        ├── 檢查 token 是否在黑名單（token_blacklist）
-        ├── 解析 JWT，取出 user_id
-        └── 查詢 users 資料表確認帳號存在且 is_active=true
+    → Middleware 解析 token，填入 request.state.user_id
+    → API 透過 Depends(authenticate) 取得 AuthContext(user_id, token)
+    → 若 jti 在 tb_token_blacklist 中 → 401
 
-登出 POST /api/auth/logout
-    → 把當前 token 記入 token_blacklist（下次帶這個 token 就會被擋）
+登出 POST /auth/logout
+    → 把 jti 記入 tb_token_blacklist
 ```
 
 ---
 
-## 部署架構（Docker Compose）
+## 核心機制：Middleware
+
+`request_response_handler.py` 每個請求都會執行：
+
+1. **記錄 Request log**（路徑、方法、client IP）
+2. **解析 Bearer token**（若有）→ 填入 `request.state.user_id`
+3. 轉交路由處理
+4. **4xx 正規化**：除 400 / 401 / 403 / 404 之外的 4xx 一律改成 400（避免洩漏細節）
+5. **記錄 Response log**（狀態碼）
+
+---
+
+## API 端點總覽
+
+| 路由前綴 | 說明 | 權限 |
+|----------|------|------|
+| `POST /auth/login` | 登入取得 JWT | 無需登入 |
+| `POST /auth/logout` | 登出（撤銷 JWT） | 需登入 |
+| `GET/POST/PATCH/DELETE /user` | 使用者 CRUD | 需登入 |
+| `GET/PATCH /events` | 資安事件查詢與更新 | 需登入 |
+| `GET/POST /events/{id}/history` | 事件歷程 | 需登入 |
+| `GET/POST /api/notices` | 系統公告 | GET 需登入；POST 需 `can_manage_notices` |
+| `GET /health` | 健康檢查 | 無需登入 |
+
+---
+
+## 部署（docker-compose）
 
 ```
-┌─────────────────────────────────────┐
-│  docker-compose                     │
-│                                     │
-│  ┌─────────┐   ┌─────────────────┐  │
-│  │   db    │   │      api        │  │
-│  │Postgres │   │ FastAPI:8000    │  │
-│  └────┬────┘   └────────┬────────┘  │
-│       │                 │           │
-│  ┌────┴────┐   ┌────────┴────────┐  │
-│  │  redis  │   │    worker       │  │
-│  │ :6379   │   │ Celery Worker   │  │
-│  └────┬────┘   └─────────────────┘  │
-│       │                             │
-│  ┌────┴────────────────────────┐    │
-│  │         beat                │    │
-│  │  Celery Beat（定時觸發）    │    │
-│  └─────────────────────────────┘    │
-└─────────────────────────────────────┘
+┌──────────────────────────────────────┐
+│  docker-compose                      │
+│                                      │
+│  ┌──────────┐   ┌──────────────────┐ │
+│  │    db    │   │       api        │ │
+│  │ Postgres │   │  FastAPI :8000   │ │
+│  └──────────┘   └──────────────────┘ │
+└──────────────────────────────────────┘
 ```
 
-- **api**：處理 HTTP 請求
-- **worker**：執行背景任務（Pro Task 就在這裡跑）
-- **beat**：每天凌晨 02:00 觸發 Pro Task
-- **db**：資料永久儲存
-- **redis**：api / beat / worker 三者的溝通橋梁
+（重構後移除了 Redis / Celery Worker / Beat，後端僅剩 db + api 兩個服務。）

@@ -1,13 +1,13 @@
 # 規格文件使用說明
 
-> 本文件說明 `Spec/` 目錄的結構與撰寫規範，供 SD 撰寫規格時參考。
+> 本文件說明 `SD/sdSpec/` 目錄的結構與撰寫規範，供 SD 撰寫規格時參考。
 
 ---
 
 ## 目錄結構
 
 ```
-Spec/
+SD/sdSpec/
   {fn_功能}/
     Api/                      ← API 規格，每支 API 一個檔案
       {功能}_{動作}_api.md
@@ -146,7 +146,7 @@ Sidebar：設定群組，標籤「帳號管理」，icon: PeopleAlt
   - 成功：描述後續行為（如：重新整理清單、→ 查詢畫面）
 ```
 
-跨功能 API 路徑從 `Spec/` 根目錄起算：
+跨功能 API 路徑從 `SD/sdSpec/` 根目錄起算：
 
 ```
 - → `../framework/Api/framework_{動作}_api.md`

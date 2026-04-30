@@ -34,10 +34,10 @@
 
 | # | 類型 | 工作內容 | 參照規格 |
 |---|------|--------|--------|
-| 1 | API  | 建立 fn_xxx_add_api | [Spec/fn_xxx/Api/fn_xxx_add_api.md](../Spec/fn_xxx/Api/fn_xxx_add_api.md) |
-| 2 | API  | 調整 fn_xxx_query_api：回傳新增 is_active 欄位 | [Spec/fn_xxx/Api/fn_xxx_query_api.md](../Spec/fn_xxx/Api/fn_xxx_query_api.md) |
-| 3 | 畫面 | 建立 fn_xxx_01_list | [Spec/fn_xxx/fn_xxx_01_list.md](../Spec/fn_xxx/fn_xxx_01_list.md) |
-| 4 | Test | 建立 _fn_xxx_test_api.md | [Spec/fn_xxx/Api/_fn_xxx_test_api.md](../Spec/fn_xxx/Api/_fn_xxx_test_api.md) |
+| 1 | API  | 建立 fn_xxx_add_api | [SD/sdSpec/fn_xxx/Api/fn_xxx_add_api.md](../sdSpec/fn_xxx/Api/fn_xxx_add_api.md) |
+| 2 | API  | 調整 fn_xxx_query_api：回傳新增 is_active 欄位 | [SD/sdSpec/fn_xxx/Api/fn_xxx_query_api.md](../sdSpec/fn_xxx/Api/fn_xxx_query_api.md) |
+| 3 | 畫面 | 建立 fn_xxx_01_list | [SD/sdSpec/fn_xxx/fn_xxx_01_list.md](../sdSpec/fn_xxx/fn_xxx_01_list.md) |
+| 4 | Test | 建立 _fn_xxx_test_api.md | [SD/sdSpec/fn_xxx/Api/_fn_xxx_test_api.md](../sdSpec/fn_xxx/Api/_fn_xxx_test_api.md) |
 ```
 
 > 類型限定：`Schema`、`API`、`畫面`、`Test`、`其他`
@@ -69,7 +69,7 @@
 
 ---
 
-## Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md
+## SD/sdSpec/{fn_xxx}/Api/_{fn_xxx}_test_api.md
 
 由 SD 人工建立與維護，活文件。
 
@@ -94,7 +94,7 @@
 # SpecDiff：Issue #N 標題
 
 ## 修改項目及內容
-- **Spec/02HomeAPI.md**（added，+20 -0）
+- **SD/sdSpec/02HomeAPI.md**（added，+20 -0）
   {diff 內容}
 - **SD/sdPrototype/03B.html**（modified，+5 -2）
   {diff 內容}

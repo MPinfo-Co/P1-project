@@ -41,17 +41,16 @@ P1-project/
 ```
 P1-design/
 ├── README.md              ← 無內文，透過連結導引到「MP-Box 專案總導覽」
-├── functionList.md        ← 系統功能清單
 ├── SA/                         ← SA 分析產出
 │   └── saLogic/
 │       └── sa-{N}-logic.md     ← 原 business-logic.md
 ├── Prototype/                  ← SA 主責，SD 可微調
-├── schema/
-│   └── schema.md          ← 資料庫 Schema 全覽（User、Company...，活文件）
 ├── Spec/                  ← API 規格文件（活文件）
 │   ├── xxx.md
 │   └── ...
 └── SD/                         ← SD 設計產出
+    ├── functionList.md    ← 系統功能清單
+    ├── schema.md          ← 資料庫 Schema 全覽（User、Company...，活文件）
     ├── TDD/
     │   └── sd-{N}-TDD.md       ← 原 TDD/issue-{N}.md
     └── sdDiff/

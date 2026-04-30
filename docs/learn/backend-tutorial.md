@@ -1,171 +1,265 @@
-# P1-code 後端程式碼教學
+# P1-code 後端學習指南
 
-> 假設你完全不懂後端，從頭解釋每一個概念。
+> 目標讀者：有程式基礎（例如寫過 JavaScript）、第一次接觸 Python / FastAPI 的新團隊成員。
+>
+> 這份文件以「**一個用戶從登入到登出**」的完整旅程為主軸，帶你走過後端每一層。
+> 架構速查表請見 [backend-architecture.md](backend-architecture.md)
 
 ---
 
-## 第一章：程式是怎麼啟動的？
+## 第 0 章｜先看整體，建立地圖
 
-### `main.py` — 程式的大門
+學一個陌生的程式庫，最忌讀到哪算到哪。先把地圖記下來，後面每章就知道自己在哪個位置。
+
+後端分成六層，由上到下：
+
+```
+HTTP 請求進來
+      │
+      ▼
+  進入點 (main.py)         ← 組裝整個 app
+      │
+      ▼
+  中介層 (middlewares/)    ← 每個請求都先到這，記 log、擋錯誤
+      │
+      ▼
+  API 路由 (api/)          ← 決定這個請求由哪個函式處理
+  Schema (api/schema/)    ← 驗證傳進來的資料格式
+      │
+      ▼
+  工具函式 (utils/)        ← 驗 token、雜湊密碼等共用工具
+      │
+      ▼
+  資料庫層 (db/)           ← 連線、ORM Model、讀寫資料
+```
+
+另外有三個「全域支援」模組，任何層都可以呼叫：
+- `config/settings.py` — 讀設定
+- `logger_utils/` — 寫 log
+- `bpBoxAlembic/` — 管理資料庫 schema 版本
+
+---
+
+## 第 1 章｜app 是怎麼啟動的
+
+**檔案：`app/main.py`**
 
 ```python
+def create_app():
+    server = FastAPI(lifespan=lifespan)
+
+    server.add_middleware(RequestResponseHandlerMiddleware)  # 掛上中介層
+
+    server.include_router(auth_router)    # 掛上 /auth 路由
+    server.include_router(user_router)    # 掛上 /user 路由
+    server.include_router(notice_router)  # 掛上 /api/notices 路由
+    # … 其他 router
+
+    return server
+
 app = create_app()
 ```
 
-執行 `uvicorn app.main:app` 時，Python 跑這支檔案，建立 FastAPI 應用程式。
+如果你用過 Express.js，這個模式你很熟：
 
-`create_app()` 做了三件事：
+| Express.js | FastAPI |
+|-----------|---------|
+| `const app = express()` | `server = FastAPI()` |
+| `app.use(middleware)` | `server.add_middleware(...)` |
+| `app.use('/auth', authRouter)` | `server.include_router(auth_router)` |
 
-**① 掛上 Middleware**
-
-```python
-server.add_middleware(RequestResponseHandlerMiddleware)
-```
-
-Middleware 是「每個 HTTP 請求都必須先通過的關卡」，負責記錄 log 和身份解析（詳見第六章）。
-
-**② 掛上所有 Router**
-
-```python
-server.include_router(auth_router)
-server.include_router(user_router)
-# ...
-```
-
-每個 router 是一組 API，分別放在不同檔案，這裡統一組裝進來。
-
-**③ 設定 Lifespan（生命週期）**
+**`lifespan` 是什麼？**
 
 ```python
 @asynccontextmanager
-async def lifespan(app):
-    # 伺服器啟動時執行
-    yield
-    # 伺服器關閉時執行
+async def lifespan(app: FastAPI):
+    system_logger.info("⚡ Systems initialized")   # 伺服器啟動時執行
+    yield                                          # ← 在這裡等待，處理所有請求
+    system_logger.info("⚡ Systems Stopped")       # 伺服器關閉時執行
 ```
 
-這裡只是用 logger 記錄啟動/關閉時間，讓你知道服務什麼時候上線。
+`yield` 前是「啟動鉤子」，`yield` 後是「關閉鉤子」。目前只用來記 log，以後可以在這裡做初始化（例如預熱快取）。
 
 ---
 
-## 第二章：設定值從哪裡來？
+## 第 2 章｜設定從哪裡來
 
-### `config/settings.py`
+**檔案：`app/config/settings.py`** 和 **`backend/.env`**
 
+`.env` 檔長這樣（實際值保密，不進版控）：
+```
+DATABASE_URL=postgresql://user:password@localhost:5432/p1db
+JWT_SECRET_KEY=your-very-secret-key
+JWT_EXPIRE_MINUTES=60
+```
+
+`settings.py` 負責把它讀進來：
 ```python
 class Settings(BaseSettings):
     database_url: str = Field(..., alias="DATABASE_URL")
     jwt_secret_key: str = Field(..., alias="JWT_SECRET_KEY")
     jwt_expire_minutes: int = Field(60, alias="JWT_EXPIRE_MINUTES")
-    jwt_algorithm: str = "HS256"
 
 settings = Settings()
 ```
 
-所有「不能寫死在程式碼裡」的東西都放在 `.env` 檔案，例如資料庫密碼。`Settings` 類別自動讀取這些值。
+這樣其他地方要用設定時，只要：
+```python
+from app.config.settings import settings
 
-> **小白理解：** `.env` 是記事本，裡面寫 `DATABASE_URL=postgresql://...`。程式啟動時自動讀進來。
+settings.database_url      # 資料庫連線字串
+settings.jwt_secret_key    # JWT 簽名金鑰
+settings.jwt_expire_minutes  # token 有效分鐘數
+```
 
-整個後端只有一個 `settings` 物件，任何地方 `from app.config.settings import settings` 就能用。
+**為什麼不直接寫死在 code 裡？**
+因為開發環境和正式環境的設定不同（不同資料庫、不同 secret key）。用 `.env` 可以每個環境各自設定，又不會把機密資訊上傳到 GitHub。
 
 ---
 
-## 第三章：資料庫是怎麼連的？
+## 第 3 章｜請求進門的第一關：Middleware
 
-### `db/connector.py`
+**檔案：`app/middlewares/request_response_handler.py`**
+
+每個 HTTP 請求，不管是登入還是查用戶，都先經過這裡。
 
 ```python
-engine = create_engine(settings.database_url, pool_pre_ping=True, future=True)
+class RequestResponseHandlerMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        # ── 請求進來時 ──
+        logger.info(f"Request: {request.method} {request.url.path}")
 
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, ...)
+        # 嘗試從 Authorization header 解出 user_id，存到 request.state
+        # （成功就能在 log 裡記是哪個用戶操作的）
 
-def get_db() -> Iterator[Session]:
-    db = SessionLocal()
+        # ── 把請求往下傳給真正的 route handler ──
+        response = await call_next(request)
+
+        # ── 回應要出去時 ──
+        # 4xx 錯誤碼標準化：除了 400/401/403/404，其他 4xx 一律改成 400
+        # （避免洩漏伺服器細節給外部）
+
+        logger.info(f"Response: {request.method} {request.url.path} -> {response.status_code}")
+        return response
+```
+
+Express.js 的類比：這就是 `app.use((req, res, next) => { ... next(); })`，只是寫法是 Python 的 `async/await`。
+
+---
+
+## 第 4 章｜登入流程完整追蹤
+
+這是整份指南的核心章節。我們跟著 `POST /auth/login` 這個請求，一步一步看程式怎麼執行。
+
+---
+
+### 4-1. 請求長什麼樣子
+
+用戶在前端填完帳號密碼後，瀏覽器送出：
+
+```
+POST /auth/login
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "secret123"
+}
+```
+
+---
+
+### 4-2. Schema：先驗格式
+
+**檔案：`app/api/schema/auth.py`**
+
+```python
+class LoginRequest(BaseModel):
+    email: EmailStr   # 必填，且格式必須是合法 email
+    password: str     # 必填，非空字串
+```
+
+FastAPI 收到請求後，**自動**把 JSON body 對照 `LoginRequest`。如果 `email` 格式不對，或缺少欄位，FastAPI 直接回 **422 Unprocessable Entity**，連 route 函式都不會進去。
+
+這就是 Pydantic 的核心功能：**你只要定義「格式長什麼樣」，驗證自動發生。**
+
+---
+
+### 4-3. Route 函式
+
+**檔案：`app/api/auth.py`**
+
+```python
+@router.post("/login", response_model=LoginResponse)
+def login(login_req: LoginRequest, db: Session = Depends(get_db)) -> LoginResponse:
+    ...
+```
+
+這裡有幾個關鍵點：
+
+**`login_req: LoginRequest`**
+FastAPI 自動把驗過格式的 JSON 注入進來，你直接用 `login_req.email`、`login_req.password`。
+
+**`db: Session = Depends(get_db)`**
+這是 FastAPI 的「依賴注入」（Dependency Injection）。`Depends(get_db)` 意思是：「請去呼叫 `get_db()` 函式，把它回傳的東西給我」。`get_db()` 會給你一個資料庫 session，讓你可以查資料。
+
+如果你寫過 Express.js，這就像 middleware 幫你在 `req` 上掛好了 `req.db`，讓你在 handler 裡直接取用。
+
+---
+
+### 4-4. get_db()：資料庫連線怎麼來的
+
+**檔案：`app/db/connector.py`**
+
+```python
+# 建立資料庫引擎（只建一次，在模組載入時）
+engine = create_engine(settings.database_url, pool_pre_ping=True)
+
+# Session 工廠
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+def get_db():
+    db = SessionLocal()   # 建立這個請求專用的 session
     try:
-        yield db
+        yield db           # 把 session 給 route 函式用
     finally:
-        db.close()
+        db.close()         # 請求結束後關閉，不管成功或出錯
 ```
 
-- **engine**：資料庫的「連線工廠」，`pool_pre_ping=True` 表示每次用連線前先 ping 一下，確保連線還活著。
-- **SessionLocal**：每次操作資料庫，就從這裡開一個 Session（工作視窗），`commit()` 才真正寫入。
-- **`get_db()`**：FastAPI 的依賴注入函式。每個 API 呼叫時自動產生一個 db，結束後自動關閉。
-
-> **小白理解：** 就像借圖書館電腦——進館借一台，離館還回去，不會一直佔用。
+`yield` 讓 `get_db` 變成「生成器」，FastAPI 在請求開始時拿到 session，請求結束後自動執行 `finally` 關掉 session。這樣每個請求都有自己的 session，不會互相干擾。
 
 ---
 
-## 第四章：資料表長什麼樣子？
+### 4-5. ORM Model：User 長什麼樣
 
-### `db/models/` — 以功能模組命名的 Model 檔案
-
-每個 model 檔案名稱都有 `fn_` 前綴，代表對應的功能模組：
-
-| 檔案 | 包含的 Model |
-|------|-------------|
-| `fn_user_role.py` | User, Role, UserRole, TokenBlacklist |
-| `fn_expert_security_event.py` | SecurityEvent, EventHistory |
-| `fn_expert_ssb_pipeline.py` | LogBatch, FlashResult 等 |
-| `fn_notice.py` | Notice |
-| `fn_km.py` | 知識庫相關 |
-| `fn_partner.py` | AI 夥伴相關 |
-
-所有 model 都繼承自 `base.py` 的 `Base`：
-
-```python
-class Base(DeclarativeBase):
-    """Project-wide declarative base."""
-```
-
-### 使用者相關（`fn_user_role.py`）
+**檔案：`app/db/models/fn_user_role.py`**
 
 ```python
 class User(Base):
-    __tablename__ = "tb_users"   # ← 資料表名稱加 tb_ 前綴
+    __tablename__ = "tb_users"   # 對應資料庫的 tb_users 資料表
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(100), nullable=False)
-    email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
-    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
-    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
-    updated_by: Mapped[int | None] = mapped_column(Integer, ForeignKey("tb_users.id"), ...)
-    updated_at: Mapped[datetime] = ...
+    name: Mapped[str] = mapped_column(String(100))
+    email: Mapped[str] = mapped_column(String(255), unique=True)
+    password_hash: Mapped[str] = mapped_column(String(255))
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    updated_by: Mapped[int | None] = mapped_column(Integer, ForeignKey("tb_users.id"))
+    updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 ```
 
-> 注意 `Mapped[int]` 這種新寫法是 SQLAlchemy 2.0 的語法，比舊版更清楚地表達「這個欄位的型別是 int」。
+ORM（Object-Relational Mapping）讓你用 Python 物件操作資料庫，不用寫 SQL。`User` class 的每個屬性對應資料表的一個欄位。
 
-### 角色權限（boolean flag 設計）
-
+查詢的寫法：
 ```python
-class Role(Base):
-    __tablename__ = "tb_roles"
-
-    id: ...
-    name: ...
-    can_access_ai: Mapped[bool] = ...        # 可使用 AI 功能
-    can_use_kb: Mapped[bool] = ...           # 可使用知識庫
-    can_manage_accounts: Mapped[bool] = ...  # 可管理使用者
-    can_manage_roles: Mapped[bool] = ...     # 可管理角色
-    can_edit_ai: Mapped[bool] = ...
-    can_manage_kb: Mapped[bool] = ...
-    can_manage_notices: Mapped[bool] = ...   # 可發布公告
+user = db.query(User).filter(User.email == login_req.email).first()
+# 等同於 SQL：SELECT * FROM tb_users WHERE email = ? LIMIT 1
 ```
-
-> **設計亮點：** 舊版需要 `functions` + `role_functions` 兩張關聯表才能表達「角色有哪些權限」。新版直接在 `Role` 上放 boolean 欄位，查詢更直接，不需要 JOIN。
->
-> **查詢比較：**
-> - 舊：`role → role_functions → functions`（需要兩次 JOIN）
-> - 新：`role.can_manage_accounts`（直接讀欄位）
 
 ---
 
-## 第五章：身份驗證怎麼運作？
+### 4-6. 驗證密碼
 
-### `utils/util_store.py` — 驗證工具箱
-
-這個檔案把 JWT 產生、密碼比對、身份驗證全部放在一起。
-
-**密碼雜湊（SHA-256）：**
+**檔案：`app/utils/util_store.py`**
 
 ```python
 def hash_password(password: str) -> str:
@@ -175,24 +269,65 @@ def verify_password(hashed: str, password: str) -> bool:
     return hmac.compare_digest(hashed, hash_password(password))
 ```
 
-`hmac.compare_digest` 做「常數時間比對」，避免攻擊者透過回應時間差異猜出密碼。
+資料庫裡存的是密碼的 **SHA-256 雜湊值**，不是明文。驗證時，把用戶送來的密碼雜湊一次，再跟資料庫存的值比對。
 
-**產生 JWT：**
+`hmac.compare_digest` 是做常數時間比較（constant-time comparison），確保即使字串不匹配，比對時間也相同，防止攻擊者透過測量回應時間來猜測密碼。
+
+---
+
+### 4-7. 簽發 JWT Token
+
+**檔案：`app/utils/util_store.py`**
 
 ```python
 def create_access_token(user_id: int) -> str:
+    now = datetime.now(timezone.utc)
     payload = {
-        "sub": str(user_id),   # 誰的 token
-        "jti": uuid4().hex,    # 唯一識別碼（用於登出撤銷）
-        "iat": now,            # 發行時間
-        "exp": now + timedelta(minutes=60),  # 過期時間
+        "sub": str(user_id),    # subject：這個 token 代表哪個用戶
+        "jti": uuid4().hex,     # JWT ID：這個 token 的唯一識別碼
+        "iat": now,             # issued at：何時簽發
+        "exp": now + timedelta(minutes=settings.jwt_expire_minutes),  # 到期時間
     }
     return jwt.encode(payload, settings.jwt_secret_key, algorithm="HS256")
 ```
 
-**`jti`（JWT ID）是新版的關鍵設計：** 舊版登出是把整個 token 字串存入黑名單，token 很長。新版只存 `jti`（32 個字元的 UUID），節省空間也更語意清晰。
+JWT（JSON Web Token）是一種**數位通行證**。伺服器用 `jwt_secret_key` 簽名，確保 token 沒被竄改。用戶之後每次請求都帶著它，伺服器驗簽就能知道是誰發出的請求。
 
-**驗證身份（FastAPI 依賴注入）：**
+`jti`（JWT ID）是每個 token 的唯一碼，登出時靠它來讓 token 失效（見第 6 章）。
+
+---
+
+### 4-8. 登入回傳
+
+```python
+return LoginResponse(access_token=create_access_token(user.id), user_id=user.id)
+```
+
+成功後回傳：
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer",
+  "user_id": 42
+}
+```
+
+前端拿到 `access_token` 後，往後每次請求都要放在 Header：
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+---
+
+## 第 5 章｜帶著 token 操作
+
+登入成功後，用戶要查用戶列表：`GET /user`。這次的關鍵是「伺服器怎麼確認這個請求是合法的已登入用戶」。
+
+---
+
+### 5-1. `authenticate()`：驗 token 的工具函式
+
+**檔案：`app/utils/util_store.py`**
 
 ```python
 @dataclass(frozen=True)
@@ -201,257 +336,192 @@ class AuthContext:
     token: str
 
 def authenticate(
-    credentials = Depends(oauth2_scheme),
-    db = Depends(get_db),
+    credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
 ) -> AuthContext:
-    token = credentials.credentials
-    payload = jwt.decode(token, settings.jwt_secret_key, ...)
-    jti = payload.get("jti")
+    token = credentials.credentials  # 從 Authorization header 取出 token 字串
 
-    # 檢查 jti 是否被登出過
+    # 1. 解碼並驗簽（金鑰不對 or 已過期 → 拋 401）
+    payload = jwt.decode(token, settings.jwt_secret_key, algorithms=["HS256"])
+    sub = payload.get("sub")  # user_id
+    jti = payload.get("jti")  # token 的唯一 ID
+
+    # 2. 查黑名單（這個 token 有沒有被登出過）
     if db.query(TokenBlacklist).filter(TokenBlacklist.token_jti == jti).first():
-        raise HTTPException(401, ...)
+        raise HTTPException(status_code=401, ...)
 
-    return AuthContext(user_id=int(payload["sub"]), token=token)
+    return AuthContext(user_id=int(sub), token=token)
 ```
-
-任何 API 只要加上 `auth: AuthContext = Depends(authenticate)`，FastAPI 就自動執行這段驗證。驗證失敗直接回 401，不進主邏輯。
-
-> **`AuthContext` 是什麼？** 一個小的資料物件，裝著「誰在呼叫」（user_id）和「他的 token」。API 函式透過這個物件知道操作者是誰。
 
 ---
 
-## 第六章：Middleware 是怎麼運作的？
+### 5-2. Route 函式如何使用
 
-### `middlewares/request_response_handler.py`
-
-每一個 HTTP 請求都會先經過這裡：
+**檔案：`app/api/user.py`**
 
 ```python
-class RequestResponseHandlerMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
-        # 1. 記錄 Request log
-        _resolve_logger(request).info(
-            f"Request: {request.method} {request.url.path}"
-        )
-
-        # 2. 解析 token → 填入 request.state.user_id
-        auth_header = request.headers.get('authorization') or ''
-        if auth_header.lower().startswith('bearer '):
-            # 驗證 token，把 user_id 存進 request.state
-            request.state.user_id = authenticate(...).user_id
-
-        # 3. 轉交給實際的路由處理
-        response = await call_next(request)
-
-        # 4. 4xx 正規化
-        if 400 <= response.status_code < 500 and response.status_code not in {400, 401, 403, 404}:
-            response = JSONResponse(400, {"detail": "Bad Request"})
-
-        # 5. 記錄 Response log
-        _resolve_logger(request).info(
-            f"Response: {request.method} {request.url.path} -> {response.status_code}"
-        )
-        return response
-```
-
-> **為什麼要做 4xx 正規化？** 假設後端發出 `422 Unprocessable Entity`（通常是輸入格式錯誤），攻擊者可以透過這個細節猜測欄位結構。統一改成 400 可以減少洩漏的資訊。
-
-**`_resolve_logger` 的設計：**
-
-```python
-def _resolve_logger(request):
-    user_id = getattr(request.state, "user_id", None)
-    if user_id is not None:
-        return get_user_logger(user_id)   # 已登入 → 寫到使用者自己的 log 檔
-    return get_system_logger()             # 未登入 → 寫到系統 log
-```
-
-每個使用者的操作記錄在自己專屬的 log 檔，方便事後追蹤是誰做了什麼。
-
----
-
-## 第七章：API 端點怎麼寫？
-
-### `api/user.py` — 使用者管理
-
-以「建立使用者」為例：
-
-```python
-@router.post("", response_model=UserCreateResponse, status_code=201)
-def create_user(
-    payload: UserCreateRequest,           # Pydantic 自動驗證輸入格式
-    db: Session = Depends(get_db),        # 自動取得資料庫連線
-    auth: AuthContext = Depends(authenticate),  # 自動驗證登入
-) -> UserCreateResponse:
-    # 檢查 email 是否重複
-    if db.query(User).filter(User.email == payload.email).first():
-        raise HTTPException(409, "Email already registered.")
-
-    # 建立 User 物件
-    user = User(name=payload.name, email=payload.email, password_hash=hash_password(payload.password), ...)
-    db.add(user)
-    db.flush()   # ← 取得 user.id（還沒真正寫入）
-
-    # 建立角色關聯
-    for rid in payload.role_ids:
-        db.add(UserRole(user_id=user.id, role_id=rid))
-
-    db.commit()  # ← 全部一起寫入
-    return UserCreateResponse(id=user.id, name=user.name, email=user.email)
-```
-
-> **`flush()` vs `commit()` 有什麼差？**
-> - `flush()`：把操作送進資料庫但還沒確認，可以取得自動產生的 id，但還可以 rollback。
-> - `commit()`：確認寫入，無法撤回。
->
-> 這裡先 `flush()` 取得 `user.id`，再用 id 建立 `UserRole`，最後一次 `commit()` 確認。
-
-**刪除 = 軟刪除：**
-
-```python
-@router.delete("/{user_id}", response_model=UserDeleteResponse)
-def delete_user(user_id: int, ...):
-    user = db.get(User, user_id)
-    user.is_active = False   # ← 不真正刪除，只是停用
-    db.commit()
-```
-
-> **為什麼不真正刪除？** 保留歷史記錄，避免關聯資料孤立（例如這個 user 曾處理的事件記錄）。
-
----
-
-## 第八章：Pydantic Schema 怎麼用？
-
-### `api/schema/` — 資料格式定義
-
-Schema 和路由放在同一個資料夾，方便對照。
-
-```python
-# api/schema/user.py
-class UserCreateRequest(BaseModel):
-    name: str
-    email: EmailStr      # 自動驗證 email 格式
-    password: str
-    role_ids: list[int]
-
-class UserCreateResponse(BaseModel):
-    id: int
-    name: str
-    email: str
-```
-
-FastAPI 自動用這些 schema：
-- **輸入**：驗證請求 body，格式錯誤直接回 400（再被 middleware 改成 400）
-- **輸出**：只把 schema 裡定義的欄位回傳給前端（不會不小心洩漏 `password_hash`）
-
----
-
-## 第九章：權限怎麼判斷？
-
-### `notice.py` — 以系統公告為例
-
-```python
-def _has_notice_permission(user_id: int, db: Session) -> bool:
-    return (
-        db.query(Role)
-        .join(UserRole, Role.id == UserRole.role_id)
-        .filter(UserRole.user_id == user_id, Role.can_manage_notices.is_(True))
-        .first()
-        is not None
-    )
-
-@router.post("")
-def create_notice(payload, db, auth):
-    if not _has_notice_permission(auth.user_id, db):
-        raise HTTPException(403, "您沒有執行此操作的權限")
+@router.get("", response_model=UserListResponse)
+def get_user_list(
+    role_id: int | None = Query(None),
+    keyword: str | None = Query(None),
+    db: Session = Depends(get_db),
+    auth: AuthContext = Depends(authenticate),   # ← 驗 token，取得身份
+) -> UserListResponse:
     ...
 ```
 
-查詢邏輯：「`auth.user_id` 所屬的角色中，有沒有任何一個 `can_manage_notices = True`？」
-
-> **與舊版設計的差異：** 舊版要沿著 `user → user_roles → role_functions → functions` 這條鏈查詢。新版只需要 user → user_roles → roles，直接讀 role 上的 boolean 欄位。
+`Depends(authenticate)` 讓 FastAPI 在進入這個函式之前，先執行 `authenticate()`。如果 token 無效，`authenticate()` 會拋出 401，用戶根本進不來。如果 token 有效，`auth` 就是驗完的 `AuthContext(user_id=42, token="...")`。
 
 ---
 
-## 第十章：資安事件怎麼管？
-
-### `api/events.py` — 事件查詢與處理
-
-事件有兩層資料：
-
-**`tb_security_events`（主表）：** 每個已偵測的資安事件，有星級（`star_rank`）、狀態（`current_status`）、影響範圍等欄位。
-
-**`tb_event_history`（歷程表）：** 每次有人更新事件的狀態或留言，都在這裡記一筆。
+### 5-3. 查詢邏輯
 
 ```python
-@router.post("/{event_id}/history", status_code=201)
-def add_history(event_id, payload, db, auth):
-    entry = EventHistory(
-        event_id=event_id,
-        user_id=auth.user_id,   # ← 誰留的記錄
-        action=payload.action,
-        note=payload.note,
-        ...
-    )
-    db.add(entry)
+query = db.query(User)
+
+if role_id is not None:
+    # 找有這個 role 的 user_id 清單，再過濾
+    sub = db.query(UserRole.user_id).filter(UserRole.role_id == role_id).subquery()
+    query = query.filter(User.id.in_(sub))
+
+if keyword:
+    like = f"%{keyword}%"
+    query = query.filter(or_(User.name.ilike(like), User.email.ilike(like)))
+
+rows = query.order_by(User.id.asc()).all()
+```
+
+`.ilike()` 是大小寫不敏感的 LIKE 搜尋，`%keyword%` 表示「keyword 出現在任何位置」。
+
+---
+
+## 第 6 章｜登出：JWT 黑名單機制
+
+**檔案：`app/api/auth.py`**
+
+JWT 本身是**無狀態**的，一旦簽發就無法「撤銷」（除非等它到期）。這個專案用「黑名單」來解決：登出時把 token 的 `jti` 存到 `tb_token_blacklist`，之後每次 `authenticate()` 都會查一次黑名單。
+
+```python
+@router.post("/logout")
+def logout(auth: AuthContext = Depends(authenticate), db: Session = Depends(get_db)):
+    # 解碼 token，取出 jti 和到期時間
+    payload = jwt.decode(auth.token, settings.jwt_secret_key, algorithms=["HS256"])
+    jti = payload["jti"]
+    exp = payload["exp"]
+
+    # 已經在黑名單裡（重複登出）
+    if db.query(TokenBlacklist).filter(TokenBlacklist.token_jti == jti).first():
+        return LogoutResponse(detail="JWT expired")
+
+    # 寫入黑名單
+    db.add(TokenBlacklist(
+        token_jti=jti,
+        expired_at=datetime.fromtimestamp(exp, tz=timezone.utc),
+        updated_by=auth.user_id,
+    ))
     db.commit()
+    return LogoutResponse(detail="Logged out")
 ```
+
+**為什麼要存 `expired_at`？**
+黑名單裡的舊紀錄可以在到期後清掉，避免無限累積。`expired_at` 就是清除的依據。
 
 ---
 
-## 第十一章：Log 系統
+## 第 7 章｜日誌系統
 
-### `logger_utils/` — 三種頻道
+**檔案：`app/logger_utils/log_channels.py`**、`logger_config.json`
+
+這個後端的 log 依用途分成四個 channel，各自寫到不同的檔案：
+
+| Channel | 儲存路徑 | 什麼情況寫 |
+|---------|---------|-----------|
+| `system` | `logs/system/system.log` | 伺服器啟動/關閉、登入登出、一般操作 |
+| `user` | `logs/user/{user_id}/{日期}.log` | 每個已驗證用戶的操作記錄（一人一檔） |
+| `error` | `logs/error/error.log` | 未捕捉的例外錯誤，附完整 traceback |
+| `service` | `logs/service/service.log` | 排程任務輸出（預留） |
+
+**怎麼使用：**
 
 ```python
-get_system_logger()        # 伺服器啟動、無法識別的請求
-get_user_logger(user_id)   # 每個 user 一支 log 檔，記錄操作行為
-get_error_logger()         # 未捕捉的例外錯誤
+from app.logger_utils import get_system_logger
+
+system_logger = get_system_logger()
+system_logger.info(f"User {user_id} logged in")
 ```
 
-Middleware 根據請求是否已驗證，自動選擇寫到哪個頻道。
+每個 logger 都是「懶初始化」（lazy init）：第一次呼叫 `get_system_logger()` 時才建立 log 檔和 sink，之後都重用同一個。
+
+**user channel 的設計：**
+```python
+get_user_logger(user_id=42).info("Queried user list")
+# 寫到 logs/user/42/2026-04-30.log
+```
+每個用戶的行為記在自己的 log 檔裡，調查問題時直接找那個 user_id 的檔案。
+
+**rotation 和 retention：**
+- `rotation: "00:00"` — 每天午夜自動開新檔
+- `retention: "1 month"` — 超過一個月的 log 自動刪除
+- error channel 的 retention 是「1 year」，保留更久
 
 ---
 
-## 第十二章：資料庫版本管理
+## 第 8 章｜資料庫怎麼長出來的（Alembic）
 
-### `bpBoxAlembic/` — Schema Migration
+**目錄：`bpBoxAlembic/`**
 
-重構後改用全新的 `bpBoxAlembic/` 目錄，裡面只有一個 migration：
+Alembic 是資料庫的「版本控制」工具，功能類似 git 之於程式碼。
+
+**為什麼需要它？**
+
+開發過程中，資料表的欄位會一直變動（新增欄位、改型別、加資料表）。如果直接手動改資料庫，其他開發者和正式環境就很難同步。Alembic 把每次變更記成一個「migration 版本檔」，所有人只要執行同一份版本檔就能同步。
+
+**常用指令：**
+
+```bash
+# 執行所有未套用的 migration（把 DB 更新到最新）
+alembic upgrade head
+
+# 回滾到上一個版本
+alembic downgrade -1
+
+# 查看目前套用到哪個版本
+alembic current
+```
+
+**這個專案的 migration 檔：**
 
 ```
 bpBoxAlembic/versions/31cf8ba73762_recreate_tables.py
 ```
 
-這個 migration 是「把所有資料表清掉重建」的版本，代表這次重構是一次乾淨的 schema 重設。
-
-> **小白理解：** 就像搬家時把所有家具重新排列，而不是一件一件挪動。新的 migration 體現了新的 schema 設計（`tb_` 前綴、boolean 權限旗標等）。
+這個版本檔建立了所有資料表（`tb_users`、`tb_roles`、`tb_user_roles`、`tb_token_blacklist`、`tb_notices` 等）。新加入的成員跑一次 `alembic upgrade head`，本地資料庫就會有完整的 schema。
 
 ---
 
-## 整體流程回顧
+## 附錄｜新人第一天 Checklist
+
+1. **複製 `.env.example`** 為 `.env`，填入資料庫連線字串和 JWT secret key
+2. **安裝依賴**：`uv sync`（或 `pip install -r requirements.txt`）
+3. **建立資料庫**：`alembic upgrade head`
+4. **啟動伺服器**：`uvicorn app.main:app --reload`
+5. **開啟 API 文件**：瀏覽器前往 `http://localhost:8000/docs`
+6. **跑測試**：`pytest`
+
+---
+
+## 附錄｜讀 Code 的順序建議
+
+如果你想深入了解某個功能，建議按這個順序讀：
 
 ```
-前端使用者
-    │ POST /auth/login（帶 email + password）
-    ▼
-① Middleware 記錄 request log
-    ▼
-② auth.py 驗證帳密（SHA-256），產生 JWT（含 jti）
-    ▼
-③ 回傳 access_token
-
-後續每個 API 請求
-    │ Header: Authorization: Bearer <token>
-    ▼
-④ Middleware 解析 token → request.state.user_id
-    ▼
-⑤ API 透過 Depends(authenticate) 取得 AuthContext
-    ▼
-⑥ 執行業務邏輯（查詢 / 新增 / 更新）
-    ▼
-⑦ Middleware 記錄 response log，若 4xx 非標準則正規化
-    ▼
-⑧ 回傳結果給前端
+schema/xxx.py        ← 先看資料格式（輸入什麼、輸出什麼）
+    │
+api/xxx.py           ← 再看 route 函式怎麼處理
+    │
+db/models/xxx.py     ← 搞清楚資料存在哪個 table 的哪些欄位
+    │
+utils/util_store.py  ← 如果有驗 token 或密碼相關，看這裡
 ```
+
+這樣你對每個 API 都能從外到內建立完整的心智模型。

@@ -44,7 +44,7 @@ P1-design/
 ├── SA/                         ← SA 分析產出
 │   ├── saLogic/
 │   │   └── sa-{N}-logic.md     ← 原 business-logic.md
-│   └── saPrototype/            ← SA 主責的 HTML prototype（所有功能共用一份）
+│   └── saPrototype/            ← SA 主責的畫面雛形（所有功能共用一份）
 └── SD/                         ← SD 設計產出
     ├── functionList.md    ← 系統功能清單
     ├── schema.md          ← 資料庫 Schema 全覽（User、Company...，活文件）
@@ -57,10 +57,9 @@ P1-design/
         └── {fn_xxx}/
             ├── {fn_xxx}_00_overview.md
             ├── {fn_xxx}_01_xxx.md
-            ├── Api/
-            │   ├── _{fn_xxx}_test_api.md
-            │   └── {fn_xxx}_xxx_api.md
-            └── Screen/         ← 截圖（視需要）
+            └── Api/
+                ├── _{fn_xxx}_test_api.md
+                └── {fn_xxx}_xxx_api.md
 ```
 
 

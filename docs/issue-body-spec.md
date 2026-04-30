@@ -26,7 +26,7 @@
 ## 關聯項目
 
 ### SA 工作文件
-- sa-4-logic.md：[SA/sa-4-logic.md]
+- sa-4-logic.md：[SA/saLogic/sa-4-logic.md]
 
 ### 關聯 Issue
 - Epic：MPinfo-Co/P1-project#1
@@ -48,8 +48,8 @@
 ## 關聯項目
 
 ### SD 工作文件
-- sa-4-logic.md：[SA/sa-4-logic.md]
-- TDD：[SD/sd-5-TDD.md]
+- sa-4-logic.md：[SA/saLogic/sa-4-logic.md]
+- TDD：[SD/TDD/sd-5-TDD.md]
 
 ### 關聯 Issue
 - Epic：MPinfo-Co/P1-project#1
@@ -72,9 +72,9 @@
 ## 關聯項目
 
 ### PG 工作文件
-- sa-4-logic.md：[SA/sa-4-logic.md]
-- SpecDiff：[SD/sd-5-Diff.md]
-- TDD：[SD/sd-5-TDD.md]
+- sa-4-logic.md：[SA/saLogic/sa-4-logic.md]
+- SpecDiff：[SD/sdDiff/sd-5-Diff.md]
+- TDD：[SD/TDD/sd-5-TDD.md]
 - TestReport：[TestReport/issue-5.md]
 
 ### 關聯 Issue

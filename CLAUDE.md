@@ -34,24 +34,24 @@
 ## SA 流程
 
 ###  讀取
-1. `SA/sa-{N}-logic.md` 的 `需求說明` — 預設值為 PM 填寫的需求描述
+1. `SA/saLogic/sa-{N}-logic.md` 的 `需求說明` — 預設值為 PM 填寫的需求描述
 
 ###  產出
-1. `SA/sa-{N}-logic.md` — 需求說明、商業邏輯、資料模型示意、SD 注意事項、畫面示意
+1. `SA/saLogic/sa-{N}-logic.md` — 需求說明、商業邏輯、資料模型示意、SD 注意事項、畫面示意
 
 ---
 
 ## SD 流程
 
 ###  讀取
-1. `SA/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
+1. `SA/saLogic/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
 2. `docs/spec-guide.md`（P1-project）— Spec 目錄結構、命名規則、各檔案格式與撰寫規範
-3. 依 `SA/sa-{N}-logic.md` 指出的範圍，按需讀取對應的現有 `Spec/`、`schema/`、`Prototype/` 檔案（修改前先讀，非全讀）
+3. 依 `SA/saLogic/sa-{N}-logic.md` 指出的範圍，按需讀取對應的現有 `Spec/`、`schema/`、`Prototype/` 檔案（修改前先讀，非全讀）
 4. 若本次涉及修改既有 API 行為，按需讀取對應的 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`
 
 ###  產出
 
-1. **TDD（Technical Design Document）**：工作項目清單，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`SD/sd-{N}-TDD.md`)
+1. **TDD（Technical Design Document）**：工作項目清單，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`SD/TDD/sd-{N}-TDD.md`)
 	+ 填寫「工作項目」表格，欄位：`| # | 類型 | 工作內容 | 參照規格 |`（類型限定：`Schema`、`API`、`畫面`、`Test`、`其他`）
 	+ 工作內容格式：建立 `{對象}` / 調整 `{對象}：{異動內容}` / 刪除 `{對象}`
 	+ 設計決定只寫結論與理由，不寫曾考慮過的替代方案
@@ -71,9 +71,9 @@
 ## PG 流程
 
 ###  讀取
-1. `SA/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
-2. `SD/sd-{N}-Diff.md` — 本次 SD 對 Schema / Spec / Prototype 的變更摘要（由 workflow 及 AI 在 SD merge 後自動寫入）
-3. `SD/sd-{N}-TDD.md` — 工作項目清單（由 SD 填寫）
+1. `SA/saLogic/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
+2. `SD/sdDiff/sd-{N}-Diff.md` — 本次 SD 對 Schema / Spec / Prototype 的變更摘要（由 workflow 及 AI 在 SD merge 後自動寫入）
+3. `SD/TDD/sd-{N}-TDD.md` — 工作項目清單（由 SD 填寫）
 4. 依 TDD 工作項目，按需讀取對應的 `Spec/`、`schema/` 檔案及 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`（非全讀）
 5. [techStack.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/techStack.md) — 確認本次相關技術選型
 

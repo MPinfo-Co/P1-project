@@ -6,7 +6,7 @@
 
 ---
 
-## sa-{N}-logic.md（位於 SA/sa-{N}-logic.md）
+## sa-{N}-logic.md（位於 SA/saLogic/sa-{N}-logic.md）
 
 由 [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) 產生，SA 人工填寫。
 
@@ -22,7 +22,7 @@
 
 ---
 
-## SD/sd-{N}-TDD.md
+## SD/TDD/sd-{N}-TDD.md
 
 由 [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) 產生，SD 人工填寫。
 
@@ -86,7 +86,7 @@
 
 ---
 
-## SD/sd-{N}-Diff.md
+## SD/sdDiff/sd-{N}-Diff.md
 
 由 [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) 產生，勿手動編輯。
 

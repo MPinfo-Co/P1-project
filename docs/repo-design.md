@@ -43,7 +43,8 @@ P1-design/
 ├── README.md              ← 無內文，透過連結導引到「MP-Box 專案總導覽」
 ├── functionList.md        ← 系統功能清單
 ├── SA/                         ← SA 分析產出
-│   └── sa-{N}-logic.md         ← 原 business-logic.md
+│   └── saLogic/
+│       └── sa-{N}-logic.md     ← 原 business-logic.md
 ├── Prototype/                  ← SA 主責，SD 可微調
 ├── schema/
 │   └── schema.md          ← 資料庫 Schema 全覽（User、Company...，活文件）
@@ -51,12 +52,14 @@ P1-design/
 │   ├── xxx.md
 │   └── ...
 └── SD/                         ← SD 設計產出
-    ├── sd-{N}-TDD.md           ← 原 TDD/issue-{N}.md
-    └── sd-{N}-Diff.md          ← 原 SpecDiff/issue-{N}.md
+    ├── TDD/
+    │   └── sd-{N}-TDD.md       ← 原 TDD/issue-{N}.md
+    └── sdDiff/
+        └── sd-{N}-Diff.md      ← 原 SpecDiff/issue-{N}.md
 ```
 
 
->文件 SA/sa-{N}-logic.md、SD/sd-{N}-TDD.md 及 SD/sd-{N}-Diff.md 格式，請參考 [auto-file-format.md](auto-file-format.md)
+>文件 SA/saLogic/sa-{N}-logic.md、SD/TDD/sd-{N}-TDD.md 及 SD/sdDiff/sd-{N}-Diff.md 格式，請參考 [auto-file-format.md](auto-file-format.md)
 
 ---
 

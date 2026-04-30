@@ -16,12 +16,12 @@
 ```
 PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 └─ 建立 SA Issue + SA-Branch + Draft PR
-└─ 產生 P1-design:SA/sa-{SA#}-logic.md
+└─ 產生 P1-design:SA/saLogic/sa-{SA#}-logic.md
   └─ SA merge PR -> 觸發 [wf_sa_to_sd]
     └─ 建立 SD Issue + SD-Branch + Draft PR
-    └─ 產生 P1-design:SD/sd-{SD#}-TDD.md
+    └─ 產生 P1-design:SD/TDD/sd-{SD#}-TDD.md
       └─ SD merge PR -> 觸發 [wf_sd_to_pg]
-        └─ 產生 P1-design:SD/sd-{SD#}-Diff.md
+        └─ 產生 P1-design:SD/sdDiff/sd-{SD#}-Diff.md
         └─ 建立 PG Issue + PG-Branch + Draft PR
         └─ 產生 P1-code:TestReport/issue-{SD#}.md
           └─ PG merge PR -> 觸發 [wf_pg_close]

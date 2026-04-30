@@ -45,13 +45,16 @@
 
 ###  讀取
 1. `SA/saLogic/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
-2. `docs/spec-guide.md`（P1-project）— Spec 目錄結構、命名規則、各檔案格式與撰寫規範
-3. 依 `SA/saLogic/sa-{N}-logic.md` 指出的範圍，按需讀取對應的現有 `Spec/`、`SD/schema.md`、`SD/sdPrototype/` 檔案（修改前先讀，非全讀）
-4. 若本次涉及修改既有 API 行為，按需讀取對應的 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`
+2. `SD/TDD/sd-{N}-TDD.md` — （由 Github Action 填寫，SD 審查確認）
+3. `docs/spec-guide.md`（P1-project）— Spec 目錄結構、命名規則、各檔案格式與撰寫規範
+4. 依 TDD 工作項目範圍，按需讀取對應的現有 `Spec/`、`SD/schema.md`、`SD/sdPrototype/` 檔案（修改前先讀，非全讀）
+5. 若本次涉及修改既有 API 行為，按需讀取對應的 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`
 
 ###  產出
 
 1. **TDD（Technical Design Document）**：工作項目清單，作為 PG 實作依據，以 Issue 為單位保存。(文件位置：`SD/TDD/sd-{N}-TDD.md`)
+	+ 若文件已有內容（正常狀況由 Github Action 先填寫），跳過此步驟
+	+ 若文件是空的，依下列規格填寫：
 	+ 填寫「工作項目」表格，欄位：`| # | 類型 | 工作內容 | 參照規格 |`（類型限定：`Schema`、`API`、`畫面`、`Test`、`其他`）
 	+ 工作內容格式：建立 `{對象}` / 調整 `{對象}：{異動內容}` / 刪除 `{對象}`
 	+ 設計決定只寫結論與理由，不寫曾考慮過的替代方案
@@ -73,7 +76,7 @@
 ###  讀取
 1. `SA/saLogic/sa-{N}-logic.md` — 商業邏輯背景（由 SA 填寫）
 2. `SD/sdDiff/sd-{N}-Diff.md` — 本次 SD 對 Schema / Spec / Prototype 的變更摘要（由 workflow 及 AI 在 SD merge 後自動寫入）
-3. `SD/TDD/sd-{N}-TDD.md` — 工作項目清單（由 SD 填寫）
+3. `SD/TDD/sd-{N}-TDD.md` — 工作項目清單（由 GitHub Actions 生成，SD 審查確認）
 4. 依 TDD 工作項目，按需讀取對應的 `Spec/`、`SD/schema.md` 及 `Spec/{fn_xxx}/Api/_{fn_xxx}_test_api.md`（非全讀）
 5. [techStack.md](https://github.com/MPinfo-Co/P1-project/blob/main/docs/techStack.md) — 確認本次相關技術選型
 

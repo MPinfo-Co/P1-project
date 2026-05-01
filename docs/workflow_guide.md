@@ -32,9 +32,9 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 
 | # | Repo | 檔名 | 觸發時點 | 執行內容 |
 |---|------|------|---------|---------|
-| 1 | P1-project | [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) | Issue 加上 `epic` label | 建立 SA Issue + SA Branch + Draft PR → SA agent 產出 logic.md |
-| 2 | P1-design | [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) | SA PR merged to main | 建立 SD Issue + SD Branch + Draft PR → SD agent 產出 TDD.md |
-| 3 | P1-design | [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) | SD PR merged to main | 產生 Diff.md + 建立 PG Issue + PG Branch + Draft PR → PG agent 產出 code + TestReport |
+| 1 | P1-project | [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) | Issue 加上 `epic` label | 建立 SA Issue + SA Branch + Draft PR + scaffold logic.md → AI Agent 呼叫 sa-orchestrator.md |
+| 2 | P1-design | [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) | SA PR merged to main | 建立 SD Issue + SD Branch + Draft PR + scaffold TDD.md → AI Agent 呼叫 sd-orchestrator.md |
+| 3 | P1-design | [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) | SD PR merged to main | 產生 Diff.md + 建立 PG Issue + PG Branch + Draft PR + scaffold TestReport → AI Agent 呼叫 pg-orchestrator.md |
 | 4 | P1-code | [wf_pg_ci.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_pg_ci.yml) | push 到 `pg-*` branch | Backend CI（Ruff + Pytest）+ Frontend CI（ESLint + Prettier） |
 | 5 | P1-code | [wf_pg_close.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_pg_close.yml) | PG PR merged to main | 關閉 PG Issue + Epic Issue |
 | — | P1-design | [wf_chore_branch.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_chore_branch.yml) | Issue 加上 `chore` label | 建立 chore branch |
@@ -44,12 +44,41 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 
 > 如需了解 workflow 細節，直接向AI詢問指定文件內涵即可。
 
-## 1.3 Issue body 格式
+## 1.3 AI Agent Prompt 結構
+
+Prompt 檔案位置：`P1-design/prompts/`，參數由 workflow 以 `sed` 注入後傳入。
+
+**[wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml)**
+```
+└─ sa-orchestrator
+     ├─ sa-writer-prompt
+     └─ sa-reviewer-prompt（retry 2）
+```
+
+**[wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml)**
+```
+└─ sd-orchestrator
+     ├─ sd-writer-prompt
+     └─ sd-reviewer-prompt（retry 3）
+```
+
+**[wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml)**
+```
+└─ pg-orchestrator（依 TDD 範圍）
+     ├─ has_backend → pg-backend-orchestrator（retry 3）
+     │                  ├─ pg-backend-writer-prompt
+     │                  └─ pg-backend-verifier-prompt
+     └─ has_frontend → pg-frontend-orchestrator（retry 3）
+                         ├─ pg-frontend-writer-prompt
+                         └─ pg-frontend-verifier-prompt
+```
+
+## 1.4 Issue body 格式
 
 - 產生各階段issue時，會自動在issue body產生與該issue相關的所有項目連結
 - 各階段 Issue body 格式詳見：[issue-body-spec.md](issue-body-spec.md)
 
-## 1.4 自動產生的 md 文件格式
+## 1.5 自動產生的 md 文件格式
 
 各階段自動產生文件格式詳見：[auto-file-format.md](auto-file-format.md)
 

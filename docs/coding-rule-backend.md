@@ -14,9 +14,9 @@
 | 類型 | 位置 | 範例 |
 |------|------|------|
 | Router | `app/api/{domain}.py` | `app/api/events.py` |
-| Schema | `app/schemas/{domain}.py` | `app/schemas/security_event.py` |
-| SQLAlchemy Model | `app/db/models/{domain}.py` | `app/db/models/user.py` |
-| Service（外部整合）| `app/services/{domain}.py` | `app/services/claude_flash.py` |
+| Schema | `app/api/schema/{domain}.py` | `app/api/schema/security_event.py` |
+| SQLAlchemy Model | `app/db/models/{domain}.py` | `app/db/models/fn_user_role.py` |
+| Service（外部整合）| `app/services/{domain}.py` | 視功能需求（如有外部 API 整合） |
 | 測試 | `tests/test_{domain}_{動作}.py` | `tests/test_user_create.py` |
 
 ### 1-2 Pydantic Schema 命名
@@ -69,14 +69,13 @@ Request
   ↓
 app/api/{domain}.py          ← Router：接收、驗證、DB 操作、回傳
   ↓ Depends()
-app/core/deps.py             ← 注入：get_db、get_current_user
+app/utils/util_store.py      ← 注入：get_db、authenticate、hash_password、create_access_token 等
   ↓
 app/db/models/{domain}.py    ← SQLAlchemy ORM model
-app/schemas/{domain}.py      ← Pydantic 輸入/輸出驗證
+app/api/schema/{domain}.py   ← Pydantic 輸入/輸出驗證
 
-app/services/{domain}.py     ← 外部整合專用（Claude、Email 等）
-app/core/security.py         ← JWT、密碼 hash 等安全工具
-app/core/config.py           ← pydantic-settings 設定
+app/services/{domain}.py     ← 外部整合專用（視功能需求，如有 Claude、Email 等）
+app/config/settings.py       ← pydantic-settings 設定
 ```
 
 ### 2-2 各層職責
@@ -84,9 +83,9 @@ app/core/config.py           ← pydantic-settings 設定
 | 層 | 做什麼 | 不做什麼 |
 |----|--------|---------|
 | **Router** (`app/api/`) | 讀參數、呼叫 Depends、查 DB、回傳 response / HTTPException | 呼叫其他 router、放業務邏輯函式 |
-| **Deps** (`app/core/deps.py`) | 提供可被 `Depends()` 注入的函式 | 查詢與當前請求上下文無關的資料 |
-| **Service** (`app/services/`) | 包裝外部 API（Claude、Email 等） | 寫 CRUD、查業務資料 |
-| **Schema** (`app/schemas/`) | 定義 Pydantic model | 放業務邏輯 |
+| **Deps** (`app/utils/util_store.py`) | 提供可被 `Depends()` 注入的函式（get_db、authenticate 等）| 查詢與當前請求上下文無關的資料 |
+| **Service** (`app/services/`) | 包裝外部 API（Claude、Email 等，視功能需求） | 寫 CRUD、查業務資料 |
+| **Schema** (`app/api/schema/`) | 定義 Pydantic model | 放業務邏輯 |
 | **Model** (`app/db/models/`) | 定義 SQLAlchemy table mapping | 放業務邏輯 |
 
 ---
@@ -124,7 +123,7 @@ class ClaudeFlashService:
 SECRET_KEY = "my-secret-key-123"
 
 # ✓
-from app.core.config import settings
+from app.config.settings import settings
 settings.SECRET_KEY
 ```
 
@@ -134,11 +133,11 @@ settings.SECRET_KEY
 # ✗
 @router.post("/login")
 def login():
-    from app.core.config import settings  # 函式內才 import
+    from app.config.settings import settings  # 函式內才 import
     ...
 
 # ✓ module 頂層 import
-from app.core.config import settings
+from app.config.settings import settings
 ```
 
 ### ✗ 5 吞掉例外
@@ -184,9 +183,9 @@ def create_user(data: UserCreate): ...
 # ✗
 user.hashed_password = data.password
 
-# ✓ 統一從 app/core/security.py 取 hash 工具
-from app.core.security import get_password_hash
-user.hashed_password = get_password_hash(data.password)
+# ✓ 統一從 app/utils/util_store.py 取 hash 工具
+from app.utils.util_store import hash_password
+user.hashed_password = hash_password(data.password)
 ```
 
 ---

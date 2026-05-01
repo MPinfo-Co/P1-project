@@ -210,7 +210,7 @@ test_{描述行為}_{預期結果}
 ```python
 def test_create_user_returns_201(client):
     """對應 T1"""
-    resp = client.post("/api/users", json={...}, headers={...})
+    resp = client.post("/user", json={...}, headers={...})
     assert resp.status_code == 201
 ```
 

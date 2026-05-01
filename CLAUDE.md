@@ -119,3 +119,8 @@ def test_create_user(client, db_session):
 > **維護說明：** 正式來源為 `MPinfo-Co/P1-project` 根目錄的 `CLAUDE.md`。
 > 各開發者將此內容複製到本機 P1 工作目錄。內容有更動時，兩處同步更新。
 > P1-design、P1-code 不再各自維護 CLAUDE.md。
+
+---
+# 涉及 Workflow 或 Prompt 的工作
+
+凡工作內容涉及 GitHub Actions workflow（`.yml`）、AI Agent prompt（`prompts/*.md`）或兩者串接關係，**動手前先讀** `P1-project/docs/workflow_guide.md`，確認 yml → prompt 對應結構後再執行。

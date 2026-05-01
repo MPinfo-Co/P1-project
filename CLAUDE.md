@@ -9,9 +9,6 @@
 | **P1-code**     | React/TypeScript + Python/FastAPI 實作 | PG | PR + SA/PM Review |
 
 > 「Repo 結構細節」，請參考：[repo-design.md](docs/repo-design.md)
-> 「workflow細節」或「串接流程」，請參考：[workflow_guide.md](docs/workflow_guide.md)
-> 「Issue body內文」，請參考：[issue-body-spec.md](docs/issue-body-spec.md)
-> 「自動產生檔案的內文格式」，請參考：[auto-file-format.md](docs/auto-file-format.md)
 
 ---
 # 專案限制
@@ -48,6 +45,8 @@
 3. 從 issue body 的「分支」欄位取得 branch 名稱，切換到該 branch 並執行 `git pull`。
 4. Issue 標題中會標示[SA],[SD]或[PG]，執行對應流程：
 
+> 「Issue body內文」，請參考：[issue-body-spec.md](docs/issue-body-spec.md)
+> 「自動產生檔案的內文格式」，請參考：[auto-file-format.md](docs/auto-file-format.md)
 ---
 ## SA 流程
 
@@ -56,6 +55,7 @@
 
 ### 產出
 1. `sa-{N}-logic.md` — 填寫 `畫面/操作邏輯示意`
+2. `SA/saPrototype/fn_xxx/` — 若需求涉及畫面，新增或更新對應功能的雛形頁面（依 `docs/prototype-guide.md` SA 特則）
 
 ---
 
@@ -123,4 +123,4 @@ def test_create_user(client, db_session):
 ---
 # 涉及 Workflow 或 Prompt 的工作
 
-凡工作內容涉及 GitHub Actions workflow（`.yml`）、AI Agent prompt（`prompts/*.md`）或兩者串接關係，**動手前先讀** `P1-project/docs/workflow_guide.md`，確認 yml → prompt 對應結構後再執行。
+凡工作內容涉及 GitHub Actions workflow（`.yml`）、AI Agent prompt（`prompts/*.md`）或兩者串接關係，**動手前先讀** [workflow_guide.md](docs/workflow_guide.md)，確認 yml → prompt 對應結構後再執行。

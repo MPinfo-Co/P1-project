@@ -17,9 +17,11 @@
 PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 └─ 建立 SA Issue + SA-Branch + Draft PR
 └─ 產生 P1-design:SA/saLogic/sa-{SA#}-logic.md
+└─ AI 依需求更新 SA/saPrototype/（若涉及畫面）
   └─ SA merge PR -> 觸發 [wf_sa_to_sd]
     └─ 建立 SD Issue + SD-Branch + Draft PR
     └─ 產生 P1-design:SD/TDD/sd-{SD#}-TDD.md
+    └─ AI 更新 sdPrototype / sdSpec / schema / functionList（依 TDD 工作項目）
       └─ SD merge PR -> 觸發 [wf_sd_to_pg]
         └─ 產生 P1-design:SD/sdDiff/sd-{SD#}-Diff.md
         └─ 建立 PG Issue + PG-Branch + Draft PR

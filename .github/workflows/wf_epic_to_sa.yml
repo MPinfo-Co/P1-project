@@ -230,13 +230,14 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add "SA/saLogic/sa-${SA_NUMBER}-logic.md"
+          git add SA/saPrototype/ 2>/dev/null || true
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
 
-          git commit -m "docs(sa-${SA_NUMBER}): SA 產出 SA 分析文件"
+          git commit -m "docs(sa-${SA_NUMBER}): SA 產出分析文件與雛形"
           git push origin "$BRANCH"
 
       - name: Post comment to SA issue

@@ -127,6 +127,14 @@ def test_create_user(client, db_session):
 > P1-design、P1-code 不再各自維護 CLAUDE.md。
 
 ---
+# 建立 GitHub Issue 時
+
+凡工作內容涉及建立新的 GitHub Issue，依序執行：
+1. 先讀 [workflow_guide.md](docs/workflow_guide.md)，了解各階段觸發流程
+2. 再讀 `.github/ISSUE_TEMPLATE/` 對應的 template 檔案，確認 Issue 格式
+3. 再建立 Issue
+
+---
 # 涉及 Workflow 或 Prompt 的工作
 
 凡工作內容涉及 GitHub Actions workflow（`.yml`）、AI Agent prompt（`prompts/*.md`）或兩者串接關係，**動手前先讀** [workflow_guide.md](docs/workflow_guide.md)，確認 yml → prompt 對應結構後再執行。

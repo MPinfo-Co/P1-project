@@ -3,7 +3,7 @@
 > [← 回到總導覽](../../README.md)
 
 ## 任務目標
-讀取 P1 四個 Repo 的重要文件，依審查原則逐一分析，輸出結構化建議報告。
+讀取 P1 三個 Repo 的重要文件，依審查原則逐一分析，輸出結構化建議報告。
 
 ## 限制
 - 不修改受審文件的內容
@@ -13,8 +13,8 @@
 ---
 
 ## Phase 1 — 環境準備
-1. 四個 Repo **平行**執行 git pull（四個 Repo 為同層目錄）：
-   - P1-project / P1-analysis / P1-design / P1-code
+1. 三個 Repo **平行**執行 git pull（三個 Repo 為同層目錄）：
+   - P1-project / P1-design / P1-code
 2. 執行 `date '+%Y-%m-%d %H:%M'` 取得執行時間，供報告 header 使用
 
 ---
@@ -98,7 +98,7 @@
 
 ### 增量寫入規則
 
-每分析完一個 Repo 的所有文件，**立即**將該 Repo 的分析結果 append 到 `docs/ai-review/AI-review-report.md`（依 Repo 順序：P1-project → P1-analysis → P1-design → P1-code）。
+每分析完一個 Repo 的所有文件，**立即**將該 Repo 的分析結果 append 到 `docs/ai-review/AI-review-report.md`（依 Repo 順序：P1-project → P1-design → P1-code）。
 
 不等其他 Repo 分析完成，立即寫入，確保 timeout 發生時已有部分輸出。
 

@@ -97,7 +97,7 @@ queries/use{Domain}Query.ts（mutation 打 API）
 React Query 自動更新 cache → 元件自動重新 render
 ```
 
-### 2-5 UI 元件規範
+### 2-4 UI 元件規範
 
 | 畫面類型 | 元件 |
 |---------|------|
@@ -106,11 +106,11 @@ React Query 自動更新 cache → 元件自動重新 render
 
 Dialog 型畫面規格（無路由路徑）仍獨立為 `FnXxxForm.tsx`，在 `FnXxxList.tsx` 中 import 並傳入 `open / user / onClose / onSuccess` props，不內嵌。TDD 每個「畫面」工作項目對應一個 .tsx 檔案。
 
-### 2-6 QueryClient 設定
+### 2-5 QueryClient 設定
 
 `QueryClient` 在 `src/main.jsx` 建立，以 `QueryClientProvider` 包住整個 App，全域共用同一個 client instance。各 query hook 不自行建立 `QueryClient`。
 
-### 2-4 Token 取得方式
+### 2-6 Token 取得方式
 
 query hook 內部統一從 `authStore` 取，不讀 localStorage：
 

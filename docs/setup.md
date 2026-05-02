@@ -136,7 +136,7 @@ git -C P1-code reset HEAD~1
 
 ## 8. CI 檢查項目
 
-每次 push 到 `issue-*` branch 或開 PR 時，CI 自動執行：
+每次 push 到 `pg-*` branch 或開 PR 時，CI 自動執行：
 
 | 檢查 | 工具 |
 |------|------|

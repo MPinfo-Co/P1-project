@@ -20,7 +20,7 @@
 
 ## SA Issue body
 
-由 [p-workflow.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/p-workflow.yml) 產生
+由 [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) 產生
 
 ```Markdown
 ## 關聯項目
@@ -42,7 +42,7 @@
 
 ## SD Issue body
 
-由 [a-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/a-workflow.yml) 產生
+由 [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) 產生
 
 ```markdown
 ## 關聯項目
@@ -66,7 +66,7 @@
 
 ## PG Issue body
 
-由 [d-workflow.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/d-workflow.yml) 產生
+由 [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) 產生
 
 ```Markdown
 ## 關聯項目

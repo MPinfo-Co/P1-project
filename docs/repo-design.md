@@ -26,6 +26,9 @@ P1-project/
     ├── auto-file-format.md ← 系統自動產生檔案格式說明
     ├── spec-guide.md      ← Spec 目錄結構、命名規則、各檔案格式與撰寫規範
     ├── techStack.md       ← 技術棧選型文件
+    ├── setup.md           ← 開發環境準備
+    ├── coding-rule-backend.md  ← 後端程式規範
+    ├── coding-rule-frontend.md ← 前端程式規範
     └── ai-review/         ← AI 文件審查相關檔案
         ├── AI-review-prompt.md ← AI 文件審查任務 Prompt
         ├── AI-review-doclist.md ← AI 文件審查範圍清單

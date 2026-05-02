@@ -8,7 +8,7 @@
 
 ```
 SD/sdSpec/
-  {fn_功能}/
+  {功能編號}/
     Api/                      ← API 規格，每支 API 一個檔案
       {功能}_{動作}_api.md
     {功能}_00_overview.md     ← 功能總覽

@@ -130,7 +130,7 @@ const token = useAuthStore.getState().token
 // ✗
 export default function FnUserList() {
   useEffect(() => {
-    fetch('/api/users').then(...)
+    fetch('/api/user').then(...)
   }, [])
 }
 

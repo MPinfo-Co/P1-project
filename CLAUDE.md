@@ -34,7 +34,6 @@
 | `schema.md`             | `P1-design/SD/schema.md`                                 |
 | `sdPrototype/`          | `P1-design/SD/sdPrototype/`                              |
 | `_{fn_xxx}_test_api.md` | `P1-design/SD/sdSpec/{fn_xxx}/Api/_{fn_xxx}_test_api.md` |
-| `issue-{N}.md`          | `P1-code/TestReport/issue-{N}.md`                        |
 | `techStack.md`          | `P1-project/docs/techStack.md`                           |
 
 ---
@@ -90,6 +89,13 @@
 
 ---
 
+## 前後端不一致時的處理原則
+
+- 若後端邏輯正確（符合 sdSpec 規格），前後端路徑或格式有差異時，**以前端為準，後端配合調整**。
+- 例外：若前端明顯有誤（型別錯、路徑打錯），先確認後再決定改哪一側，不可自行假設。
+
+---
+
 ## PG 流程
 
 ### 讀取邏輯
@@ -111,8 +117,7 @@ def test_create_user(client, db_session):
     """對應 T3"""
 ```
 
-3. `issue-{N}.md` — 填寫測試結果與備註
-4. 前端新檔案一律使用 `.tsx`（舊 `.jsx` 漸進式遷移，不強制）
+3. 前端新檔案一律使用 `.tsx`（舊 `.jsx` 漸進式遷移，不強制）
 
 ---
 

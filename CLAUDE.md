@@ -16,6 +16,7 @@
 - Branch 由 GitHub Actions 自動建立，**不手動建立**。
 - 所有文件產出使用繁體中文（zh-TW）
 - Commit 格式：`{type}(scope?): 說明`，常用 type：`feat` / `fix` / `docs` / `refactor` / `test` / `chore`
+- 執行工作如需產生計畫檔，一律產生在根目錄 `docs/` 下
 
 ---
 # 執行Github Issue 工作時

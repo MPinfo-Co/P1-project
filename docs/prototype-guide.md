@@ -44,6 +44,17 @@ fn_xxx/           — 各功能獨立目錄，含 fn_xxx.html + _data.js
 Modal 開關、表單必填驗證需正常作動。
 不需模擬後端 API，資料操作在前端 `allXxx` 陣列上進行即可。
 
+### 1.6 特殊頁面與 Navbar
+
+**系統入口頁（login、404 等）**
+以 `fn_login/`、`fn_error/` 命名，與一般功能頁面相同規格處理（含 `_data.js`）。
+
+**Navbar（sidebar + header）**
+由 `_shared/_nav.js` 統一注入，不在各功能頁面中重複定義。
+預設不修改 `_nav.js`；當 Epic 需求明確異動導覽結構時，可修改 `_nav.js`，
+並在 saLogic / TDD 中標注異動原因。
+Navbar 畫面規格見 `sdSpec/fn_navbar/`；Navbar prototype 頁面位於 `sdPrototype/fn_navbar/`。
+
 ---
 
 ## 二、saPrototype 特則

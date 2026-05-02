@@ -133,6 +133,7 @@ def test_create_user(client, db_session):
 1. 先讀 [workflow_guide.md](docs/workflow_guide.md)，了解各階段觸發流程
 2. 再讀 `.github/ISSUE_TEMPLATE/` 對應的 template 檔案，確認 Issue 格式
 3. 再建立 Issue
+4. 建立完成後，向使用者呈現 Issue 標題與完整 body 內容
 
 ---
 # 涉及 Workflow 或 Prompt 的工作

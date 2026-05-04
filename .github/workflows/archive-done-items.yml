@@ -60,6 +60,10 @@ jobs:
                               name
                               field { ... on ProjectV2SingleSelectField { name } }
                             }
+                            ... on ProjectV2ItemFieldIterationValue {
+                              title
+                              field { ... on ProjectV2IterationField { name } }
+                            }
                           }
                         }
                       }
@@ -89,7 +93,8 @@ jobs:
               const fields = item.fieldValues.nodes;
 
               const status = fields.find(f => f.field?.name === 'Status');
-              const cycle = fields.find(f => f.field?.name === '週期');
+              const cycleField = fields.find(f => f.field?.name === '週期');
+              const cycle = cycleField ? { name: cycleField.name ?? cycleField.title } : null;
 
               if (!status || status.name !== 'Done') { skipped++; continue; }
               if (!cycle) { skipped++; continue; }

@@ -76,6 +76,7 @@ jobs:
               // 重跑：取舊 branch，force reset 到當下 main
               saNumber = existing.number;
               const branchMatch = existing.body.match(/分支：\[([^\]]+)\]/);
+              if (!branchMatch) throw new Error(`SA Issue #${saNumber} 的 body 中找不到分支資訊，請手動確認`);
               branchName = branchMatch[1];
 
               await github.rest.git.updateRef({

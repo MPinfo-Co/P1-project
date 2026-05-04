@@ -136,24 +136,6 @@ def test_create_user(client, db_session):
 4. 建立完成後，向使用者呈現 Issue 標題與完整 body 內容
 
 ---
-# 執行或重跑 Issue 的 Workflow 時
-
-當人類要求執行或重跑某個 Issue 的 Agent / Workflow 時，依序執行：
-1. 先讀 [workflow_guide.md](docs/workflow_guide.md)，確認流程與觸發方式
-2. 依 Issue 前綴對應 workflow，一律使用 `workflow_dispatch` 觸發（**禁止用 `gh run rerun`**）：
-
-   | 使用者指定 Issue 前綴 | Workflow | Repo | dispatch input |
-   |---|---|---|---|
-   | [PM] Epic | `wf_epic_to_sa.yml` | P1-project | `epic_issue_number` |
-   | [SA] | `wf_sa_to_sd.yml` | P1-design | `sa_issue_number` |
-   | [SD] | `wf_sd_to_pg.yml` | P1-design | `sd_issue_number` |
-
-   範例：`gh workflow run wf_sa_to_sd.yml --repo MPinfo-Co/P1-design -f sa_issue_number=196`
-
-3. [SA] / [SD] issue 若尚未關閉（PR 未 merge），不允許執行下游 workflow，因為該流程還沒結束
-4. 以 **Epic 編號**為基準識別一條需求的完整脈絡
-
----
 # 涉及 Workflow 或 Prompt 的工作
 
 凡工作內容涉及 GitHub Actions workflow（`.yml`）、AI Agent prompt（`prompts/*.md`）或兩者串接關係，**動手前先讀** [workflow_guide.md](docs/workflow_guide.md)，確認 yml → prompt 對應結構後再執行。

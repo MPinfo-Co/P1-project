@@ -1,6 +1,8 @@
 name: Epic to SA
 
 on:
+  issues:
+    types: [labeled]
   workflow_dispatch:
     inputs:
       epic_issue_number:
@@ -15,6 +17,9 @@ permissions:
 
 jobs:
   create-sa-issue:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'epic'
     runs-on: ubuntu-latest
 
     steps:
@@ -35,16 +40,22 @@ jobs:
             const org = 'MPinfo-Co';
             const analysisRepo = 'P1-design';
 
-            // 1. 從 API 取得 Epic 資訊
-            const epicNumber = parseInt('${{ inputs.epic_issue_number }}');
-            const epicResp = await github.rest.issues.get({
-              owner: org,
-              repo: 'P1-project',
-              issue_number: epicNumber,
-            });
-            const epicIssue = epicResp.data;
-            if (!/^\[PM\]/i.test(epicIssue.title)) {
-              throw new Error(`Issue #${epicNumber} 標題不含 [PM] 前綴，請確認填入的是 Epic Issue`);
+            // 1. 取得 Epic 資訊（兩種觸發來源）
+            let epicNumber, epicIssue;
+            if (context.eventName === 'workflow_dispatch') {
+              epicNumber = parseInt('${{ inputs.epic_issue_number }}');
+              const epicResp = await github.rest.issues.get({
+                owner: org,
+                repo: 'P1-project',
+                issue_number: epicNumber,
+              });
+              epicIssue = epicResp.data;
+              if (!/^\[PM\]/i.test(epicIssue.title)) {
+                throw new Error(`Issue #${epicNumber} 標題不含 [PM] 前綴，請確認填入的是 Epic Issue`);
+              }
+            } else {
+              epicIssue = context.payload.issue;
+              epicNumber = epicIssue.number;
             }
             const epicTitle = epicIssue.title.replace(/^\[PM\]\s*/i, '');
 

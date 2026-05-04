@@ -43,6 +43,9 @@ jobs:
               issue_number: epicNumber,
             });
             const epicIssue = epicResp.data;
+            if (!/^\[PM\]/i.test(epicIssue.title)) {
+              throw new Error(`Issue #${epicNumber} 標題不含 [PM] 前綴，請確認填入的是 Epic Issue`);
+            }
             const epicTitle = epicIssue.title.replace(/^\[PM\]\s*/i, '');
 
             const slug = epicTitle
@@ -75,7 +78,7 @@ jobs:
             if (existing) {
               // 重跑：取舊 branch，force reset 到當下 main
               saNumber = existing.number;
-              const branchMatch = existing.body.match(/分支：\[([^\]]+)\]/);
+              const branchMatch = existing.body.match(/分支：\[[^\]]*\]\([^)]*\/tree\/([^)]+)\)/);
               if (!branchMatch) throw new Error(`SA Issue #${saNumber} 的 body 中找不到分支資訊，請手動確認`);
               branchName = branchMatch[1];
 

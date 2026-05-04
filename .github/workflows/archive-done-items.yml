@@ -34,6 +34,10 @@ jobs:
               return date;
             }
 
+            // 週別以週五命名（e.g. 5/8 代表本週），以本週五為比較基準
+            const daysUntilFriday = (5 - now.getDay() + 7) % 7;
+            const thisWeekFriday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilFriday);
+
             // 取得 project node ID
             const projectResult = await github.graphql(`
               query($org: String!, $num: Int!) {
@@ -102,7 +106,7 @@ jobs:
               const cycleDate = parseCycleDate(cycle.name);
               if (!cycleDate) { skipped++; continue; }
 
-              const daysSince = (now - cycleDate) / (1000 * 60 * 60 * 24);
+              const daysSince = (thisWeekFriday - cycleDate) / (1000 * 60 * 60 * 24);
               if (daysSince < ARCHIVE_DAYS) { skipped++; continue; }
 
               try {
@@ -114,7 +118,7 @@ jobs:
                   }
                 `, { projectId, itemId: item.id });
 
-                console.log(`archived: ${item.id} (週期: ${cycle.name}, ${Math.floor(daysSince)}d ago)`);
+                console.log(`archived: ${item.id} (週期: ${cycle.name}, ${Math.floor(daysSince)}d before this week)`);
                 archived++;
               } catch (e) {
                 console.log(`archive failed: ${item.id} — ${e.message}`);

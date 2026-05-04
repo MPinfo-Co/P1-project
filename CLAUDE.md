@@ -136,6 +136,14 @@ def test_create_user(client, db_session):
 4. 建立完成後，向使用者呈現 Issue 標題與完整 body 內容
 
 ---
+# 執行或重跑 Issue 的 Workflow 時
+
+當人類要求執行或重跑某個 Issue 的 Agent / Workflow 時，依序執行：
+1. 先讀 [workflow_guide.md](docs/workflow_guide.md)，確認流程與觸發方式
+2. 依 Issue 所在階段找到對應 workflow（`wf_epic_to_sa` / `wf_sa_to_sd` / `wf_sd_to_pg`）並執行
+3. 以 **Epic 編號**為基準識別一條需求的完整脈絡
+
+---
 # 涉及 Workflow 或 Prompt 的工作
 
 凡工作內容涉及 GitHub Actions workflow（`.yml`）、AI Agent prompt（`prompts/*.md`）或兩者串接關係，**動手前先讀** [workflow_guide.md](docs/workflow_guide.md)，確認 yml → prompt 對應結構後再執行。

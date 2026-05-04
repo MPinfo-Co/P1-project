@@ -1,8 +1,12 @@
 name: Epic to SA
 
 on:
-  issues:
-    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      epic_issue_number:
+        description: 'Epic Issue 編號 (P1-project)'
+        required: true
+        type: number
 
 permissions:
   issues: write
@@ -11,7 +15,6 @@ permissions:
 
 jobs:
   create-sa-issue:
-    if: github.event.label.name == 'epic'
     runs-on: ubuntu-latest
 
     steps:
@@ -29,11 +32,18 @@ jobs:
         with:
           github-token: ${{ steps.app-token.outputs.token }}
           script: |
-            const epicIssue = context.payload.issue;
-            const epicNumber = epicIssue.number;
-            const epicTitle = epicIssue.title.replace(/^\[PM\]\s*/i, '');
             const org = 'MPinfo-Co';
             const analysisRepo = 'P1-design';
+
+            // 1. 從 API 取得 Epic 資訊
+            const epicNumber = parseInt('${{ inputs.epic_issue_number }}');
+            const epicResp = await github.rest.issues.get({
+              owner: org,
+              repo: 'P1-project',
+              issue_number: epicNumber,
+            });
+            const epicIssue = epicResp.data;
+            const epicTitle = epicIssue.title.replace(/^\[PM\]\s*/i, '');
 
             const slug = epicTitle
               .toLowerCase()
@@ -43,66 +53,90 @@ jobs:
               .replace(/^-+|-+$/g, '')
               .slice(0, 50) || 'issue';
 
-            // 1. 在 P1-design 建立 SA Issue
-            const saIssue = await github.rest.issues.create({
-              owner: org,
-              repo: analysisRepo,
-              title: `[SA] ${epicTitle}`,
-              body: [
-                '## 關聯項目',
-                '',
-                '### SA 工作文件',
-                `- business-logic.md：（待填入）`,
-                '',
-                '### 關聯 Issue',
-                `- Epic：MPinfo-Co/P1-project#${epicNumber}`,
-                `- SA Issue：#（本 Issue）`,
-                `- SD Issue：P1-design #（merge 後自動填入）`,
-                '',
-                '### 相關連結',
-                `- 分支：（待填入）`,
-                `- Draft PR：（待建立）`,
-              ].join('\n'),
-              labels: ['SA'],
-            });
-
-            const saNumber = saIssue.data.number;
-            const branchName = `sa-${saNumber}-${slug}`;
-
-            // ← backfill 移到 Draft PR 建立後，見下方
-
-            // 2. 將 SA Issue 掛為 Epic 的 sub-issue
-            try {
-              await github.request('POST /repos/{owner}/{repo}/issues/{issue_number}/sub_issues', {
-                owner: org,
-                repo: 'P1-project',
-                issue_number: epicNumber,
-                sub_issue_id: saIssue.data.id,
-              });
-            } catch (e) {
-              console.log(`Sub-issue 關聯建立失敗（非阻斷性）：${e.message}`);
-            }
-
-            // 3. 取得 P1-design main 的 SHA
+            // 2. 取得當下 main SHA
             const mainRef = await github.rest.git.getRef({
               owner: org,
               repo: analysisRepo,
               ref: 'heads/main',
             });
 
-            // 4. 建立 A-Branch
-            try {
-              await github.rest.git.createRef({
+            // 3. 冪等保護：查是否已有對應 SA Issue
+            const allSAIssues = await github.rest.issues.listForRepo({
+              owner: org,
+              repo: analysisRepo,
+              state: 'open',
+              labels: 'SA',
+              per_page: 100,
+            });
+            const existing = allSAIssues.data.find(i => i.title === `[SA] ${epicTitle}`);
+
+            let saNumber, branchName, saIssueBody;
+
+            if (existing) {
+              // 重跑：取舊 branch，force reset 到當下 main
+              saNumber = existing.number;
+              const branchMatch = existing.body.match(/分支：\[([^\]]+)\]/);
+              branchName = branchMatch[1];
+
+              await github.rest.git.updateRef({
                 owner: org,
                 repo: analysisRepo,
-                ref: `refs/heads/${branchName}`,
+                ref: `heads/${branchName}`,
                 sha: mainRef.data.object.sha,
+                force: true,
               });
-            } catch (e) {
-              if (e.status !== 422) throw e;
+            } else {
+              // 新建：建立 SA Issue、sub-issue 連結、branch
+              const saIssue = await github.rest.issues.create({
+                owner: org,
+                repo: analysisRepo,
+                title: `[SA] ${epicTitle}`,
+                body: [
+                  '## 關聯項目',
+                  '',
+                  '### SA 工作文件',
+                  `- business-logic.md：（待填入）`,
+                  '',
+                  '### 關聯 Issue',
+                  `- Epic：MPinfo-Co/P1-project#${epicNumber}`,
+                  `- SA Issue：#（本 Issue）`,
+                  `- SD Issue：P1-design #（merge 後自動填入）`,
+                  '',
+                  '### 相關連結',
+                  `- 分支：（待填入）`,
+                  `- Draft PR：（待建立）`,
+                ].join('\n'),
+                labels: ['SA'],
+              });
+
+              saNumber = saIssue.data.number;
+              saIssueBody = saIssue.data.body;
+              branchName = `sa-${saNumber}-${slug}`;
+
+              try {
+                await github.request('POST /repos/{owner}/{repo}/issues/{issue_number}/sub_issues', {
+                  owner: org,
+                  repo: 'P1-project',
+                  issue_number: epicNumber,
+                  sub_issue_id: saIssue.data.id,
+                });
+              } catch (e) {
+                console.log(`Sub-issue 關聯建立失敗（非阻斷性）：${e.message}`);
+              }
+
+              try {
+                await github.rest.git.createRef({
+                  owner: org,
+                  repo: analysisRepo,
+                  ref: `refs/heads/${branchName}`,
+                  sha: mainRef.data.object.sha,
+                });
+              } catch (e) {
+                if (e.status !== 422) throw e;
+              }
             }
 
-            // 4. Scaffold SA 分析文件
+            // 4. Scaffold SA 分析文件（新建 or 重跑均執行，覆蓋舊內容）
             const epicBody = (epicIssue.body || '').replace(/^##\s+需求說明\s*\n?/m, '').trim();
             const businessLogicContent = [
               `# 業務邏輯分析：${epicTitle}`,
@@ -143,50 +177,50 @@ jobs:
               sha: scaffoldCommit.data.sha,
             });
 
-            // 建立 SA Draft PR
-            let saPrNumber = null;
-            let saPrUrl = null;
-            try {
-              const saPr = await github.rest.pulls.create({
+            // 5. 新建流程才做：Draft PR、回填 issue body、Epic 留言
+            if (!existing) {
+              let saPrNumber = null;
+              let saPrUrl = null;
+              try {
+                const saPr = await github.rest.pulls.create({
+                  owner: org,
+                  repo: analysisRepo,
+                  head: branchName,
+                  base: 'main',
+                  draft: true,
+                  title: `[SA] ${epicTitle}`,
+                  body: `Closes #${saNumber}`,
+                });
+                saPrNumber = saPr.data.number;
+                saPrUrl = saPr.data.html_url;
+              } catch (e) {
+                console.log(`SA Draft PR 建立失敗（非阻斷性）：${e.message}`);
+              }
+
+              await github.rest.issues.update({
                 owner: org,
                 repo: analysisRepo,
-                head: branchName,
-                base: 'main',
-                draft: true,
-                title: `[SA] ${epicTitle}`,
-                body: `Closes #${saNumber}`,
+                issue_number: saNumber,
+                body: saIssueBody
+                  .replace('SA Issue：#（本 Issue）', `SA Issue：#${saNumber}`)
+                  .replace('分支：（待填入）', `分支：[${branchName}](https://github.com/${org}/${analysisRepo}/tree/${branchName})`)
+                  .replace('Draft PR：（待建立）', saPrUrl ? `Draft PR：[#${saPrNumber}](${saPrUrl})` : 'Draft PR：（未建立）')
+                  .replace('business-logic.md：（待填入）', `sa-${saNumber}-logic.md：[SA/saLogic/sa-${saNumber}-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/SA/saLogic/sa-${saNumber}-logic.md)`),
               });
-              saPrNumber = saPr.data.number;
-              saPrUrl = saPr.data.html_url;
-            } catch (e) {
-              console.log(`SA Draft PR 建立失敗（非阻斷性）：${e.message}`);
+
+              await github.rest.issues.createComment({
+                owner: org,
+                repo: 'P1-project',
+                issue_number: epicNumber,
+                body: [
+                  `✅ **SA Issue 已自動建立**`,
+                  `- Issue：[P1-design #${saNumber}](https://github.com/${org}/${analysisRepo}/issues/${saNumber})`,
+                  `- 分支：\`${branchName}\``,
+                  ``,
+                  `SA 請至 P1-design 開始系統分析。`,
+                ].join('\n'),
+              });
             }
-
-            // 回填 SA Issue body：編號 + 分支連結 + Draft PR 連結
-            await github.rest.issues.update({
-              owner: org,
-              repo: analysisRepo,
-              issue_number: saNumber,
-              body: saIssue.data.body
-                .replace('SA Issue：#（本 Issue）', `SA Issue：#${saNumber}`)
-                .replace('分支：（待填入）', `分支：[${branchName}](https://github.com/${org}/${analysisRepo}/tree/${branchName})`)
-                .replace('Draft PR：（待建立）', saPrUrl ? `Draft PR：[#${saPrNumber}](${saPrUrl})` : 'Draft PR：（未建立）')
-                .replace('business-logic.md：（待填入）', `sa-${saNumber}-logic.md：[SA/saLogic/sa-${saNumber}-logic.md](https://github.com/${org}/${analysisRepo}/blob/${branchName}/SA/saLogic/sa-${saNumber}-logic.md)`),
-            });
-
-            // 6. 在 Epic Issue 留言
-            await github.rest.issues.createComment({
-              owner: org,
-              repo: 'P1-project',
-              issue_number: epicNumber,
-              body: [
-                `✅ **SA Issue 已自動建立**`,
-                `- Issue：[P1-design #${saNumber}](https://github.com/${org}/${analysisRepo}/issues/${saNumber})`,
-                `- 分支：\`${branchName}\``,
-                ``,
-                `SA 請至 P1-design 開始系統分析。`,
-              ].join('\n'),
-            });
 
             core.setOutput('sa_number', String(saNumber));
             core.setOutput('branch', branchName);

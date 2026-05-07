@@ -57,6 +57,15 @@
 | Event handler | `handle{動作}` | `handleDelete`, `handleApply` |
 | Query mutation | `{動詞}{Domain}` | `createUser`, `deleteUser` |
 
+### 1-6 路由路徑命名
+
+| 畫面類型 | 格式 | 範例 |
+|---------|------|------|
+| 功能頁面（清單 / 獨立頁面） | `/{domain}` | fn_user → `/user`、fn_skill → `/skill` |
+| Dialog 型畫面（無獨立 URL） | 無路由路徑 | — |
+
+`{domain}` 為 fn_ 模組名去除 `fn_` 前綴，一律單數。技術性前綴（`fn_`）不得出現在 URL 中。
+
 ---
 
 ## 二、架構規則

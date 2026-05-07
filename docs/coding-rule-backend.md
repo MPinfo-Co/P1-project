@@ -13,11 +13,13 @@
 
 | 類型 | 位置 | 範例 |
 |------|------|------|
-| Router | `app/api/{domain}.py` | `app/api/events.py` |
-| Schema | `app/api/schema/{domain}.py` | `app/api/schema/security_event.py` |
-| SQLAlchemy Model | `app/db/models/{domain}.py` | `app/db/models/fn_user_role.py` |
+| Router | `app/api/fn_{domain}.py` | `app/api/fn_skill.py`, `app/api/fn_user.py` |
+| Schema | `app/api/schema/fn_{domain}.py` | `app/api/schema/fn_skill.py`, `app/api/schema/fn_user.py` |
+| SQLAlchemy Model | `app/db/models/fn_{domain}.py` | `app/db/models/fn_skill.py`, `app/db/models/fn_user.py` |
 | Service（外部整合）| `app/services/{domain}.py` | 視功能需求（如有外部 API 整合） |
-| 測試 | `tests/test_{domain}_{動作}.py` | `tests/test_user_create.py` |
+| 測試 | `tests/test_fn_{domain}_{動作}.py` | `tests/test_fn_user_create.py` |
+
+> `auth`、`health` 等基礎設施層不加 `fn_` 前綴，其不屬於業務功能模組。
 
 ### 1-2 Pydantic Schema 命名
 
@@ -56,7 +58,20 @@ ORM 對應的 schema 加：`model_config = {"from_attributes": True}`
 /api/{domain}
 ```
 
-無版本號。是否複數視語意而定（`/api/events`、`/api/auth`）。
+無版本號。**統一單數**，對齊 fn_ 模組名去除 `fn_` 前綴（`/api/skill`、`/api/user`、`/api/role`）。
+`auth`、`health` 等基礎設施 endpoint 不受此規則限制。
+
+### 1-5 Model 層 vs Schema 層
+
+本專案「model」與「schema」有明確不同意義，不可互換：
+
+| 名稱 | 位置 | 角色 |
+|------|------|------|
+| **Model 層** | `app/db/models/fn_{domain}.py` | SQLAlchemy ORM，對應資料庫 table |
+| **Schema 層** | `app/api/schema/fn_{domain}.py` | Pydantic 類別，負責 API 輸入/輸出驗證 |
+
+TDD 工作項目中的「**Model 類型**」= 對 SQLAlchemy model 的異動（新增 table、調整欄位、產生 migration）。
+「Schema 層」在程式規範中始終指 Pydantic，不指資料庫 schema。
 
 ---
 
@@ -80,13 +95,13 @@ app/config/settings.py       ← pydantic-settings 設定
 
 ### 2-2 各層職責
 
-| 層 | 做什麼 | 不做什麼 |
-|----|--------|---------|
-| **Router** (`app/api/`) | 讀參數、呼叫 Depends、查 DB、回傳 response / HTTPException | 呼叫其他 router、放業務邏輯函式 |
-| **Deps** (`app/utils/util_store.py`) | 提供可被 `Depends()` 注入的函式（get_db、authenticate 等）| 查詢與當前請求上下文無關的資料 |
-| **Service** (`app/services/`) | 包裝外部 API（Claude、Email 等，視功能需求） | 寫 CRUD、查業務資料 |
-| **Schema** (`app/api/schema/`) | 定義 Pydantic model | 放業務邏輯 |
-| **Model** (`app/db/models/`) | 定義 SQLAlchemy table mapping | 放業務邏輯 |
+| 層                                    | 做什麼                                             | 不做什麼                |
+| ------------------------------------ | ----------------------------------------------- | ------------------- |
+| **Router** (`app/api/`)              | 讀參數、呼叫 Depends、查 DB、回傳 response / HTTPException | 呼叫其他 router、放業務邏輯函式 |
+| **Deps** (`app/utils/util_store.py`) | 提供可被 `Depends()` 注入的函式（get_db、authenticate 等）   | 查詢與當前請求上下文無關的資料     |
+| **Service** (`app/services/`)        | 包裝外部 API（Claude、Email 等，視功能需求）                  | 寫 CRUD、查業務資料        |
+| **Schema** (`app/api/schema/`)       | 定義 Pydantic model                               | 放業務邏輯               |
+| **Model** (`app/db/models/`)         | 定義 SQLAlchemy table mapping                     | 放業務邏輯               |
 
 ---
 

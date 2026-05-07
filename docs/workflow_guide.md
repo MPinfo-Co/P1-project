@@ -21,11 +21,10 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
   └─ SA merge PR -> 觸發 [wf_sa_to_sd]
     └─ 建立 SD Issue + SD-Branch + Draft PR
     └─ 產生 P1-design:SD/TDD/sd-{SD#}-TDD.md
-    └─ AI 更新 sdPrototype / sdSpec / schema / functionList（依 TDD 工作項目）
+    └─ AI 更新 sdPrototype / sdSpec / model / functionList（依 TDD 工作項目）
       └─ SD merge PR -> 觸發 [wf_sd_to_pg]
         └─ 產生 P1-design:SD/sdDiff/sd-{SD#}-Diff.md
         └─ 建立 PG Issue + PG-Branch + Draft PR
-        └─ 產生 P1-code:TestReport/issue-{SD#}.md
           └─ PG merge PR -> 觸發 [wf_pg_close]
             └─ 關閉 Epic、PG Issue
 ```
@@ -36,7 +35,7 @@ PM 開立 Epic（透過填寫範本）-> 觸發 [wf_epic_to_sa]
 |---|------|------|---------|---------|
 | 1 | P1-project | [wf_epic_to_sa.yml](https://github.com/MPinfo-Co/P1-project/blob/main/.github/workflows/wf_epic_to_sa.yml) | Issue 加上 `epic` label | 建立 SA Issue + SA Branch + Draft PR + scaffold logic.md → AI Agent 呼叫 sa-orchestrator.md |
 | 2 | P1-design | [wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml) | SA PR merged to main | 建立 SD Issue + SD Branch + Draft PR + scaffold TDD.md → AI Agent 呼叫 sd-orchestrator.md |
-| 3 | P1-design | [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) | SD PR merged to main | 產生 Diff.md + 建立 PG Issue + PG Branch + Draft PR + scaffold TestReport → AI Agent 呼叫 pg-orchestrator.md |
+| 3 | P1-design | [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) | SD PR merged to main | 產生 Diff.md + 建立 PG Issue + PG Branch + Draft PR → AI Agent 呼叫 pg-orchestrator.md |
 | 4 | P1-code | [wf_pg_ci.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_pg_ci.yml) | push 到 `pg-*` branch | Backend CI（Ruff + Pytest）+ Frontend CI（ESLint + Prettier） |
 | 5 | P1-code | [wf_pg_close.yml](https://github.com/MPinfo-Co/P1-code/blob/main/.github/workflows/wf_pg_close.yml) | PG PR merged to main | 關閉 PG Issue + Epic Issue |
 | — | P1-design | [wf_chore_branch.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_chore_branch.yml) | Issue 加上 `chore` label | 建立 chore branch |

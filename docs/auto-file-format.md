@@ -40,32 +40,7 @@
 | 4 | Test | 建立 _fn_xxx_test_api.md | [SD/sdSpec/fn_xxx/Api/_fn_xxx_test_api.md](../sdSpec/fn_xxx/Api/_fn_xxx_test_api.md) |
 ```
 
-> 類型限定：`Schema`、`API`、`畫面`、`Test`、`其他`
-
----
-
-## TestReport/issue-{N}.md
-
-由 [wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml) 產生，PG 人工填寫。
-
-```markdown
-# TestReport：[SD] {功能標題}
-
-## 工作項目
-| # | 類型 | 說明 | PG執行註記 |
-|---|------|------|---|
-| 1 | API  | POST /api/leaves（建立請假申請） |  |
-| 2 | 畫面 | 請假申請表單 |  |
-
-## 測試案例
-| ID | 類型 | 前置條件 | 操作 | 預期結果 | PG執行註記 |
-|----|------|---------|------|---------|---|
-| T1 | 整合 | 登入 Tenant A | POST /api/leaves | 201，回傳 leave_id |  |
-| T2 | 整合 | 未登入 | POST /api/leaves | 401 Unauthorized |  |
-| T3 | 畫面 | 登入狀態 | 填寫表單，結束日早於開始日 | 顯示日期錯誤提示，禁止送出 |  |
-```
-
-> PG執行註記：工作項目填「已執行」或簡短註記；測試案例填「通過」、「失敗」或簡短註記。
+> 類型限定：`Model`、`API`、`畫面`、`Test`、`其他`
 
 ---
 

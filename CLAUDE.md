@@ -32,7 +32,7 @@
 | `sd-{N}-Diff.md`        | `P1-design/SD/sdDiff/sd-{N}-Diff.md`                     |
 | `spec-guide.md`         | `P1-project/docs/spec-guide.md`                          |
 | `sdSpec/`               | `P1-design/SD/sdSpec/`                                   |
-| `schema.md`             | `P1-design/SD/schema.md`                                 |
+| `model.md`              | `P1-design/SD/model.md`                                  |
 | `sdPrototype/`          | `P1-design/SD/sdPrototype/`                              |
 | `_{fn_xxx}_test_api.md` | `P1-design/SD/sdSpec/{fn_xxx}/Api/_{fn_xxx}_test_api.md` |
 | `techStack.md`          | `P1-project/docs/techStack.md`                           |
@@ -64,7 +64,7 @@
 ### 讀取邏輯
 1. `sa-{N}-logic.md`：商業邏輯背景（由 SA 填寫）
 2. `sd-{N}-TDD.md`：（由 Github Action 填寫，SD 審查確認）
-	1. 按需讀取 TDD 對應的 `sdSpec/*`、`schema.md`、`sdPrototype/*` 檔案
+	1. 按需讀取 TDD 對應的 `sdSpec/*`、`model.md`、`sdPrototype/*` 檔案
 	2. 涉及修改既有 API 時，按需讀取對應的 `_{fn_xxx}_test_api.md`
 3. `spec-guide.md`： Spec 撰寫規範
 
@@ -78,8 +78,8 @@
 		3. 工作內容格式：建立 `{對象}` / 調整 `{對象}：{異動內容}` / 刪除 `{對象}`
 		4. 設計決定只寫結論與理由，不寫曾考慮過的替代方案
 
-2. 依 TDD「工作項目」內容調整：`sdPrototype/*`、`sdSpec/*`、`schema.md`（如有異動）
-	+ **活文件原則：** `sdSpec/`、`sdPrototype/`、`schema.md` 永遠反映最新狀態，直接修改，不保留舊版。
+2. 依 TDD「工作項目」內容調整：`sdPrototype/*`、`sdSpec/*`、`model.md`（如有異動）
+	+ **活文件原則：** `sdSpec/`、`sdPrototype/`、`model.md` 永遠反映最新狀態，直接修改，不保留舊版。
 
 3. 有 API 新增或修改時，同步更新對應的 `_{fn_xxx}_test_api.md`（活文件）
 	+ 新增 API → 新增測試案例，ID 接續上一筆
@@ -103,7 +103,7 @@
 1. `sa-{N}-logic.md`：商業邏輯背景（由 SA 填寫）
 2. `sd-{N}-Diff.md`：本次 SD 對 Schema / Spec / Prototype 的變更摘要
 3. `sd-{N}-TDD.md`：工作項目清單（由 GitHub Actions 生成，SD 審查確認）
-	1. 按需讀取 TDD 對應的 `sdSpec/*`、`schema.md`、`sdPrototype/*` 檔案
+	1. 按需讀取 TDD 對應的 `sdSpec/*`、`model.md`、`sdPrototype/*` 檔案
 	2. 涉及修改既有 API 時，按需讀取對應的 `_{fn_xxx}_test_api.md`
 4. `techStack.md`：確認本次相關技術選型
 

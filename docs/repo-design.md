@@ -50,7 +50,7 @@ P1-design/
 │   └── saPrototype/            ← SA 主責的畫面雛形（所有功能共用一份）
 └── SD/                         ← SD 設計產出
     ├── functionList.md    ← 系統功能清單
-    ├── schema.md          ← 資料庫 Schema 全覽（User、Company...，活文件）
+    ├── model.md           ← 資料庫 Model 全覽（User、Company...，活文件）
     ├── TDD/
     │   └── sd-{N}-TDD.md       ← 原 TDD/issue-{N}.md
     ├── sdDiff/
@@ -79,8 +79,5 @@ P1-code/
 ├── frontend/              ← React + TypeScript
 ├── backend/               ← Python + FastAPI
 │   └── tests/             ← pytest 測試
-├── TestReport/            ← PG 填寫測試結果（以 SD Issue 編號命名）
-│   ├── issue-5.md         ← 檔名用 SD Issue 編號（與 TDD、SpecDiff 一致）
-│   └── ...
 ```
 

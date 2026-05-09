@@ -68,7 +68,7 @@ SD/sdSpec/
 格式（緊接在 H1 後、雛形連結前）：
 
 ```
-路由路徑：`/{domain}`（fn_ 模組名去除前綴，如 fn_user → `/user`、fn_skill → `/skill`）
+路由路徑：`/{domain}`（fn_ 模組名去除前綴，保留底線，如 fn_user → `/user`、fn_ai_partner_config → `/ai_partner_config`；不使用 kebab-case）
 Sidebar：設定群組，標籤「帳號管理」，icon: PeopleAlt
 ```
 

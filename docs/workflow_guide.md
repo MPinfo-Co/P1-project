@@ -58,9 +58,14 @@ Prompt 檔案位置：`P1-design/prompts/`，參數由 workflow 以 `sed` 注入
 
 **[wf_sa_to_sd.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sa_to_sd.yml)**
 ```
-└─ sd-orchestrator
-     ├─ sd-writer-prompt
-     └─ sd-reviewer-prompt（retry 3）
+├─ TDD Agent（timeout 20m）
+│    └─ sd-tdd-orchestrator
+│         ├─ sd-tdd-writer-prompt
+│         └─ sd-tdd-reviewer-prompt
+└─ File Agent（timeout 30m）
+     └─ sd-file-orchestrator
+          ├─ sd-file-writer-prompt
+          └─ sd-file-verifier-prompt
 ```
 
 **[wf_sd_to_pg.yml](https://github.com/MPinfo-Co/P1-design/blob/main/.github/workflows/wf_sd_to_pg.yml)**

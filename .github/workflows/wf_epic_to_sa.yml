@@ -263,6 +263,9 @@ jobs:
       - name: Install Claude Code CLI
         run: npm install -g @anthropic-ai/claude-code@latest
 
+      - name: Copy CLAUDE.md from P1-project
+        run: cp P1-project/CLAUDE.md ./CLAUDE.md
+
       - name: Build SA prompt
         run: |
           SA_NUMBER="${{ steps.create-sa.outputs.sa_number }}"

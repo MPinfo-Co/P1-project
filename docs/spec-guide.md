@@ -126,6 +126,18 @@ Sidebar：設定群組，標籤「帳號管理」，icon: PeopleAlt
 
 ---
 
+## 新增功能模組的必要工作項目
+
+新增一個完整的功能模組（fn_xxx）時，SD TDD 的工作項目除了 Model / API / 畫面 / Test 之外，**必須包含以下「其他」類型項目**：
+
+| # | 類型 | 工作內容 |
+|---|------|---------|
+| N | 其他 | 將 `fn_xxx` 注冊至 `tb_function_items`（含所屬目錄與排序），並於 `tb_role_functions` 設定角色權限 |
+
+> **背景**：Navbar 由資料庫驅動（`tb_function_folders` + `tb_function_items` + `tb_role_functions`），新功能若未寫入這三張表，側邊欄不會顯示該功能入口，即使前端路由和頁面已實作完成。
+
+---
+
 ## 撰寫規範
 ### 一般
 

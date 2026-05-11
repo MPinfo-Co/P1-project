@@ -95,6 +95,7 @@ Sidebar：設定群組，標籤「帳號管理」，icon: PeopleAlt
 - H1 = 檔名加「規格」，如 `# fn_user_add_api規格`
 - H2 以下為內容區塊：
   1. `## 介面說明` — 僅含 Method、Endpoint
+     - **Endpoint 路徑直接寫 backend router 的掛載路徑，不加 `/api/` 前綴**。例如：`/feedback`、`/ai-partner-chat/send`。前端以 `VITE_API_URL`（`http://localhost:8000`）為 base，直接拼接此路徑。
   2. `## 傳入參數` — 以 `### 參數類型：Query Parameter / Path Parameter / Request Body` 次階標示，混合型可多段
   3. `## 處理邏輯` — 以 `### 檢核` / `### 執行` 次階區分
      - `### 檢核`：表格格式，欄標：檢核項目 / 失敗條件 / 回應訊息

@@ -264,7 +264,7 @@ jobs:
         run: npm install -g @anthropic-ai/claude-code@latest
 
       - name: Copy CLAUDE.md from P1-project
-        run: cp P1-project/CLAUDE.md ./CLAUDE.md
+        run: cp P1-design/P1-project/CLAUDE.md ./CLAUDE.md
 
       - name: Build SA prompt
         run: |

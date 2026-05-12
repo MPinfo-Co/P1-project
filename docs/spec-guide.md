@@ -148,6 +148,29 @@ Sidebar：設定群組，標籤「帳號管理」，icon: PeopleAlt
 - **資料表名稱**：一律加 `tb_` 前綴，如 `tb_users`、`tb_roles`
 - **失敗訊息**：不寫在畫面規格，由 API 規格的「傳回結果」負責
 
+### 按鈕樣式規範
+
+全站按鈕樣式由 `frontend/src/theme.js` 統一控制，PG 實作時**禁止在元件或 per-page CSS 自行覆蓋**以下屬性：`padding`、`lineHeight`、`fontSize`、`borderRadius`、`minWidth`、`height`。
+
+**清單頁按鈕 Props 規範：**
+
+| 用途 | variant | color prop | 文字 |
+|------|---------|-----------|------|
+| 新增（清單頁右側） | `outlined` | 不設定 | `新增` |
+| 修改 | `outlined` | 不設定 | `修改` |
+| 刪除 | `outlined` | 不設定 | `刪除` |
+| 套用（篩選） | `outlined` | 不設定 | `套用` |
+| 儲存／送出（表單） | `contained` | 不設定 | 依情境 |
+| 登入 | `contained` + `className="login-btn"` | 不設定 | 依情境 |
+
+**禁止事項：**
+- 按鈕不加 `color="error"`（刪除按鈕亦同）
+- 按鈕的 `sx` prop 或 per-page CSS 不覆蓋 `height`、`padding`、`border-radius`
+- 新增按鈕文字固定為「新增」，不加前綴或後綴（如「＋ 新增角色」→ `新增`）
+- 按鈕 `size` 一律 `small`
+
+---
+
 ### API 引用格式
 
 在畫面規格的「操作說明」中，以下格式引用 API：

@@ -19,6 +19,25 @@
 - 執行工作如需產生計畫檔，一律產生在根目錄 `docs/` 下
 
 ---
+# Anthropic API 格式限制
+
+凡涉及 `ai_agent.py` 或傳遞工具定義至 Anthropic API 時，須注意：
+
+- **工具名稱（tool name）**：只允許 `^[a-zA-Z0-9_-]{1,64}$`
+- **input_schema property key**：只允許 `^[a-zA-Z0-9_.-]{1,64}$`
+
+**中文欄位名稱（如 image_extract 的 field_name、external_api 的 body param name）不可直接作為 property key 送出。**
+
+### 正確處理方式
+
+格式轉換統一在 `app/services/ai_agent.py` 處理，不在業務邏輯層（如 `fn_ai_partner_chat.py`）處理：
+
+- `_normalize_tool_names(tools)` — 正規化 tool name
+- `_normalize_tool_properties(tools)` — 正規化 input_schema property key
+
+轉換規則：非法字元替換為 `_`，全為底線或有衝突時改用 `field_{index}`。
+
+---
 # 本機開發環境維護
 
 ## git pull 後必做

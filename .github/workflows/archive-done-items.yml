@@ -24,19 +24,20 @@ jobs:
             const ARCHIVE_DAYS = 14;
             const now = new Date();
 
+            // 週別以週五命名（e.g. 5/8 代表本週，5/15 代表下週），以本週五為比較基準
+            const daysUntilFriday = (5 - now.getDay() + 7) % 7;
+            const thisWeekFriday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilFriday);
+
             function parseCycleDate(cycle) {
               const match = cycle.match(/^(\d{1,2})\/(\d{1,2})$/);
               if (!match) return null;
               const month = parseInt(match[1]) - 1;
               const day = parseInt(match[2]);
               let date = new Date(now.getFullYear(), month, day);
-              if (date > now) date = new Date(now.getFullYear() - 1, month, day);
+              // 週期值是該週的「週五日期」label；若解析結果晚於本週週五，視為去年同日（跨年滾動）
+              if (date > thisWeekFriday) date = new Date(now.getFullYear() - 1, month, day);
               return date;
             }
-
-            // 週別以週五命名（e.g. 5/8 代表本週），以本週五為比較基準
-            const daysUntilFriday = (5 - now.getDay() + 7) % 7;
-            const thisWeekFriday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilFriday);
 
             // 取得 project node ID
             const projectResult = await github.graphql(`

@@ -9,7 +9,12 @@ P1-project/
 └── .claude/
     └── skills/
         ├── ai-docs-review
-        └── pg-orchestrator
+        ├── clean-branch-files
+        ├── epic-launcher
+        ├── pg-orchestrator
+        ├── plan-go-check-report
+        ├── pull-p1-repos
+        └── sync-claude-md
 ```
 
 ---
@@ -35,7 +40,12 @@ P1/
 └── .claude/
     └── skills/
         ├── ai-docs-review
-        └── pg-orchestrator
+        ├── clean-branch-files
+        ├── epic-launcher
+        ├── pg-orchestrator
+        ├── plan-go-check-report
+        ├── pull-p1-repos
+        └── sync-claude-md
 ```
 
 ---
@@ -82,3 +92,63 @@ P1/
 ```
 
 > 此 skill 亦透過排程自動執行（每天台灣時間凌晨 2:00），詳見 [workflow_guide.md](workflow_guide.md) 第 2.2 節。
+
+---
+
+### `/epic-launcher`
+
+啟動 P1 完整功能開發流程。支援兩種入口：提供既有 Epic Issue 編號（接續執行），或描述新功能需求（建立新 Epic）。可選擇執行停止點（SA / SD / 全程至 PG），各階段停止前執行品質確認。
+
+**使用方式：**
+
+```
+/epic-launcher
+```
+
+---
+
+### `/plan-go-check-report`
+
+執行涉及多個檔案或 repo 的實作任務。在動手前先確認範圍，執行後驗證結果並輸出報告。適用於 config、workflow、prompt 等異動。
+
+**使用方式：**
+
+```
+/plan-go-check-report
+```
+
+---
+
+### `/pull-p1-repos`
+
+拉取 P1-project、P1-design、P1-code 三個 repo 的最新 main。在開始任何 P1 工作前執行。
+
+**使用方式：**
+
+```
+/pull-p1-repos
+```
+
+---
+
+### `/clean-branch-files`
+
+切換至某個 branch 後，移除本地存在但遠端不存在的多餘檔案。保留 `.venv`、`node_modules`、`.env`。
+
+**使用方式：**
+
+```
+/clean-branch-files
+```
+
+---
+
+### `/sync-claude-md`
+
+將 `P1-project` 根目錄的 `CLAUDE.md`（正式來源）同步覆蓋至本機 P1 工作目錄。P1-project 永遠為權威來源。
+
+**使用方式：**
+
+```
+/sync-claude-md
+```

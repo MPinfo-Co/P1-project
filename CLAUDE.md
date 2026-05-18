@@ -141,6 +141,7 @@ cd P1-code/backend && .venv/bin/python -m pip install -r requirements.txt
 ### 產出
 1. 依據TDD工作項目，實作 code
 	1. TDD工作項目中，Model 類型的異動要一併考慮 model與遷移程式
+	2. **不可修改他人已建立的遷移程式（已 merge 到 main 的 alembic revision）**。若需要補丁，另建新的 revision，不動既有 migration 檔案。
 2. pytest實作
 	- pytest 數量 ≥ `_test_api.md` 測試案例數
 	- 每個 test function 標注對應 TestSpec ID：

@@ -158,6 +158,22 @@ def test_create_user(client, db_session):
 > P1-design、P1-code 不再各自維護 CLAUDE.md。
 
 ---
+# 資料庫 Model 欄位規範
+
+## 時間戳記與稽核欄位
+
+所有新增資料表一律使用下列欄位組合，**不使用 `created_at`**：
+
+| 欄位 | 型別 | 說明 |
+| --- | --- | --- |
+| `updated_by` | INTEGER, NULLABLE, FK → tb_users.id | 最後寫入/異動者（user_id） |
+| `updated_at` | TIMESTAMP, NOT NULL, DEFAULT NOW() | 最後寫入/異動時間 |
+
+- 資料列首次建立時，`updated_by` 填入觸發操作的使用者 ID；系統自動寫入（如排程任務）則填 `NULL`。
+- 若資料表同時有 `source_message_id` 等關聯欄位，`updated_by` 仍需填入（兩者不互斥）。
+- 已存在的舊資料表（含 `created_at`）以活文件原則漸進修正，不強制回溯遷移。
+
+---
 # 建立 GitHub Issue 時
 
 凡工作內容涉及建立新的 GitHub Issue，依序執行：
